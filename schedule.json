@@ -1,0 +1,2814 @@
+{
+  "scenario": {
+    "nights": 5,
+    "seed": 7,
+    "sections": [
+      {
+        "id": "SEC-A",
+        "name": "Junction North Throat",
+        "traffic": 48
+      },
+      {
+        "id": "SEC-B",
+        "name": "Up Main \u2014 Km 12\u201318",
+        "traffic": 36
+      },
+      {
+        "id": "SEC-C",
+        "name": "Down Main \u2014 Km 12\u201318",
+        "traffic": 34
+      },
+      {
+        "id": "SEC-D",
+        "name": "Loop Line East",
+        "traffic": 12
+      },
+      {
+        "id": "SEC-E",
+        "name": "Ghat Section \u2014 Km 40\u201347",
+        "traffic": 22
+      },
+      {
+        "id": "SEC-F",
+        "name": "Yard Reception Lines",
+        "traffic": 8
+      },
+      {
+        "id": "SEC-G",
+        "name": "Bridge Approach \u2014 Km 55",
+        "traffic": 18
+      },
+      {
+        "id": "SEC-H",
+        "name": "Suburban Corridor \u2014 Km 3\u20139",
+        "traffic": 52
+      }
+    ],
+    "windows": [
+      {
+        "section": "SEC-A",
+        "night": 0,
+        "start": 0,
+        "end": 9,
+        "start_clock": "22:00",
+        "end_clock": "02:30"
+      },
+      {
+        "section": "SEC-A",
+        "night": 1,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "section": "SEC-A",
+        "night": 3,
+        "start": 0,
+        "end": 10,
+        "start_clock": "22:00",
+        "end_clock": "03:00"
+      },
+      {
+        "section": "SEC-A",
+        "night": 4,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-B",
+        "night": 0,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "section": "SEC-B",
+        "night": 1,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "section": "SEC-B",
+        "night": 2,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-B",
+        "night": 3,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-B",
+        "night": 4,
+        "start": 0,
+        "end": 9,
+        "start_clock": "22:00",
+        "end_clock": "02:30"
+      },
+      {
+        "section": "SEC-C",
+        "night": 0,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-C",
+        "night": 1,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-C",
+        "night": 2,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "section": "SEC-C",
+        "night": 3,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "section": "SEC-C",
+        "night": 4,
+        "start": 0,
+        "end": 9,
+        "start_clock": "22:00",
+        "end_clock": "02:30"
+      },
+      {
+        "section": "SEC-D",
+        "night": 0,
+        "start": 0,
+        "end": 9,
+        "start_clock": "22:00",
+        "end_clock": "02:30"
+      },
+      {
+        "section": "SEC-D",
+        "night": 1,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-D",
+        "night": 2,
+        "start": 0,
+        "end": 9,
+        "start_clock": "22:00",
+        "end_clock": "02:30"
+      },
+      {
+        "section": "SEC-D",
+        "night": 4,
+        "start": 0,
+        "end": 9,
+        "start_clock": "22:00",
+        "end_clock": "02:30"
+      },
+      {
+        "section": "SEC-E",
+        "night": 0,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-E",
+        "night": 1,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-E",
+        "night": 3,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-E",
+        "night": 4,
+        "start": 0,
+        "end": 10,
+        "start_clock": "22:00",
+        "end_clock": "03:00"
+      },
+      {
+        "section": "SEC-F",
+        "night": 0,
+        "start": 0,
+        "end": 11,
+        "start_clock": "22:00",
+        "end_clock": "03:30"
+      },
+      {
+        "section": "SEC-F",
+        "night": 1,
+        "start": 0,
+        "end": 9,
+        "start_clock": "22:00",
+        "end_clock": "02:30"
+      },
+      {
+        "section": "SEC-F",
+        "night": 2,
+        "start": 0,
+        "end": 9,
+        "start_clock": "22:00",
+        "end_clock": "02:30"
+      },
+      {
+        "section": "SEC-F",
+        "night": 4,
+        "start": 0,
+        "end": 11,
+        "start_clock": "22:00",
+        "end_clock": "03:30"
+      },
+      {
+        "section": "SEC-G",
+        "night": 0,
+        "start": 0,
+        "end": 11,
+        "start_clock": "22:00",
+        "end_clock": "03:30"
+      },
+      {
+        "section": "SEC-G",
+        "night": 1,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "section": "SEC-G",
+        "night": 3,
+        "start": 0,
+        "end": 10,
+        "start_clock": "22:00",
+        "end_clock": "03:00"
+      },
+      {
+        "section": "SEC-G",
+        "night": 4,
+        "start": 0,
+        "end": 11,
+        "start_clock": "22:00",
+        "end_clock": "03:30"
+      },
+      {
+        "section": "SEC-H",
+        "night": 0,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "section": "SEC-H",
+        "night": 1,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      },
+      {
+        "section": "SEC-H",
+        "night": 2,
+        "start": 0,
+        "end": 10,
+        "start_clock": "22:00",
+        "end_clock": "03:00"
+      },
+      {
+        "section": "SEC-H",
+        "night": 3,
+        "start": 0,
+        "end": 10,
+        "start_clock": "22:00",
+        "end_clock": "03:00"
+      },
+      {
+        "section": "SEC-H",
+        "night": 4,
+        "start": 0,
+        "end": 12,
+        "start_clock": "22:00",
+        "end_clock": "04:00"
+      }
+    ],
+    "requests": [
+      {
+        "id": "WR-001",
+        "title": "Weld defect grinding",
+        "section": "SEC-E",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 5,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "rail-grinder",
+        "earliest_night": 0,
+        "latest_night": 0,
+        "emergency": false
+      },
+      {
+        "id": "WR-002",
+        "title": "Weld defect grinding",
+        "section": "SEC-E",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 5,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "rail-grinder",
+        "earliest_night": 0,
+        "latest_night": 0,
+        "emergency": false
+      },
+      {
+        "id": "WR-003",
+        "title": "Weld defect grinding",
+        "section": "SEC-F",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 5,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "rail-grinder",
+        "earliest_night": 2,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-004",
+        "title": "Rail fracture repair",
+        "section": "SEC-C",
+        "duration": 5,
+        "duration_h": 2.5,
+        "priority": 5,
+        "crew": "p-way",
+        "crew_size": 2,
+        "equipment": "road-railer",
+        "earliest_night": 3,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-005",
+        "title": "Rail fracture repair",
+        "section": "SEC-D",
+        "duration": 5,
+        "duration_h": 2.5,
+        "priority": 5,
+        "crew": "p-way",
+        "crew_size": 2,
+        "equipment": "road-railer",
+        "earliest_night": 3,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-006",
+        "title": "Interlocking check",
+        "section": "SEC-G",
+        "duration": 5,
+        "duration_h": 2.5,
+        "priority": 4,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 1,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-007",
+        "title": "OHE insulator replacement",
+        "section": "SEC-C",
+        "duration": 6,
+        "duration_h": 3.0,
+        "priority": 4,
+        "crew": "ohe",
+        "crew_size": 1,
+        "equipment": "tower-wagon",
+        "earliest_night": 3,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-008",
+        "title": "Bridge girder inspection",
+        "section": "SEC-C",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 3,
+        "crew": "bridge",
+        "crew_size": 1,
+        "equipment": "road-railer",
+        "earliest_night": 3,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-009",
+        "title": "OHE insulator replacement",
+        "section": "SEC-G",
+        "duration": 6,
+        "duration_h": 3.0,
+        "priority": 4,
+        "crew": "ohe",
+        "crew_size": 1,
+        "equipment": "tower-wagon",
+        "earliest_night": 4,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-010",
+        "title": "OHE tension adjustment",
+        "section": "SEC-C",
+        "duration": 5,
+        "duration_h": 2.5,
+        "priority": 3,
+        "crew": "ohe",
+        "crew_size": 1,
+        "equipment": "tower-wagon",
+        "earliest_night": 3,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-011",
+        "title": "Ballast cleaning",
+        "section": "SEC-D",
+        "duration": 8,
+        "duration_h": 4.0,
+        "priority": 4,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "ballast-cleaner",
+        "earliest_night": 1,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-012",
+        "title": "Signal testing",
+        "section": "SEC-C",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 3,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 0,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-013",
+        "title": "Interlocking check",
+        "section": "SEC-C",
+        "duration": 5,
+        "duration_h": 2.5,
+        "priority": 4,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 2,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-014",
+        "title": "OHE insulator replacement",
+        "section": "SEC-F",
+        "duration": 6,
+        "duration_h": 3.0,
+        "priority": 4,
+        "crew": "ohe",
+        "crew_size": 1,
+        "equipment": "tower-wagon",
+        "earliest_night": 4,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-015",
+        "title": "Rail grinding",
+        "section": "SEC-H",
+        "duration": 6,
+        "duration_h": 3.0,
+        "priority": 3,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "rail-grinder",
+        "earliest_night": 4,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-016",
+        "title": "Fishplate greasing",
+        "section": "SEC-G",
+        "duration": 3,
+        "duration_h": 1.5,
+        "priority": 3,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 3,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-017",
+        "title": "OHE insulator replacement",
+        "section": "SEC-G",
+        "duration": 6,
+        "duration_h": 3.0,
+        "priority": 4,
+        "crew": "ohe",
+        "crew_size": 1,
+        "equipment": "tower-wagon",
+        "earliest_night": 0,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-018",
+        "title": "Track tamping",
+        "section": "SEC-D",
+        "duration": 6,
+        "duration_h": 3.0,
+        "priority": 4,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "tamping-machine",
+        "earliest_night": 1,
+        "latest_night": 2,
+        "emergency": false
+      },
+      {
+        "id": "WR-019",
+        "title": "Bridge girder inspection",
+        "section": "SEC-F",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 3,
+        "crew": "bridge",
+        "crew_size": 1,
+        "equipment": "road-railer",
+        "earliest_night": 1,
+        "latest_night": 2,
+        "emergency": false
+      },
+      {
+        "id": "WR-020",
+        "title": "Points lubrication",
+        "section": "SEC-A",
+        "duration": 3,
+        "duration_h": 1.5,
+        "priority": 3,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 0,
+        "latest_night": 1,
+        "emergency": false
+      },
+      {
+        "id": "WR-021",
+        "title": "Points lubrication",
+        "section": "SEC-F",
+        "duration": 3,
+        "duration_h": 1.5,
+        "priority": 3,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 1,
+        "latest_night": 2,
+        "emergency": false
+      },
+      {
+        "id": "WR-022",
+        "title": "Points lubrication",
+        "section": "SEC-D",
+        "duration": 3,
+        "duration_h": 1.5,
+        "priority": 3,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 0,
+        "latest_night": 1,
+        "emergency": false
+      },
+      {
+        "id": "WR-023",
+        "title": "Points lubrication",
+        "section": "SEC-E",
+        "duration": 3,
+        "duration_h": 1.5,
+        "priority": 3,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 3,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-024",
+        "title": "OHE tension adjustment",
+        "section": "SEC-H",
+        "duration": 5,
+        "duration_h": 2.5,
+        "priority": 3,
+        "crew": "ohe",
+        "crew_size": 1,
+        "equipment": "tower-wagon",
+        "earliest_night": 4,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-025",
+        "title": "Ballast cleaning",
+        "section": "SEC-H",
+        "duration": 8,
+        "duration_h": 4.0,
+        "priority": 4,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "ballast-cleaner",
+        "earliest_night": 0,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-026",
+        "title": "Bridge girder inspection",
+        "section": "SEC-B",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 3,
+        "crew": "bridge",
+        "crew_size": 1,
+        "equipment": "road-railer",
+        "earliest_night": 3,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-027",
+        "title": "Rail grinding",
+        "section": "SEC-E",
+        "duration": 6,
+        "duration_h": 3.0,
+        "priority": 3,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "rail-grinder",
+        "earliest_night": 0,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-028",
+        "title": "Bridge girder inspection",
+        "section": "SEC-D",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 3,
+        "crew": "bridge",
+        "crew_size": 1,
+        "equipment": "road-railer",
+        "earliest_night": 1,
+        "latest_night": 2,
+        "emergency": false
+      },
+      {
+        "id": "WR-029",
+        "title": "Fishplate greasing",
+        "section": "SEC-A",
+        "duration": 3,
+        "duration_h": 1.5,
+        "priority": 3,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 2,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-030",
+        "title": "Fishplate greasing",
+        "section": "SEC-E",
+        "duration": 3,
+        "duration_h": 1.5,
+        "priority": 3,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 2,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-031",
+        "title": "Fishplate greasing",
+        "section": "SEC-F",
+        "duration": 3,
+        "duration_h": 1.5,
+        "priority": 3,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 2,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-032",
+        "title": "Signal testing",
+        "section": "SEC-D",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 3,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 4,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-033",
+        "title": "Points lubrication",
+        "section": "SEC-G",
+        "duration": 3,
+        "duration_h": 1.5,
+        "priority": 3,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 1,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-034",
+        "title": "Signal testing",
+        "section": "SEC-F",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 3,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 1,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-035",
+        "title": "Track tamping",
+        "section": "SEC-H",
+        "duration": 6,
+        "duration_h": 3.0,
+        "priority": 4,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "tamping-machine",
+        "earliest_night": 0,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-036",
+        "title": "Interlocking check",
+        "section": "SEC-H",
+        "duration": 5,
+        "duration_h": 2.5,
+        "priority": 4,
+        "crew": "signalling",
+        "crew_size": 1,
+        "equipment": "none",
+        "earliest_night": 1,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-037",
+        "title": "OHE tension adjustment",
+        "section": "SEC-D",
+        "duration": 5,
+        "duration_h": 2.5,
+        "priority": 3,
+        "crew": "ohe",
+        "crew_size": 1,
+        "equipment": "tower-wagon",
+        "earliest_night": 2,
+        "latest_night": 3,
+        "emergency": false
+      },
+      {
+        "id": "WR-038",
+        "title": "Ballast cleaning",
+        "section": "SEC-D",
+        "duration": 8,
+        "duration_h": 4.0,
+        "priority": 4,
+        "crew": "p-way",
+        "crew_size": 1,
+        "equipment": "ballast-cleaner",
+        "earliest_night": 1,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-039",
+        "title": "OHE tension adjustment",
+        "section": "SEC-A",
+        "duration": 5,
+        "duration_h": 2.5,
+        "priority": 3,
+        "crew": "ohe",
+        "crew_size": 1,
+        "equipment": "tower-wagon",
+        "earliest_night": 1,
+        "latest_night": 4,
+        "emergency": false
+      },
+      {
+        "id": "WR-040",
+        "title": "Bridge girder inspection",
+        "section": "SEC-B",
+        "duration": 4,
+        "duration_h": 2.0,
+        "priority": 3,
+        "crew": "bridge",
+        "crew_size": 1,
+        "equipment": "road-railer",
+        "earliest_night": 2,
+        "latest_night": 3,
+        "emergency": false
+      }
+    ],
+    "pool": {
+      "crew": {
+        "p-way": 2,
+        "signalling": 1,
+        "ohe": 1,
+        "bridge": 1
+      },
+      "equipment": {
+        "tamping-machine": 1,
+        "ballast-cleaner": 1,
+        "rail-grinder": 1,
+        "tower-wagon": 1,
+        "road-railer": 1
+      },
+      "crew_shift": 10
+    }
+  },
+  "optimal": {
+    "status": "OPTIMAL",
+    "objective": 120,
+    "solve_seconds": 0.022,
+    "proven_optimal": true,
+    "assignments": [
+      {
+        "id": "WR-001",
+        "night": 0,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      },
+      {
+        "id": "WR-002",
+        "night": 0,
+        "start": 4,
+        "end": 8,
+        "start_clock": "00:00",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-003",
+        "night": 2,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      },
+      {
+        "id": "WR-004",
+        "night": 4,
+        "start": 0,
+        "end": 5,
+        "start_clock": "22:00",
+        "end_clock": "00:30"
+      },
+      {
+        "id": "WR-006",
+        "night": 3,
+        "start": 5,
+        "end": 10,
+        "start_clock": "00:30",
+        "end_clock": "03:00"
+      },
+      {
+        "id": "WR-007",
+        "night": 3,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-008",
+        "night": 4,
+        "start": 5,
+        "end": 9,
+        "start_clock": "00:30",
+        "end_clock": "02:30"
+      },
+      {
+        "id": "WR-011",
+        "night": 1,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-012",
+        "night": 0,
+        "start": 6,
+        "end": 10,
+        "start_clock": "01:00",
+        "end_clock": "03:00"
+      },
+      {
+        "id": "WR-013",
+        "night": 2,
+        "start": 0,
+        "end": 5,
+        "start_clock": "22:00",
+        "end_clock": "00:30"
+      },
+      {
+        "id": "WR-014",
+        "night": 4,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-015",
+        "night": 4,
+        "start": 5,
+        "end": 11,
+        "start_clock": "00:30",
+        "end_clock": "03:30"
+      },
+      {
+        "id": "WR-016",
+        "night": 3,
+        "start": 0,
+        "end": 3,
+        "start_clock": "22:00",
+        "end_clock": "23:30"
+      },
+      {
+        "id": "WR-017",
+        "night": 0,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-018",
+        "night": 2,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-019",
+        "night": 1,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      },
+      {
+        "id": "WR-020",
+        "night": 0,
+        "start": 3,
+        "end": 6,
+        "start_clock": "23:30",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-021",
+        "night": 2,
+        "start": 5,
+        "end": 8,
+        "start_clock": "00:30",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-022",
+        "night": 0,
+        "start": 0,
+        "end": 3,
+        "start_clock": "22:00",
+        "end_clock": "23:30"
+      },
+      {
+        "id": "WR-023",
+        "night": 4,
+        "start": 4,
+        "end": 7,
+        "start_clock": "00:00",
+        "end_clock": "01:30"
+      },
+      {
+        "id": "WR-025",
+        "night": 0,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-026",
+        "night": 3,
+        "start": 4,
+        "end": 8,
+        "start_clock": "00:00",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-027",
+        "night": 1,
+        "start": 6,
+        "end": 12,
+        "start_clock": "01:00",
+        "end_clock": "04:00"
+      },
+      {
+        "id": "WR-028",
+        "night": 1,
+        "start": 8,
+        "end": 12,
+        "start_clock": "02:00",
+        "end_clock": "04:00"
+      },
+      {
+        "id": "WR-029",
+        "night": 3,
+        "start": 0,
+        "end": 3,
+        "start_clock": "22:00",
+        "end_clock": "23:30"
+      },
+      {
+        "id": "WR-030",
+        "night": 3,
+        "start": 3,
+        "end": 6,
+        "start_clock": "23:30",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-031",
+        "night": 4,
+        "start": 6,
+        "end": 9,
+        "start_clock": "01:00",
+        "end_clock": "02:30"
+      },
+      {
+        "id": "WR-032",
+        "night": 4,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      },
+      {
+        "id": "WR-033",
+        "night": 1,
+        "start": 0,
+        "end": 3,
+        "start_clock": "22:00",
+        "end_clock": "23:30"
+      },
+      {
+        "id": "WR-034",
+        "night": 1,
+        "start": 4,
+        "end": 8,
+        "start_clock": "00:00",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-035",
+        "night": 1,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-036",
+        "night": 3,
+        "start": 0,
+        "end": 5,
+        "start_clock": "22:00",
+        "end_clock": "00:30"
+      },
+      {
+        "id": "WR-039",
+        "night": 1,
+        "start": 0,
+        "end": 5,
+        "start_clock": "22:00",
+        "end_clock": "00:30"
+      },
+      {
+        "id": "WR-040",
+        "night": 3,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      }
+    ],
+    "unscheduled": [
+      "WR-005",
+      "WR-009",
+      "WR-010",
+      "WR-024",
+      "WR-037",
+      "WR-038"
+    ]
+  },
+  "greedy": {
+    "status": "GREEDY_FCFS",
+    "objective": 107,
+    "solve_seconds": 0.0,
+    "proven_optimal": false,
+    "assignments": [
+      {
+        "id": "WR-001",
+        "night": 0,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      },
+      {
+        "id": "WR-002",
+        "night": 0,
+        "start": 4,
+        "end": 8,
+        "start_clock": "00:00",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-003",
+        "night": 2,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      },
+      {
+        "id": "WR-004",
+        "night": 3,
+        "start": 0,
+        "end": 5,
+        "start_clock": "22:00",
+        "end_clock": "00:30"
+      },
+      {
+        "id": "WR-006",
+        "night": 1,
+        "start": 0,
+        "end": 5,
+        "start_clock": "22:00",
+        "end_clock": "00:30"
+      },
+      {
+        "id": "WR-007",
+        "night": 4,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-011",
+        "night": 1,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-012",
+        "night": 0,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      },
+      {
+        "id": "WR-013",
+        "night": 2,
+        "start": 0,
+        "end": 5,
+        "start_clock": "22:00",
+        "end_clock": "00:30"
+      },
+      {
+        "id": "WR-015",
+        "night": 4,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-016",
+        "night": 3,
+        "start": 5,
+        "end": 8,
+        "start_clock": "00:30",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-017",
+        "night": 0,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-018",
+        "night": 2,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-019",
+        "night": 1,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      },
+      {
+        "id": "WR-020",
+        "night": 0,
+        "start": 4,
+        "end": 7,
+        "start_clock": "00:00",
+        "end_clock": "01:30"
+      },
+      {
+        "id": "WR-021",
+        "night": 1,
+        "start": 5,
+        "end": 8,
+        "start_clock": "00:30",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-023",
+        "night": 3,
+        "start": 0,
+        "end": 3,
+        "start_clock": "22:00",
+        "end_clock": "23:30"
+      },
+      {
+        "id": "WR-025",
+        "night": 0,
+        "start": 0,
+        "end": 8,
+        "start_clock": "22:00",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-026",
+        "night": 3,
+        "start": 5,
+        "end": 9,
+        "start_clock": "00:30",
+        "end_clock": "02:30"
+      },
+      {
+        "id": "WR-027",
+        "night": 1,
+        "start": 0,
+        "end": 6,
+        "start_clock": "22:00",
+        "end_clock": "01:00"
+      },
+      {
+        "id": "WR-028",
+        "night": 1,
+        "start": 8,
+        "end": 12,
+        "start_clock": "02:00",
+        "end_clock": "04:00"
+      },
+      {
+        "id": "WR-029",
+        "night": 3,
+        "start": 5,
+        "end": 8,
+        "start_clock": "00:30",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-030",
+        "night": 3,
+        "start": 8,
+        "end": 11,
+        "start_clock": "02:00",
+        "end_clock": "03:30"
+      },
+      {
+        "id": "WR-031",
+        "night": 2,
+        "start": 4,
+        "end": 7,
+        "start_clock": "00:00",
+        "end_clock": "01:30"
+      },
+      {
+        "id": "WR-032",
+        "night": 4,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      },
+      {
+        "id": "WR-034",
+        "night": 4,
+        "start": 4,
+        "end": 8,
+        "start_clock": "00:00",
+        "end_clock": "02:00"
+      },
+      {
+        "id": "WR-035",
+        "night": 1,
+        "start": 6,
+        "end": 12,
+        "start_clock": "01:00",
+        "end_clock": "04:00"
+      },
+      {
+        "id": "WR-036",
+        "night": 2,
+        "start": 5,
+        "end": 10,
+        "start_clock": "00:30",
+        "end_clock": "03:00"
+      },
+      {
+        "id": "WR-039",
+        "night": 1,
+        "start": 0,
+        "end": 5,
+        "start_clock": "22:00",
+        "end_clock": "00:30"
+      },
+      {
+        "id": "WR-040",
+        "night": 2,
+        "start": 0,
+        "end": 4,
+        "start_clock": "22:00",
+        "end_clock": "00:00"
+      }
+    ],
+    "unscheduled": [
+      "WR-005",
+      "WR-008",
+      "WR-009",
+      "WR-010",
+      "WR-014",
+      "WR-022",
+      "WR-024",
+      "WR-033",
+      "WR-037",
+      "WR-038"
+    ]
+  },
+  "metrics": {
+    "optimal": {
+      "total_requests": 40,
+      "scheduled": 34,
+      "scheduled_pct": 85.0,
+      "window_utilisation_pct": 43.5,
+      "priority_weight": 120,
+      "solve_seconds": 0.022,
+      "proven_optimal": true
+    },
+    "greedy": {
+      "total_requests": 40,
+      "scheduled": 30,
+      "scheduled_pct": 75.0,
+      "window_utilisation_pct": 39.0,
+      "priority_weight": 107,
+      "solve_seconds": 0.0,
+      "proven_optimal": false
+    }
+  },
+  "explanations": [
+    {
+      "request_id": "WR-005",
+      "binding": [
+        "window"
+      ],
+      "detail": "No engineering block on SEC-D within nights 4\u20134 is long enough for this 2.5h job.",
+      "infeasible_alone": true
+    },
+    {
+      "request_id": "WR-009",
+      "binding": [
+        "crew"
+      ],
+      "detail": "Relaxing this let the job in: ohe crews were fully booked.",
+      "infeasible_alone": false
+    },
+    {
+      "request_id": "WR-010",
+      "binding": [
+        "contention"
+      ],
+      "detail": "Displaced by higher-weight work competing for the same night.",
+      "infeasible_alone": false
+    },
+    {
+      "request_id": "WR-024",
+      "binding": [
+        "crew"
+      ],
+      "detail": "Relaxing this let the job in: ohe crews were fully booked.",
+      "infeasible_alone": false
+    },
+    {
+      "request_id": "WR-037",
+      "binding": [
+        "contention"
+      ],
+      "detail": "Displaced by higher-weight work competing for the same night.",
+      "infeasible_alone": false
+    },
+    {
+      "request_id": "WR-038",
+      "binding": [
+        "crew"
+      ],
+      "detail": "Relaxing this let the job in: p-way crews were fully booked.",
+      "infeasible_alone": false
+    }
+  ],
+  "alternatives": [
+    {
+      "request_id": "WR-005",
+      "feasible": false,
+      "bumped": [],
+      "weight_cost": 0,
+      "night": null,
+      "note": "Cannot be granted even by displacing other work \u2014 no feasible slot exists."
+    },
+    {
+      "request_id": "WR-009",
+      "feasible": true,
+      "bumped": [
+        "WR-014"
+      ],
+      "weight_cost": -139,
+      "night": 4,
+      "note": "Grant on night 5 by bumping WR-014 (OHE insulator replacement) \u2014 no net weight lost."
+    },
+    {
+      "request_id": "WR-038",
+      "feasible": true,
+      "bumped": [
+        "WR-011",
+        "WR-014"
+      ],
+      "weight_cost": -139,
+      "night": 1,
+      "note": "Grant on night 2 by bumping WR-011 (Ballast cleaning), WR-014 (OHE insulator replacement) \u2014 no net weight lost."
+    },
+    {
+      "request_id": "WR-010",
+      "feasible": true,
+      "bumped": [
+        "WR-007",
+        "WR-014"
+      ],
+      "weight_cost": -139,
+      "night": 3,
+      "note": "Grant on night 4 by bumping WR-007 (OHE insulator replacement), WR-014 (OHE insulator replacement) \u2014 no net weight lost."
+    },
+    {
+      "request_id": "WR-024",
+      "feasible": true,
+      "bumped": [
+        "WR-007",
+        "WR-014",
+        "WR-032"
+      ],
+      "weight_cost": -139,
+      "night": 4,
+      "note": "Grant on night 5 by bumping WR-007 (OHE insulator replacement), WR-014 (OHE insulator replacement), WR-032 (Signal testing) \u2014 no net weight lost."
+    }
+  ],
+  "emergency": {
+    "kind": "emergency",
+    "request": {
+      "id": "EMG-001",
+      "title": "EMERGENCY rail fracture repair",
+      "section": "SEC-H",
+      "night": 0
+    },
+    "scenario": {
+      "nights": 5,
+      "seed": 7,
+      "sections": [
+        {
+          "id": "SEC-A",
+          "name": "Junction North Throat",
+          "traffic": 48
+        },
+        {
+          "id": "SEC-B",
+          "name": "Up Main \u2014 Km 12\u201318",
+          "traffic": 36
+        },
+        {
+          "id": "SEC-C",
+          "name": "Down Main \u2014 Km 12\u201318",
+          "traffic": 34
+        },
+        {
+          "id": "SEC-D",
+          "name": "Loop Line East",
+          "traffic": 12
+        },
+        {
+          "id": "SEC-E",
+          "name": "Ghat Section \u2014 Km 40\u201347",
+          "traffic": 22
+        },
+        {
+          "id": "SEC-F",
+          "name": "Yard Reception Lines",
+          "traffic": 8
+        },
+        {
+          "id": "SEC-G",
+          "name": "Bridge Approach \u2014 Km 55",
+          "traffic": 18
+        },
+        {
+          "id": "SEC-H",
+          "name": "Suburban Corridor \u2014 Km 3\u20139",
+          "traffic": 52
+        }
+      ],
+      "windows": [
+        {
+          "section": "SEC-A",
+          "night": 0,
+          "start": 0,
+          "end": 9,
+          "start_clock": "22:00",
+          "end_clock": "02:30"
+        },
+        {
+          "section": "SEC-A",
+          "night": 1,
+          "start": 0,
+          "end": 8,
+          "start_clock": "22:00",
+          "end_clock": "02:00"
+        },
+        {
+          "section": "SEC-A",
+          "night": 3,
+          "start": 0,
+          "end": 10,
+          "start_clock": "22:00",
+          "end_clock": "03:00"
+        },
+        {
+          "section": "SEC-A",
+          "night": 4,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-B",
+          "night": 0,
+          "start": 0,
+          "end": 8,
+          "start_clock": "22:00",
+          "end_clock": "02:00"
+        },
+        {
+          "section": "SEC-B",
+          "night": 1,
+          "start": 0,
+          "end": 8,
+          "start_clock": "22:00",
+          "end_clock": "02:00"
+        },
+        {
+          "section": "SEC-B",
+          "night": 2,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-B",
+          "night": 3,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-B",
+          "night": 4,
+          "start": 0,
+          "end": 9,
+          "start_clock": "22:00",
+          "end_clock": "02:30"
+        },
+        {
+          "section": "SEC-C",
+          "night": 0,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-C",
+          "night": 1,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-C",
+          "night": 2,
+          "start": 0,
+          "end": 8,
+          "start_clock": "22:00",
+          "end_clock": "02:00"
+        },
+        {
+          "section": "SEC-C",
+          "night": 3,
+          "start": 0,
+          "end": 8,
+          "start_clock": "22:00",
+          "end_clock": "02:00"
+        },
+        {
+          "section": "SEC-C",
+          "night": 4,
+          "start": 0,
+          "end": 9,
+          "start_clock": "22:00",
+          "end_clock": "02:30"
+        },
+        {
+          "section": "SEC-D",
+          "night": 0,
+          "start": 0,
+          "end": 9,
+          "start_clock": "22:00",
+          "end_clock": "02:30"
+        },
+        {
+          "section": "SEC-D",
+          "night": 1,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-D",
+          "night": 2,
+          "start": 0,
+          "end": 9,
+          "start_clock": "22:00",
+          "end_clock": "02:30"
+        },
+        {
+          "section": "SEC-D",
+          "night": 4,
+          "start": 0,
+          "end": 9,
+          "start_clock": "22:00",
+          "end_clock": "02:30"
+        },
+        {
+          "section": "SEC-E",
+          "night": 0,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-E",
+          "night": 1,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-E",
+          "night": 3,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-E",
+          "night": 4,
+          "start": 0,
+          "end": 10,
+          "start_clock": "22:00",
+          "end_clock": "03:00"
+        },
+        {
+          "section": "SEC-F",
+          "night": 0,
+          "start": 0,
+          "end": 11,
+          "start_clock": "22:00",
+          "end_clock": "03:30"
+        },
+        {
+          "section": "SEC-F",
+          "night": 1,
+          "start": 0,
+          "end": 9,
+          "start_clock": "22:00",
+          "end_clock": "02:30"
+        },
+        {
+          "section": "SEC-F",
+          "night": 2,
+          "start": 0,
+          "end": 9,
+          "start_clock": "22:00",
+          "end_clock": "02:30"
+        },
+        {
+          "section": "SEC-F",
+          "night": 4,
+          "start": 0,
+          "end": 11,
+          "start_clock": "22:00",
+          "end_clock": "03:30"
+        },
+        {
+          "section": "SEC-G",
+          "night": 0,
+          "start": 0,
+          "end": 11,
+          "start_clock": "22:00",
+          "end_clock": "03:30"
+        },
+        {
+          "section": "SEC-G",
+          "night": 1,
+          "start": 0,
+          "end": 8,
+          "start_clock": "22:00",
+          "end_clock": "02:00"
+        },
+        {
+          "section": "SEC-G",
+          "night": 3,
+          "start": 0,
+          "end": 10,
+          "start_clock": "22:00",
+          "end_clock": "03:00"
+        },
+        {
+          "section": "SEC-G",
+          "night": 4,
+          "start": 0,
+          "end": 11,
+          "start_clock": "22:00",
+          "end_clock": "03:30"
+        },
+        {
+          "section": "SEC-H",
+          "night": 0,
+          "start": 0,
+          "end": 8,
+          "start_clock": "22:00",
+          "end_clock": "02:00"
+        },
+        {
+          "section": "SEC-H",
+          "night": 1,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        },
+        {
+          "section": "SEC-H",
+          "night": 2,
+          "start": 0,
+          "end": 10,
+          "start_clock": "22:00",
+          "end_clock": "03:00"
+        },
+        {
+          "section": "SEC-H",
+          "night": 3,
+          "start": 0,
+          "end": 10,
+          "start_clock": "22:00",
+          "end_clock": "03:00"
+        },
+        {
+          "section": "SEC-H",
+          "night": 4,
+          "start": 0,
+          "end": 12,
+          "start_clock": "22:00",
+          "end_clock": "04:00"
+        }
+      ],
+      "requests": [
+        {
+          "id": "WR-001",
+          "title": "Weld defect grinding",
+          "section": "SEC-E",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 5,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "rail-grinder",
+          "earliest_night": 0,
+          "latest_night": 0,
+          "emergency": false
+        },
+        {
+          "id": "WR-002",
+          "title": "Weld defect grinding",
+          "section": "SEC-E",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 5,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "rail-grinder",
+          "earliest_night": 0,
+          "latest_night": 0,
+          "emergency": false
+        },
+        {
+          "id": "WR-003",
+          "title": "Weld defect grinding",
+          "section": "SEC-F",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 5,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "rail-grinder",
+          "earliest_night": 2,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-004",
+          "title": "Rail fracture repair",
+          "section": "SEC-C",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 5,
+          "crew": "p-way",
+          "crew_size": 2,
+          "equipment": "road-railer",
+          "earliest_night": 3,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-005",
+          "title": "Rail fracture repair",
+          "section": "SEC-D",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 5,
+          "crew": "p-way",
+          "crew_size": 2,
+          "equipment": "road-railer",
+          "earliest_night": 3,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-006",
+          "title": "Interlocking check",
+          "section": "SEC-G",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 4,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 1,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-007",
+          "title": "OHE insulator replacement",
+          "section": "SEC-C",
+          "duration": 6,
+          "duration_h": 3.0,
+          "priority": 4,
+          "crew": "ohe",
+          "crew_size": 1,
+          "equipment": "tower-wagon",
+          "earliest_night": 3,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-008",
+          "title": "Bridge girder inspection",
+          "section": "SEC-C",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 3,
+          "crew": "bridge",
+          "crew_size": 1,
+          "equipment": "road-railer",
+          "earliest_night": 3,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-009",
+          "title": "OHE insulator replacement",
+          "section": "SEC-G",
+          "duration": 6,
+          "duration_h": 3.0,
+          "priority": 4,
+          "crew": "ohe",
+          "crew_size": 1,
+          "equipment": "tower-wagon",
+          "earliest_night": 4,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-010",
+          "title": "OHE tension adjustment",
+          "section": "SEC-C",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 3,
+          "crew": "ohe",
+          "crew_size": 1,
+          "equipment": "tower-wagon",
+          "earliest_night": 3,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-011",
+          "title": "Ballast cleaning",
+          "section": "SEC-D",
+          "duration": 8,
+          "duration_h": 4.0,
+          "priority": 4,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "ballast-cleaner",
+          "earliest_night": 1,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-012",
+          "title": "Signal testing",
+          "section": "SEC-C",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 3,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 0,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-013",
+          "title": "Interlocking check",
+          "section": "SEC-C",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 4,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 2,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-014",
+          "title": "OHE insulator replacement",
+          "section": "SEC-F",
+          "duration": 6,
+          "duration_h": 3.0,
+          "priority": 4,
+          "crew": "ohe",
+          "crew_size": 1,
+          "equipment": "tower-wagon",
+          "earliest_night": 4,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-015",
+          "title": "Rail grinding",
+          "section": "SEC-H",
+          "duration": 6,
+          "duration_h": 3.0,
+          "priority": 3,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "rail-grinder",
+          "earliest_night": 4,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-016",
+          "title": "Fishplate greasing",
+          "section": "SEC-G",
+          "duration": 3,
+          "duration_h": 1.5,
+          "priority": 3,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 3,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-017",
+          "title": "OHE insulator replacement",
+          "section": "SEC-G",
+          "duration": 6,
+          "duration_h": 3.0,
+          "priority": 4,
+          "crew": "ohe",
+          "crew_size": 1,
+          "equipment": "tower-wagon",
+          "earliest_night": 0,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-018",
+          "title": "Track tamping",
+          "section": "SEC-D",
+          "duration": 6,
+          "duration_h": 3.0,
+          "priority": 4,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "tamping-machine",
+          "earliest_night": 1,
+          "latest_night": 2,
+          "emergency": false
+        },
+        {
+          "id": "WR-019",
+          "title": "Bridge girder inspection",
+          "section": "SEC-F",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 3,
+          "crew": "bridge",
+          "crew_size": 1,
+          "equipment": "road-railer",
+          "earliest_night": 1,
+          "latest_night": 2,
+          "emergency": false
+        },
+        {
+          "id": "WR-020",
+          "title": "Points lubrication",
+          "section": "SEC-A",
+          "duration": 3,
+          "duration_h": 1.5,
+          "priority": 3,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 0,
+          "latest_night": 1,
+          "emergency": false
+        },
+        {
+          "id": "WR-021",
+          "title": "Points lubrication",
+          "section": "SEC-F",
+          "duration": 3,
+          "duration_h": 1.5,
+          "priority": 3,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 1,
+          "latest_night": 2,
+          "emergency": false
+        },
+        {
+          "id": "WR-022",
+          "title": "Points lubrication",
+          "section": "SEC-D",
+          "duration": 3,
+          "duration_h": 1.5,
+          "priority": 3,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 0,
+          "latest_night": 1,
+          "emergency": false
+        },
+        {
+          "id": "WR-023",
+          "title": "Points lubrication",
+          "section": "SEC-E",
+          "duration": 3,
+          "duration_h": 1.5,
+          "priority": 3,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 3,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-024",
+          "title": "OHE tension adjustment",
+          "section": "SEC-H",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 3,
+          "crew": "ohe",
+          "crew_size": 1,
+          "equipment": "tower-wagon",
+          "earliest_night": 4,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-025",
+          "title": "Ballast cleaning",
+          "section": "SEC-H",
+          "duration": 8,
+          "duration_h": 4.0,
+          "priority": 4,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "ballast-cleaner",
+          "earliest_night": 0,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-026",
+          "title": "Bridge girder inspection",
+          "section": "SEC-B",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 3,
+          "crew": "bridge",
+          "crew_size": 1,
+          "equipment": "road-railer",
+          "earliest_night": 3,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-027",
+          "title": "Rail grinding",
+          "section": "SEC-E",
+          "duration": 6,
+          "duration_h": 3.0,
+          "priority": 3,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "rail-grinder",
+          "earliest_night": 0,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-028",
+          "title": "Bridge girder inspection",
+          "section": "SEC-D",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 3,
+          "crew": "bridge",
+          "crew_size": 1,
+          "equipment": "road-railer",
+          "earliest_night": 1,
+          "latest_night": 2,
+          "emergency": false
+        },
+        {
+          "id": "WR-029",
+          "title": "Fishplate greasing",
+          "section": "SEC-A",
+          "duration": 3,
+          "duration_h": 1.5,
+          "priority": 3,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 2,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-030",
+          "title": "Fishplate greasing",
+          "section": "SEC-E",
+          "duration": 3,
+          "duration_h": 1.5,
+          "priority": 3,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 2,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-031",
+          "title": "Fishplate greasing",
+          "section": "SEC-F",
+          "duration": 3,
+          "duration_h": 1.5,
+          "priority": 3,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 2,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-032",
+          "title": "Signal testing",
+          "section": "SEC-D",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 3,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 4,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-033",
+          "title": "Points lubrication",
+          "section": "SEC-G",
+          "duration": 3,
+          "duration_h": 1.5,
+          "priority": 3,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 1,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-034",
+          "title": "Signal testing",
+          "section": "SEC-F",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 3,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 1,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-035",
+          "title": "Track tamping",
+          "section": "SEC-H",
+          "duration": 6,
+          "duration_h": 3.0,
+          "priority": 4,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "tamping-machine",
+          "earliest_night": 0,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-036",
+          "title": "Interlocking check",
+          "section": "SEC-H",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 4,
+          "crew": "signalling",
+          "crew_size": 1,
+          "equipment": "none",
+          "earliest_night": 1,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-037",
+          "title": "OHE tension adjustment",
+          "section": "SEC-D",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 3,
+          "crew": "ohe",
+          "crew_size": 1,
+          "equipment": "tower-wagon",
+          "earliest_night": 2,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "WR-038",
+          "title": "Ballast cleaning",
+          "section": "SEC-D",
+          "duration": 8,
+          "duration_h": 4.0,
+          "priority": 4,
+          "crew": "p-way",
+          "crew_size": 1,
+          "equipment": "ballast-cleaner",
+          "earliest_night": 1,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-039",
+          "title": "OHE tension adjustment",
+          "section": "SEC-A",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 3,
+          "crew": "ohe",
+          "crew_size": 1,
+          "equipment": "tower-wagon",
+          "earliest_night": 1,
+          "latest_night": 4,
+          "emergency": false
+        },
+        {
+          "id": "WR-040",
+          "title": "Bridge girder inspection",
+          "section": "SEC-B",
+          "duration": 4,
+          "duration_h": 2.0,
+          "priority": 3,
+          "crew": "bridge",
+          "crew_size": 1,
+          "equipment": "road-railer",
+          "earliest_night": 2,
+          "latest_night": 3,
+          "emergency": false
+        },
+        {
+          "id": "EMG-001",
+          "title": "EMERGENCY rail fracture repair",
+          "section": "SEC-H",
+          "duration": 5,
+          "duration_h": 2.5,
+          "priority": 5,
+          "crew": "p-way",
+          "crew_size": 2,
+          "equipment": "road-railer",
+          "earliest_night": 0,
+          "latest_night": 0,
+          "emergency": true
+        }
+      ],
+      "pool": {
+        "crew": {
+          "p-way": 2,
+          "signalling": 1,
+          "ohe": 1,
+          "bridge": 1
+        },
+        "equipment": {
+          "tamping-machine": 1,
+          "ballast-cleaner": 1,
+          "rail-grinder": 1,
+          "tower-wagon": 1,
+          "road-railer": 1
+        },
+        "crew_shift": 10
+      }
+    },
+    "schedule": {
+      "status": "OPTIMAL",
+      "objective": 120,
+      "solve_seconds": 0.031,
+      "proven_optimal": true,
+      "assignments": [
+        {
+          "id": "WR-002",
+          "night": 0,
+          "start": 5,
+          "end": 9,
+          "start_clock": "00:30",
+          "end_clock": "02:30"
+        },
+        {
+          "id": "WR-003",
+          "night": 2,
+          "start": 3,
+          "end": 7,
+          "start_clock": "23:30",
+          "end_clock": "01:30"
+        },
+        {
+          "id": "WR-004",
+          "night": 4,
+          "start": 0,
+          "end": 5,
+          "start_clock": "22:00",
+          "end_clock": "00:30"
+        },
+        {
+          "id": "WR-006",
+          "night": 3,
+          "start": 3,
+          "end": 8,
+          "start_clock": "23:30",
+          "end_clock": "02:00"
+        },
+        {
+          "id": "WR-007",
+          "night": 3,
+          "start": 0,
+          "end": 6,
+          "start_clock": "22:00",
+          "end_clock": "01:00"
+        },
+        {
+          "id": "WR-008",
+          "night": 4,
+          "start": 5,
+          "end": 9,
+          "start_clock": "00:30",
+          "end_clock": "02:30"
+        },
+        {
+          "id": "WR-009",
+          "night": 4,
+          "start": 0,
+          "end": 6,
+          "start_clock": "22:00",
+          "end_clock": "01:00"
+        },
+        {
+          "id": "WR-012",
+          "night": 1,
+          "start": 6,
+          "end": 10,
+          "start_clock": "01:00",
+          "end_clock": "03:00"
+        },
+        {
+          "id": "WR-013",
+          "night": 2,
+          "start": 0,
+          "end": 5,
+          "start_clock": "22:00",
+          "end_clock": "00:30"
+        },
+        {
+          "id": "WR-015",
+          "night": 4,
+          "start": 5,
+          "end": 11,
+          "start_clock": "00:30",
+          "end_clock": "03:30"
+        },
+        {
+          "id": "WR-016",
+          "night": 4,
+          "start": 6,
+          "end": 9,
+          "start_clock": "01:00",
+          "end_clock": "02:30"
+        },
+        {
+          "id": "WR-017",
+          "night": 0,
+          "start": 0,
+          "end": 6,
+          "start_clock": "22:00",
+          "end_clock": "01:00"
+        },
+        {
+          "id": "WR-018",
+          "night": 2,
+          "start": 0,
+          "end": 6,
+          "start_clock": "22:00",
+          "end_clock": "01:00"
+        },
+        {
+          "id": "WR-019",
+          "night": 1,
+          "start": 3,
+          "end": 7,
+          "start_clock": "23:30",
+          "end_clock": "01:30"
+        },
+        {
+          "id": "WR-020",
+          "night": 0,
+          "start": 0,
+          "end": 3,
+          "start_clock": "22:00",
+          "end_clock": "23:30"
+        },
+        {
+          "id": "WR-021",
+          "night": 1,
+          "start": 0,
+          "end": 3,
+          "start_clock": "22:00",
+          "end_clock": "23:30"
+        },
+        {
+          "id": "WR-022",
+          "night": 0,
+          "start": 3,
+          "end": 6,
+          "start_clock": "23:30",
+          "end_clock": "01:00"
+        },
+        {
+          "id": "WR-023",
+          "night": 3,
+          "start": 0,
+          "end": 3,
+          "start_clock": "22:00",
+          "end_clock": "23:30"
+        },
+        {
+          "id": "WR-025",
+          "night": 3,
+          "start": 0,
+          "end": 8,
+          "start_clock": "22:00",
+          "end_clock": "02:00"
+        },
+        {
+          "id": "WR-026",
+          "night": 3,
+          "start": 0,
+          "end": 4,
+          "start_clock": "22:00",
+          "end_clock": "00:00"
+        },
+        {
+          "id": "WR-027",
+          "night": 3,
+          "start": 6,
+          "end": 12,
+          "start_clock": "01:00",
+          "end_clock": "04:00"
+        },
+        {
+          "id": "WR-028",
+          "night": 1,
+          "start": 8,
+          "end": 12,
+          "start_clock": "02:00",
+          "end_clock": "04:00"
+        },
+        {
+          "id": "WR-029",
+          "night": 3,
+          "start": 0,
+          "end": 3,
+          "start_clock": "22:00",
+          "end_clock": "23:30"
+        },
+        {
+          "id": "WR-030",
+          "night": 3,
+          "start": 3,
+          "end": 6,
+          "start_clock": "23:30",
+          "end_clock": "01:00"
+        },
+        {
+          "id": "WR-031",
+          "night": 2,
+          "start": 0,
+          "end": 3,
+          "start_clock": "22:00",
+          "end_clock": "23:30"
+        },
+        {
+          "id": "WR-032",
+          "night": 4,
+          "start": 4,
+          "end": 8,
+          "start_clock": "00:00",
+          "end_clock": "02:00"
+        },
+        {
+          "id": "WR-033",
+          "night": 1,
+          "start": 3,
+          "end": 6,
+          "start_clock": "23:30",
+          "end_clock": "01:00"
+        },
+        {
+          "id": "WR-034",
+          "night": 4,
+          "start": 0,
+          "end": 4,
+          "start_clock": "22:00",
+          "end_clock": "00:00"
+        },
+        {
+          "id": "WR-035",
+          "night": 1,
+          "start": 0,
+          "end": 6,
+          "start_clock": "22:00",
+          "end_clock": "01:00"
+        },
+        {
+          "id": "WR-036",
+          "night": 2,
+          "start": 5,
+          "end": 10,
+          "start_clock": "00:30",
+          "end_clock": "03:00"
+        },
+        {
+          "id": "WR-038",
+          "night": 1,
+          "start": 0,
+          "end": 8,
+          "start_clock": "22:00",
+          "end_clock": "02:00"
+        },
+        {
+          "id": "WR-039",
+          "night": 1,
+          "start": 0,
+          "end": 5,
+          "start_clock": "22:00",
+          "end_clock": "00:30"
+        },
+        {
+          "id": "WR-040",
+          "night": 2,
+          "start": 0,
+          "end": 4,
+          "start_clock": "22:00",
+          "end_clock": "00:00"
+        },
+        {
+          "id": "EMG-001",
+          "night": 0,
+          "start": 0,
+          "end": 5,
+          "start_clock": "22:00",
+          "end_clock": "00:30"
+        }
+      ],
+      "unscheduled": [
+        "WR-001",
+        "WR-005",
+        "WR-010",
+        "WR-011",
+        "WR-014",
+        "WR-024",
+        "WR-037"
+      ]
+    },
+    "metrics": {
+      "total_requests": 41,
+      "scheduled": 34,
+      "scheduled_pct": 82.9,
+      "window_utilisation_pct": 43.8,
+      "priority_weight": 120,
+      "solve_seconds": 0.031,
+      "proven_optimal": true
+    },
+    "bumped": [
+      "WR-001",
+      "WR-011",
+      "WR-014"
+    ],
+    "weight_before": 120,
+    "weight_after": 120
+  }
+}
