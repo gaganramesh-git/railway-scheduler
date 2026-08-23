@@ -103,6 +103,27 @@ def run(seed: int = 3, nights: int = 30, custom_emergency=None, apply_ids=None,
         "source": "Indian Railways public timetable (data.gov.in / datameet)",
     }
 
+    # COA goods-trains forecast made visible: split each section's effective traffic
+    # back into timetable passenger paths + forecast freight paths, so the plan shows
+    # what the goods forecast contributes to block availability.
+    from .timetable import load_corridor as _lc
+    pax = {s.id: s.trains_per_day for s in _lc()}
+    by_section = []
+    for s in report["scenario"]["sections"]:
+        p = pax.get(s["id"], s["traffic"])
+        g = max(0, s["traffic"] - p)
+        s["passenger"] = p
+        s["goods"] = g
+        by_section.append({"id": s["id"], "name": s["name"],
+                           "passenger": p, "goods": g, "effective": s["traffic"]})
+    report["goods_forecast"] = {
+        "source": "COA goods-trains forecast",
+        "total_goods_paths": sum(x["goods"] for x in by_section),
+        "by_section": by_section,
+        "feeds": ["tms_defects.csv", "smms_defects.csv", "tdms_defects.csv",
+                  "coa_block_availability.csv", "coa_goods_forecast.csv"],
+    }
+
     # Derived KPIs the planner view shows.
     slots = {(scenario.request(a.request_id).section_id, a.night) for a in optimal.assignments}
     report["blocks_demanded"] = len(slots)

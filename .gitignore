@@ -22,4 +22,5 @@ data/feeds/*
 # Stale one-off export
 dashboard_imported.html
 
-Automatic_Block_Planning_Documentation.pdf
+# Generated documentation PDFs (kept as standalone deliverables, not in the repo)
+*.pdf

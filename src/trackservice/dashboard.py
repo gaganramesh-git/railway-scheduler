@@ -60,6 +60,19 @@ button.emg.on { background:var(--p5); color:#fff; }
 .lane { display:grid; grid-template-columns:180px 1fr; gap:.5rem; align-items:center; margin-bottom:.4rem; min-width:640px; }
 .lane-label { font-size:.8rem; color:var(--ink-soft); }
 .lane-label .traffic { font-size:.68rem; color:var(--ink-faint); }
+.lane-label .goods { color:var(--p4); font-weight:600; }
+.goodswrap { overflow-x:auto; }
+.goodstbl { width:100%; border-collapse:collapse; font-size:.8rem; }
+.goodstbl th { text-align:left; font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); font-weight:600; padding:.2rem .5rem; border-bottom:1px solid var(--rule); }
+.goodstbl td { padding:.28rem .5rem; border-bottom:1px solid var(--rule); vertical-align:middle; }
+.goodstbl tr:last-child td { border-bottom:none; }
+.goodstbl .gsec { font-family:var(--mono); color:var(--accent); font-weight:600; }
+.goodstbl .gname { color:var(--ink-soft); }
+.goodstbl .gnum { text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-soft); }
+.goodstbl .geff { color:var(--ink); font-weight:600; }
+.goodstbl .gbar { position:relative; min-width:120px; }
+.goodstbl .gbar span { display:inline-block; height:9px; border-radius:3px; background:var(--p4); vertical-align:middle; }
+.goodstbl .gbar em { font-style:normal; margin-left:.4rem; font-family:var(--mono); font-size:.72rem; color:var(--p4); font-weight:600; }
 .track { position:relative; height:34px; background:var(--panel2); border-radius:5px; overflow:hidden; }
 .track.nowindow { background:repeating-linear-gradient(45deg,#e6ebf1,#e6ebf1 6px,#dde3ea 6px,#dde3ea 12px); }
 .track .window { position:absolute; top:0; bottom:0; background:#e3ecf5; border-left:1px dashed var(--rule); border-right:1px dashed var(--rule); }
@@ -191,6 +204,12 @@ button.solve:disabled { opacity:.5; cursor:wait; }
   <div class="legend" id="legend"></div>
 
   <div class="gantt" id="gantt"></div>
+
+  <div class="card sourcescard" id="sourcesCard" style="display:none; margin-top:1.4rem;">
+    <h2>🛰 Integrated data sources <span id="feedTag" class="savedbadge"></span></h2>
+    <p class="prov" style="margin:0 0 .8rem">Defects from <strong>TMS</strong> (ENGG), <strong>SMMS</strong> (S&amp;T) and <strong>TDMS</strong> (TRD); corridor block availability and the <strong>goods-trains forecast</strong> from <strong>COA</strong>. Block availability = timetable passenger paths + forecast freight.</p>
+    <div class="goodswrap"><table class="goodstbl" id="goodsTbl"></table></div>
+  </div>
 
   <div class="card shadowcard" id="shadowCard" style="display:none; margin-top:1.4rem;">
     <h2>⚡ Shadow / integrated block proposals <span id="shadowSaved"></span></h2>
@@ -369,7 +388,10 @@ function renderGantt(){
   sc.sections.forEach(section=>{
     const win = sc.windows.find(w=>w.section===section.id && w.night===n);
     const lane=document.createElement('div'); lane.className='lane';
-    lane.innerHTML=`<div class="lane-label">${section.name}<div class="traffic">${section.id} · ${section.traffic} trains/night</div></div>`;
+    const traf = (section.goods!=null)
+      ? `${section.id} · ${section.passenger} pax + <span class="goods">${section.goods} goods</span>/night`
+      : `${section.id} · ${section.traffic} trains/night`;
+    lane.innerHTML=`<div class="lane-label">${section.name}<div class="traffic">${traf}</div></div>`;
     const track=document.createElement('div'); track.className='track'+(win?'':' nowindow');
     if(win){
       const w=document.createElement('div'); w.className='window';
@@ -489,6 +511,26 @@ async function applyAlt(id){
   finally{ el.style.opacity=1; }
 }
 
+function renderSources(){
+  const card=document.getElementById('sourcesCard');
+  const gf=DATA.goods_forecast;
+  if(!BDMS || !gf){ card.style.display='none'; return; }
+  card.style.display='';
+  document.getElementById('feedTag').textContent = gf.total_goods_paths+' goods paths/night forecast';
+  const maxg=Math.max(1, ...gf.by_section.map(s=>s.goods));
+  const rows=gf.by_section.map(s=>{
+    const w=Math.round(100*s.goods/maxg);
+    return `<tr>
+      <td class="gsec">${s.id}</td>
+      <td class="gname">${s.name}</td>
+      <td class="gnum">${s.passenger}</td>
+      <td class="gbar"><span style="width:${w}%"></span><em>${s.goods}</em></td>
+      <td class="gnum geff">${s.effective}</td></tr>`;
+  }).join('');
+  document.getElementById('goodsTbl').innerHTML =
+    `<thead><tr><th>Section</th><th></th><th>Passenger</th><th>Goods forecast (COA)</th><th>Effective</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
 function renderShadows(){
   const card=document.getElementById('shadowCard');
   if(!BDMS || !DATA.shadows || !DATA.shadows.proposals.length){ card.style.display='none'; return; }
@@ -543,7 +585,7 @@ function renderDiff(){
 }
 
 function render(){
-  renderHeaderLegend(); renderKpis(); renderTabs(); renderNewHint(); renderGantt(); renderShadows(); renderConflicts(); renderAlternatives(); renderAudit(); renderDiff();
+  renderHeaderLegend(); renderKpis(); renderTabs(); renderNewHint(); renderGantt(); renderSources(); renderShadows(); renderConflicts(); renderAlternatives(); renderAudit(); renderDiff();
   if(!state.emergency){ const au=document.getElementById('audit'); if(au) au.classList.remove('show'); }
   document.getElementById('viewOpt').classList.toggle('active', state.view==='opt' && !state.emergency);
   document.getElementById('viewGreedy').classList.toggle('active', state.view==='greedy' && !state.emergency);

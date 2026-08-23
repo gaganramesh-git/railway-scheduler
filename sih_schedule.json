@@ -6,42 +6,58 @@
       {
         "id": "SEC-A",
         "name": "Govindpuri\u2013Kanpur Central",
-        "traffic": 229
+        "traffic": 229,
+        "passenger": 205,
+        "goods": 24
       },
       {
         "id": "SEC-B",
         "name": "Kanpur Central\u2013Sirsaul",
-        "traffic": 172
+        "traffic": 172,
+        "passenger": 143,
+        "goods": 29
       },
       {
         "id": "SEC-C",
         "name": "Sirsaul\u2013Malwan",
-        "traffic": 158
+        "traffic": 158,
+        "passenger": 143,
+        "goods": 15
       },
       {
         "id": "SEC-D",
         "name": "Malwan\u2013Faizullapur",
-        "traffic": 169
+        "traffic": 169,
+        "passenger": 141,
+        "goods": 28
       },
       {
         "id": "SEC-E",
         "name": "Faizullapur\u2013Kanwar",
-        "traffic": 163
+        "traffic": 163,
+        "passenger": 141,
+        "goods": 22
       },
       {
         "id": "SEC-F",
         "name": "Kanwar\u2013Birohe",
-        "traffic": 137
+        "traffic": 137,
+        "passenger": 113,
+        "goods": 24
       },
       {
         "id": "SEC-G",
         "name": "Birohe\u2013Dagmagpur",
-        "traffic": 201
+        "traffic": 201,
+        "passenger": 177,
+        "goods": 24
       },
       {
         "id": "SEC-H",
         "name": "Dagmagpur\u2013Mughal Sarai Jn",
-        "traffic": 175
+        "traffic": 175,
+        "passenger": 151,
+        "goods": 24
       }
     ],
     "windows": [
@@ -4552,7 +4568,7 @@
   "optimal": {
     "status": "OPTIMAL",
     "objective": 541,
-    "solve_seconds": 1.053,
+    "solve_seconds": 1.065,
     "proven_optimal": true,
     "assignments": [
       {
@@ -5181,7 +5197,7 @@
       },
       {
         "id": "BD-092",
-        "night": 15,
+        "night": 1,
         "start": 3,
         "end": 8,
         "start_clock": "23:30",
@@ -6596,7 +6612,7 @@
       "scheduled_pct": 84.6,
       "window_utilisation_pct": 48.4,
       "priority_weight": 541,
-      "solve_seconds": 1.053,
+      "solve_seconds": 1.065,
       "proven_optimal": true
     },
     "greedy": {
@@ -6709,24 +6725,24 @@
       "request_id": "BD-068",
       "feasible": true,
       "bumped": [
-        "BD-078",
-        "BD-135"
+        "BD-129",
+        "BD-135",
+        "BD-140"
       ],
       "weight_cost": -638,
       "night": 25,
-      "note": "Grant on night 26 by bumping BD-078 (Weld defect renewal), BD-135 (Interlocking modification) \u2014 no net weight lost."
+      "note": "Grant on night 26 by bumping BD-129 (Fishplate / joint attention), BD-135 (Interlocking modification), BD-140 (Weld defect renewal) \u2014 no net weight lost."
     },
     {
       "request_id": "BD-087",
       "feasible": true,
       "bumped": [
-        "BD-062",
-        "BD-069",
-        "BD-135"
+        "BD-059",
+        "BD-064"
       ],
-      "weight_cost": -637,
+      "weight_cost": -638,
       "night": 7,
-      "note": "Grant on night 8 by bumping BD-062 (Weld defect renewal), BD-069 (OHE insulator replacement), BD-135 (Interlocking modification) \u2014 no net weight lost."
+      "note": "Grant on night 8 by bumping BD-059 (Interlocking modification), BD-064 (Weld defect renewal) \u2014 no net weight lost."
     },
     {
       "request_id": "BD-090",
@@ -6750,13 +6766,14 @@
       "request_id": "BD-137",
       "feasible": true,
       "bumped": [
-        "BD-009",
-        "BD-081",
-        "BD-086"
+        "BD-021",
+        "BD-062",
+        "BD-085",
+        "BD-135"
       ],
-      "weight_cost": -636,
+      "weight_cost": -637,
       "night": 18,
-      "note": "Grant on night 19 by bumping BD-009 (Interlocking modification), BD-081 (Destressing / de-stress), BD-086 (Rail grinding) \u2014 no net weight lost."
+      "note": "Grant on night 19 by bumping BD-021 (Rail grinding), BD-062 (Weld defect renewal), BD-085 (Rail grinding) and 1 more \u2014 no net weight lost."
     },
     {
       "request_id": "BD-139",
@@ -11356,7 +11373,7 @@
     "schedule": {
       "status": "OPTIMAL",
       "objective": 546,
-      "solve_seconds": 0.881,
+      "solve_seconds": 0.918,
       "proven_optimal": true,
       "assignments": [
         {
@@ -11369,7 +11386,7 @@
         },
         {
           "id": "BD-002",
-          "night": 9,
+          "night": 7,
           "start": 3,
           "end": 9,
           "start_clock": "23:30",
@@ -11385,7 +11402,7 @@
         },
         {
           "id": "BD-004",
-          "night": 17,
+          "night": 10,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11394,14 +11411,14 @@
         {
           "id": "BD-005",
           "night": 27,
-          "start": 3,
-          "end": 8,
-          "start_clock": "23:30",
-          "end_clock": "02:00"
+          "start": 6,
+          "end": 11,
+          "start_clock": "01:00",
+          "end_clock": "03:30"
         },
         {
           "id": "BD-006",
-          "night": 14,
+          "night": 15,
           "start": 3,
           "end": 11,
           "start_clock": "23:30",
@@ -11409,11 +11426,11 @@
         },
         {
           "id": "BD-007",
-          "night": 27,
-          "start": 3,
-          "end": 6,
-          "start_clock": "23:30",
-          "end_clock": "01:00"
+          "night": 18,
+          "start": 8,
+          "end": 11,
+          "start_clock": "02:00",
+          "end_clock": "03:30"
         },
         {
           "id": "BD-008",
@@ -11425,11 +11442,11 @@
         },
         {
           "id": "BD-009",
-          "night": 17,
-          "start": 6,
-          "end": 11,
-          "start_clock": "01:00",
-          "end_clock": "03:30"
+          "night": 15,
+          "start": 3,
+          "end": 8,
+          "start_clock": "23:30",
+          "end_clock": "02:00"
         },
         {
           "id": "BD-010",
@@ -11449,7 +11466,7 @@
         },
         {
           "id": "BD-012",
-          "night": 22,
+          "night": 24,
           "start": 3,
           "end": 9,
           "start_clock": "23:30",
@@ -11465,7 +11482,7 @@
         },
         {
           "id": "BD-014",
-          "night": 24,
+          "night": 22,
           "start": 3,
           "end": 11,
           "start_clock": "23:30",
@@ -11497,7 +11514,7 @@
         },
         {
           "id": "BD-018",
-          "night": 21,
+          "night": 22,
           "start": 3,
           "end": 7,
           "start_clock": "23:30",
@@ -11521,7 +11538,7 @@
         },
         {
           "id": "BD-021",
-          "night": 21,
+          "night": 22,
           "start": 3,
           "end": 9,
           "start_clock": "23:30",
@@ -11561,7 +11578,7 @@
         },
         {
           "id": "BD-027",
-          "night": 21,
+          "night": 19,
           "start": 7,
           "end": 11,
           "start_clock": "01:30",
@@ -11569,15 +11586,15 @@
         },
         {
           "id": "BD-028",
-          "night": 22,
-          "start": 3,
-          "end": 6,
-          "start_clock": "23:30",
-          "end_clock": "01:00"
+          "night": 21,
+          "start": 7,
+          "end": 10,
+          "start_clock": "01:30",
+          "end_clock": "03:00"
         },
         {
           "id": "BD-029",
-          "night": 22,
+          "night": 21,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11586,14 +11603,14 @@
         {
           "id": "BD-030",
           "night": 27,
-          "start": 8,
-          "end": 11,
-          "start_clock": "02:00",
-          "end_clock": "03:30"
+          "start": 3,
+          "end": 6,
+          "start_clock": "23:30",
+          "end_clock": "01:00"
         },
         {
           "id": "BD-032",
-          "night": 17,
+          "night": 18,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11641,7 +11658,7 @@
         },
         {
           "id": "BD-039",
-          "night": 12,
+          "night": 14,
           "start": 3,
           "end": 11,
           "start_clock": "23:30",
@@ -11649,7 +11666,7 @@
         },
         {
           "id": "BD-040",
-          "night": 15,
+          "night": 13,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11658,10 +11675,10 @@
         {
           "id": "BD-041",
           "night": 14,
-          "start": 6,
-          "end": 11,
-          "start_clock": "01:00",
-          "end_clock": "03:30"
+          "start": 3,
+          "end": 8,
+          "start_clock": "23:30",
+          "end_clock": "02:00"
         },
         {
           "id": "BD-042",
@@ -11673,7 +11690,7 @@
         },
         {
           "id": "BD-043",
-          "night": 21,
+          "night": 22,
           "start": 7,
           "end": 11,
           "start_clock": "01:30",
@@ -11681,7 +11698,7 @@
         },
         {
           "id": "BD-044",
-          "night": 26,
+          "night": 25,
           "start": 3,
           "end": 6,
           "start_clock": "23:30",
@@ -11714,14 +11731,14 @@
         {
           "id": "BD-052",
           "night": 25,
-          "start": 4,
-          "end": 9,
-          "start_clock": "00:00",
-          "end_clock": "02:30"
+          "start": 6,
+          "end": 11,
+          "start_clock": "01:00",
+          "end_clock": "03:30"
         },
         {
           "id": "BD-053",
-          "night": 9,
+          "night": 10,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11729,15 +11746,15 @@
         },
         {
           "id": "BD-054",
-          "night": 14,
-          "start": 3,
-          "end": 6,
-          "start_clock": "23:30",
-          "end_clock": "01:00"
+          "night": 17,
+          "start": 8,
+          "end": 11,
+          "start_clock": "02:00",
+          "end_clock": "03:30"
         },
         {
           "id": "BD-055",
-          "night": 7,
+          "night": 6,
           "start": 3,
           "end": 11,
           "start_clock": "23:30",
@@ -11769,7 +11786,7 @@
         },
         {
           "id": "BD-059",
-          "night": 15,
+          "night": 18,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11793,7 +11810,7 @@
         },
         {
           "id": "BD-062",
-          "night": 8,
+          "night": 7,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11801,7 +11818,7 @@
         },
         {
           "id": "BD-064",
-          "night": 9,
+          "night": 8,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11809,7 +11826,7 @@
         },
         {
           "id": "BD-065",
-          "night": 17,
+          "night": 9,
           "start": 3,
           "end": 6,
           "start_clock": "23:30",
@@ -11857,7 +11874,7 @@
         },
         {
           "id": "BD-072",
-          "night": 12,
+          "night": 1,
           "start": 3,
           "end": 6,
           "start_clock": "23:30",
@@ -11873,7 +11890,7 @@
         },
         {
           "id": "BD-074",
-          "night": 18,
+          "night": 13,
           "start": 3,
           "end": 7,
           "start_clock": "23:30",
@@ -11881,7 +11898,7 @@
         },
         {
           "id": "BD-075",
-          "night": 14,
+          "night": 12,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11913,15 +11930,15 @@
         },
         {
           "id": "BD-079",
-          "night": 23,
-          "start": 3,
-          "end": 7,
-          "start_clock": "23:30",
-          "end_clock": "01:30"
+          "night": 29,
+          "start": 7,
+          "end": 11,
+          "start_clock": "01:30",
+          "end_clock": "03:30"
         },
         {
           "id": "BD-080",
-          "night": 20,
+          "night": 23,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11929,7 +11946,7 @@
         },
         {
           "id": "BD-081",
-          "night": 7,
+          "night": 9,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11937,15 +11954,15 @@
         },
         {
           "id": "BD-082",
-          "night": 24,
-          "start": 3,
-          "end": 7,
-          "start_clock": "23:30",
-          "end_clock": "01:30"
+          "night": 26,
+          "start": 6,
+          "end": 10,
+          "start_clock": "01:00",
+          "end_clock": "03:00"
         },
         {
           "id": "BD-083",
-          "night": 24,
+          "night": 26,
           "start": 3,
           "end": 9,
           "start_clock": "23:30",
@@ -11969,7 +11986,7 @@
         },
         {
           "id": "BD-086",
-          "night": 6,
+          "night": 9,
           "start": 3,
           "end": 9,
           "start_clock": "23:30",
@@ -11985,7 +12002,7 @@
         },
         {
           "id": "BD-092",
-          "night": 15,
+          "night": 14,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -11994,10 +12011,10 @@
         {
           "id": "BD-093",
           "night": 2,
-          "start": 3,
-          "end": 7,
-          "start_clock": "23:30",
-          "end_clock": "01:30"
+          "start": 7,
+          "end": 11,
+          "start_clock": "01:30",
+          "end_clock": "03:30"
         },
         {
           "id": "BD-094",
@@ -12017,7 +12034,7 @@
         },
         {
           "id": "BD-096",
-          "night": 13,
+          "night": 14,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -12041,7 +12058,7 @@
         },
         {
           "id": "BD-099",
-          "night": 19,
+          "night": 12,
           "start": 7,
           "end": 11,
           "start_clock": "01:30",
@@ -12065,7 +12082,7 @@
         },
         {
           "id": "BD-102",
-          "night": 6,
+          "night": 8,
           "start": 3,
           "end": 9,
           "start_clock": "23:30",
@@ -12081,7 +12098,7 @@
         },
         {
           "id": "BD-104",
-          "night": 8,
+          "night": 11,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -12089,7 +12106,7 @@
         },
         {
           "id": "BD-106",
-          "night": 22,
+          "night": 21,
           "start": 7,
           "end": 11,
           "start_clock": "01:30",
@@ -12097,7 +12114,7 @@
         },
         {
           "id": "BD-107",
-          "night": 15,
+          "night": 13,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -12121,7 +12138,7 @@
         },
         {
           "id": "BD-111",
-          "night": 18,
+          "night": 17,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -12161,7 +12178,7 @@
         },
         {
           "id": "BD-116",
-          "night": 13,
+          "night": 12,
           "start": 3,
           "end": 9,
           "start_clock": "23:30",
@@ -12169,11 +12186,11 @@
         },
         {
           "id": "BD-117",
-          "night": 20,
-          "start": 8,
-          "end": 11,
-          "start_clock": "02:00",
-          "end_clock": "03:30"
+          "night": 24,
+          "start": 3,
+          "end": 6,
+          "start_clock": "23:30",
+          "end_clock": "01:00"
         },
         {
           "id": "BD-119",
@@ -12264,8 +12281,16 @@
           "end_clock": "02:00"
         },
         {
+          "id": "BD-131",
+          "night": 17,
+          "start": 3,
+          "end": 8,
+          "start_clock": "23:30",
+          "end_clock": "02:00"
+        },
+        {
           "id": "BD-133",
-          "night": 9,
+          "night": 2,
           "start": 3,
           "end": 7,
           "start_clock": "23:30",
@@ -12273,15 +12298,7 @@
         },
         {
           "id": "BD-134",
-          "night": 6,
-          "start": 3,
-          "end": 8,
-          "start_clock": "23:30",
-          "end_clock": "02:00"
-        },
-        {
-          "id": "BD-135",
-          "night": 18,
+          "night": 15,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -12289,7 +12306,7 @@
         },
         {
           "id": "BD-136",
-          "night": 26,
+          "night": 24,
           "start": 6,
           "end": 11,
           "start_clock": "01:00",
@@ -12313,11 +12330,11 @@
         },
         {
           "id": "BD-141",
-          "night": 22,
-          "start": 6,
-          "end": 9,
-          "start_clock": "01:00",
-          "end_clock": "02:30"
+          "night": 21,
+          "start": 4,
+          "end": 7,
+          "start_clock": "00:00",
+          "end_clock": "01:30"
         },
         {
           "id": "BD-144",
@@ -12329,7 +12346,7 @@
         },
         {
           "id": "BD-146",
-          "night": 23,
+          "night": 20,
           "start": 3,
           "end": 9,
           "start_clock": "23:30",
@@ -12337,7 +12354,7 @@
         },
         {
           "id": "BD-147",
-          "night": 12,
+          "night": 17,
           "start": 3,
           "end": 8,
           "start_clock": "23:30",
@@ -12345,7 +12362,7 @@
         },
         {
           "id": "BD-148",
-          "night": 16,
+          "night": 15,
           "start": 3,
           "end": 9,
           "start_clock": "23:30",
@@ -12362,10 +12379,10 @@
         {
           "id": "BD-150",
           "night": 27,
-          "start": 6,
-          "end": 11,
-          "start_clock": "01:00",
-          "end_clock": "03:30"
+          "start": 3,
+          "end": 8,
+          "start_clock": "23:30",
+          "end_clock": "02:00"
         },
         {
           "id": "BD-151",
@@ -12385,7 +12402,7 @@
         },
         {
           "id": "BD-153",
-          "night": 14,
+          "night": 18,
           "start": 3,
           "end": 7,
           "start_clock": "23:30",
@@ -12402,18 +12419,18 @@
         {
           "id": "BD-155",
           "night": 26,
-          "start": 6,
-          "end": 9,
-          "start_clock": "01:00",
-          "end_clock": "02:30"
+          "start": 3,
+          "end": 6,
+          "start_clock": "23:30",
+          "end_clock": "01:00"
         },
         {
           "id": "BD-156",
           "night": 4,
-          "start": 3,
-          "end": 8,
-          "start_clock": "23:30",
-          "end_clock": "02:00"
+          "start": 4,
+          "end": 9,
+          "start_clock": "00:00",
+          "end_clock": "02:30"
         },
         {
           "id": "EMG-IMR-01",
@@ -12442,8 +12459,8 @@
         "BD-109",
         "BD-118",
         "BD-120",
-        "BD-131",
         "BD-132",
+        "BD-135",
         "BD-137",
         "BD-139",
         "BD-142",
@@ -12457,10 +12474,12 @@
       "scheduled_pct": 84.7,
       "window_utilisation_pct": 48.8,
       "priority_weight": 546,
-      "solve_seconds": 0.881,
+      "solve_seconds": 0.918,
       "proven_optimal": true
     },
-    "bumped": [],
+    "bumped": [
+      "BD-135"
+    ],
     "weight_before": 541,
     "weight_after": 546
   },
@@ -13359,6 +13378,75 @@
     "name": "Kanpur \u2013 Mughal Sarai (New Delhi\u2013Howrah main line)",
     "source": "Indian Railways public timetable (data.gov.in / datameet)"
   },
+  "goods_forecast": {
+    "source": "COA goods-trains forecast",
+    "total_goods_paths": 190,
+    "by_section": [
+      {
+        "id": "SEC-A",
+        "name": "Govindpuri\u2013Kanpur Central",
+        "passenger": 205,
+        "goods": 24,
+        "effective": 229
+      },
+      {
+        "id": "SEC-B",
+        "name": "Kanpur Central\u2013Sirsaul",
+        "passenger": 143,
+        "goods": 29,
+        "effective": 172
+      },
+      {
+        "id": "SEC-C",
+        "name": "Sirsaul\u2013Malwan",
+        "passenger": 143,
+        "goods": 15,
+        "effective": 158
+      },
+      {
+        "id": "SEC-D",
+        "name": "Malwan\u2013Faizullapur",
+        "passenger": 141,
+        "goods": 28,
+        "effective": 169
+      },
+      {
+        "id": "SEC-E",
+        "name": "Faizullapur\u2013Kanwar",
+        "passenger": 141,
+        "goods": 22,
+        "effective": 163
+      },
+      {
+        "id": "SEC-F",
+        "name": "Kanwar\u2013Birohe",
+        "passenger": 113,
+        "goods": 24,
+        "effective": 137
+      },
+      {
+        "id": "SEC-G",
+        "name": "Birohe\u2013Dagmagpur",
+        "passenger": 177,
+        "goods": 24,
+        "effective": 201
+      },
+      {
+        "id": "SEC-H",
+        "name": "Dagmagpur\u2013Mughal Sarai Jn",
+        "passenger": 151,
+        "goods": 24,
+        "effective": 175
+      }
+    ],
+    "feeds": [
+      "tms_defects.csv",
+      "smms_defects.csv",
+      "tdms_defects.csv",
+      "coa_block_availability.csv",
+      "coa_goods_forecast.csv"
+    ]
+  },
   "blocks_demanded": 126,
   "speed_restriction_hours": 86,
   "audit": {
@@ -13422,6 +13510,17 @@
         "action": "plan generated",
         "detail": "weekly plan computed \u2014 statutory 6/6 met, independently verified",
         "time": "18:40"
+      },
+      {
+        "role_id": "drm",
+        "rank": 4,
+        "department": null,
+        "role": "Divisional Railway Manager",
+        "user": "P. Sharma",
+        "action": "alternative applied",
+        "detail": "pinned BD-008",
+        "time": "23 Aug 10:56",
+        "ts": 1787462761.467548
       }
     ],
     "roles": {
