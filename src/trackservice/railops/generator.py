@@ -69,33 +69,13 @@ class JobMeta:
     committed: bool = False   # True → a demand raised & committed from the depot screen
 
 
-def build_scenario(seed: int = 3, nights: int = 7, n_jobs: int | None = None) -> tuple[Scenario, dict[str, JobMeta]]:
-    """A weekly scenario on the real corridor, with BDMS-vocabulary jobs.
+def resource_pool() -> ResourcePool:
+    """The division's fixed resources per night (gangs and machines).
 
-    Returns the Scenario (for the existing engine) plus a map of job-id → BDMS
-    metadata (reason code, department, tier) for the dashboard and reports.
+    Not part of any feed — this is what the division owns. Kept in one place so the
+    feed-based scenario and the synthetic scenario share the same capacity.
     """
-    rng = random.Random(seed)
-    corridor = load_corridor()
-
-    sections = [
-        Section(id=s.id, name=f"{s.from_name}–{s.to_name}", traffic_density=s.trains_per_day)
-        for s in corridor
-    ]
-    win_by_section = {s.id: (s.window_start_min, s.window_end_min) for s in corridor}
-
-    # Nightly engineering windows. The busiest sections lose some nights entirely
-    # (a block simply can't be granted) — blackout probability rises with traffic.
-    windows: list[Window] = []
-    for s in corridor:
-        start, end = win_by_section[s.id]
-        blackout = min(0.25, s.trains_per_day / 900)  # real-traffic-driven
-        for night in range(nights):
-            if rng.random() < blackout:
-                continue
-            windows.append(Window(section_id=s.id, night=night, start=start, end=end))
-
-    pool = ResourcePool(
+    return ResourcePool(
         crew={CrewType.PWAY: 2, CrewType.OHE: 2, CrewType.SIGNAL: 1, CrewType.BRIDGE: 1},
         equipment={
             Equipment.TAMPER: 1,
@@ -106,6 +86,56 @@ def build_scenario(seed: int = 3, nights: int = 7, n_jobs: int | None = None) ->
         },
         crew_shift=hours_to_ticks(5.0),
     )
+
+
+def synth_goods_forecast(seed: int = 3) -> dict[str, int]:
+    """Stand-in for the COA goods-trains forecast: extra freight paths per night on
+    each section, on top of the timetable's passenger traffic. Busier sections tend
+    to carry more freight too. Real deployments read this from the Control Office."""
+    rng = random.Random(seed * 101 + 7)
+    corridor = load_corridor()
+    hi = max(s.trains_per_day for s in corridor)
+    return {s.id: int(round((s.trains_per_day / hi) * rng.randint(20, 45))) for s in corridor}
+
+
+def build_scenario(seed: int = 3, nights: int = 7, n_jobs: int | None = None,
+                   goods_forecast: dict[str, int] | None = None) -> tuple[Scenario, dict[str, JobMeta]]:
+    """A weekly scenario on the real corridor, with BDMS-vocabulary jobs.
+
+    Returns the Scenario (for the existing engine) plus a map of job-id → BDMS
+    metadata (reason code, department, tier) for the dashboard and reports.
+
+    `goods_forecast` (section id → freight paths/night) raises the effective traffic
+    on a section, so block availability shrinks where the Control Office forecasts
+    heavy goods movement. Defaults to no freight (unchanged behaviour).
+    """
+    rng = random.Random(seed)
+    corridor = load_corridor()
+    goods = goods_forecast or {}
+
+    # Effective traffic = timetable passenger paths + COA goods forecast. This is what
+    # determines how contended a section is, and therefore its block availability.
+    def effective(s) -> int:
+        return s.trains_per_day + goods.get(s.id, 0)
+
+    sections = [
+        Section(id=s.id, name=f"{s.from_name}–{s.to_name}", traffic_density=effective(s))
+        for s in corridor
+    ]
+    win_by_section = {s.id: (s.window_start_min, s.window_end_min) for s in corridor}
+
+    # Nightly engineering windows. The busiest sections lose some nights entirely
+    # (a block simply can't be granted) — blackout probability rises with traffic.
+    windows: list[Window] = []
+    for s in corridor:
+        start, end = win_by_section[s.id]
+        blackout = min(0.25, effective(s) / 900)  # passenger + goods driven
+        for night in range(nights):
+            if rng.random() < blackout:
+                continue
+            windows.append(Window(section_id=s.id, night=night, start=start, end=end))
+
+    pool = resource_pool()
 
     requests: list[Request] = []
     meta: dict[str, JobMeta] = {}

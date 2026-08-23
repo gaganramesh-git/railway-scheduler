@@ -123,7 +123,7 @@ def solve(emg: CustomEmergency) -> dict:
     if _MODE == "sih":
         from .railops import audit as _audit
         from .railops import generator as _gen
-        scenario, _ = _gen.build_scenario(**_SIH)
+        scenario, _ = _sih().build_standard_scenario(**_SIH)
         custom = _to_request(scenario, emg)
         rep = _sih().run(**_SIH, custom_emergency=custom, analyze=False)
         e = rep["emergency"]
@@ -201,7 +201,7 @@ def depot_view() -> str:
 @app.get("/api/depot/sections")
 def depot_sections() -> dict:
     from .railops import generator as _gen
-    scenario, _ = _gen.build_scenario(**_SIH)
+    scenario, _ = _sih().build_standard_scenario(**_SIH)
     return {
         "sections": [{"id": s.id, "name": s.name, "traffic": s.traffic_density}
                      for s in scenario.sections],
@@ -230,7 +230,7 @@ def depot_check(d: DepotDemand) -> dict:
     from .railops import sih_pipeline as _sp
     from .types import format_clock
 
-    scenario, meta = _gen.build_scenario(**_SIH)
+    scenario, meta = _sih().build_standard_scenario(**_SIH)
     t0 = {rid for rid, m in meta.items() if m.tier == 0}
 
     # Pin the check to the EXACT night the engineer asked for — the same night the

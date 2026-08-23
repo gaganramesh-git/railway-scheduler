@@ -24,8 +24,19 @@ def _mandatory(meta) -> set[str]:
     return {rid for rid, m in meta.items() if m.tier == 0}
 
 
+def build_standard_scenario(seed: int = 3, nights: int = 30, from_feeds: bool = False):
+    """The canonical scenario for the block plan, with the COA goods forecast folded
+    into block availability. `from_feeds=True` reads the TMS/SMMS/TDMS/COA export
+    files on disk instead of the synthetic generator — same planner either way."""
+    if from_feeds:
+        from . import integrations as _intg
+        return _intg.build_scenario_from_feeds()
+    goods = _gen.synth_goods_forecast(seed)
+    return _gen.build_scenario(seed=seed, nights=nights, goods_forecast=goods)
+
+
 def run(seed: int = 3, nights: int = 30, custom_emergency=None, apply_ids=None,
-        analyze: bool = True) -> dict:
+        analyze: bool = True, from_feeds: bool = False) -> dict:
     """Build the plan report.
 
     `analyze` controls the expensive relax-and-re-solve analysis (per-job
@@ -33,12 +44,12 @@ def run(seed: int = 3, nights: int = 30, custom_emergency=None, apply_ids=None,
     off for live actions (apply / emergency), where the user only needs the new
     schedule and what it bumped — keeping those actions snappy on a long horizon.
     """
-    scenario, meta = _gen.build_scenario(seed=seed, nights=nights)
+    scenario, meta = build_standard_scenario(seed=seed, nights=nights, from_feeds=from_feeds)
 
     # Fold in demands committed from the depot screen and pin them so a raised
     # task always lands on the graph.
     from . import demands as _demands
-    scenario, meta, committed_ids = _demands.apply_to(scenario, meta, nights)
+    scenario, meta, committed_ids = _demands.apply_to(scenario, meta, scenario.nights)
 
     t0 = _mandatory(meta)
 

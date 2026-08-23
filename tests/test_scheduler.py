@@ -171,3 +171,33 @@ def test_statutory_mandatory_are_scheduled_when_feasible():
         )
         if feasible:
             assert rid in placed, f"statutory {rid} feasible but dropped"
+
+
+def test_feeds_roundtrip_reproduces_scenario(tmp_path):
+    """Exporting a scenario to TMS/SMMS/TDMS/COA files and reading it back yields
+    the same demands and windows — proving the adapter layer is faithful."""
+    from trackservice.railops import generator as _gen
+    from trackservice.railops import integrations as intg
+
+    goods = _gen.synth_goods_forecast(seed=3)
+    sc, meta = _gen.build_scenario(seed=3, nights=30, goods_forecast=goods)
+    intg.export_feeds(sc, meta, goods, feeds_dir=str(tmp_path))
+    sc2, meta2 = intg.build_scenario_from_feeds(feeds_dir=str(tmp_path))
+
+    assert {r.id for r in sc.requests} == {r.id for r in sc2.requests}
+    assert len(sc.windows) == len(sc2.windows)
+    # tiers/departments survive the round-trip
+    assert {rid: m.tier for rid, m in meta.items()} == {rid: m.tier for rid, m in meta2.items()}
+    # a statutory job stays statutory
+    t0 = {rid for rid, m in meta.items() if m.tier == 0}
+    assert t0 and t0 == {rid for rid, m in meta2.items() if m.tier == 0}
+
+
+def test_goods_forecast_reduces_block_availability():
+    """A heavier COA goods forecast can only remove engineering windows, never add."""
+    from trackservice.railops import generator as _gen
+
+    base, _ = _gen.build_scenario(seed=3, nights=30)
+    heavy = {s.id: 400 for s in base.sections}  # saturate → max blackout
+    loaded, _ = _gen.build_scenario(seed=3, nights=30, goods_forecast=heavy)
+    assert len(loaded.windows) <= len(base.windows)

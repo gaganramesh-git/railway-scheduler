@@ -81,12 +81,14 @@ def sih(
     nights: int = typer.Option(30, help="Planning horizon in nights."),
     out: str = typer.Option("sih_schedule.json", help="Where to write the JSON report."),
     dashboard: str = typer.Option("sih_dashboard.html", help="Where to write the HTML dashboard."),
+    from_feeds: bool = typer.Option(False, "--from-feeds",
+        help="Plan from the TMS/SMMS/TDMS/COA export files in data/feeds instead of the generator."),
 ) -> None:
     """SIH26027: block plan on the REAL corridor, with the statutory guarantee."""
     from .dashboard import build_html
     from .railops import sih_pipeline
 
-    report = sih_pipeline.run(seed=seed, nights=nights)
+    report = sih_pipeline.run(seed=seed, nights=nights, from_feeds=from_feeds)
     pathlib.Path(out).write_text(json.dumps(report, indent=2))
     pathlib.Path(dashboard).write_text(build_html(report, live=False))
 
@@ -99,6 +101,30 @@ def sih(
     )
     _print_metrics(report)
     console.print(f"\n[green]Wrote[/] {out} and [green]{dashboard}[/] (open it directly).")
+
+
+@app.command()
+def feeds(
+    seed: int = typer.Option(1, help="Scenario seed."),
+    nights: int = typer.Option(30, help="Planning horizon in nights."),
+    out: str = typer.Option("data/feeds", help="Directory to write the export files."),
+) -> None:
+    """Generate sample TMS / SMMS / TDMS / COA export files (stand-in for the live
+    systems), so the planner can be run end-to-end from files via `sih --from-feeds`."""
+    from .railops import integrations
+
+    info = integrations.generate_sample_feeds(seed=seed, nights=nights, feeds_dir=out)
+    table = Table(title=f"Wrote upstream-system export files to {out}/")
+    for c in ("File", "System", "Rows"):
+        table.add_column(c)
+    table.add_row("tms_defects.csv", "TMS — Track Management (ENGG)", "engineering defects")
+    table.add_row("smms_defects.csv", "SMMS — Signalling Maint. (S&T)", "signalling faults")
+    table.add_row("tdms_defects.csv", "TDMS — Traction Dist. (TRD)", "OHE defects")
+    table.add_row("coa_block_availability.csv", "COA — Control Office", f"{info['windows']} windows")
+    table.add_row("coa_goods_forecast.csv", "COA — Control Office", f"{info['goods_sections']} sections")
+    console.print(table)
+    console.print(f"[green]{info['defects']} defects total.[/] Now run: "
+                  f"[bold]trackservice sih --from-feeds[/]")
 
 
 @app.command(name="sih-eval")

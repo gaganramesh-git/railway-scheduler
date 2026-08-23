@@ -14,6 +14,12 @@ __pycache__/
 # corridor cache is committed so a fresh clone runs without the raw download.
 data/*
 !data/corridor.json
+# Sample TMS/SMMS/TDMS/COA export files, so `sih --from-feeds` runs after clone
+!data/feeds
+data/feeds/*
+!data/feeds/*.csv
 
 # Stale one-off export
 dashboard_imported.html
+
+Automatic_Block_Planning_Documentation.pdf

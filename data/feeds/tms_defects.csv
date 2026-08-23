@@ -1,0 +1,67 @@
+defect_id,system,department,section,description,reason_code,tier,crew_size,equipment,detected_date,due_date,est_duration_h
+BD-006,TMS,ENGG,SEC-C,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-10,2026-09-16,4.0
+BD-007,TMS,ENGG,SEC-E,Fishplate / joint attention,EOMT,3,1,none,2026-09-10,2026-09-30,1.5
+BD-010,TMS,ENGG,SEC-D,Through tamping (PML),ETMW,2,1,tamping-machine,2026-09-19,2026-09-30,4.0
+BD-011,TMS,ENGG,SEC-E,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-26,2026-09-30,4.0
+BD-012,TMS,ENGG,SEC-B,Rail grinding,ETMW,3,1,rail-grinder,2026-09-19,2026-09-30,3.0
+BD-013,TMS,ENGG,SEC-E,Through tamping (PML),ETMW,2,1,tamping-machine,2026-09-22,2026-09-30,4.0
+BD-014,TMS,ENGG,SEC-B,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-17,2026-09-30,4.0
+BD-021,TMS,ENGG,SEC-E,Rail grinding,ETMW,3,1,rail-grinder,2026-09-21,2026-09-30,3.0
+BD-025,TMS,ENGG,SEC-G,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-19,2026-09-21,2.5
+BD-028,TMS,ENGG,SEC-E,Fishplate / joint attention,EOMT,3,1,none,2026-09-21,2026-09-23,1.5
+BD-031,TMS,ENGG,SEC-A,Rail grinding,ETMW,3,1,rail-grinder,2026-09-12,2026-09-22,3.0
+BD-033,TMS,ENGG,SEC-H,Destressing / de-stress,EOMT,2,1,none,2026-09-06,2026-09-22,2.5
+BD-035,TMS,ENGG,SEC-G,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-03,2026-09-05,2.5
+BD-036,TMS,ENGG,SEC-H,Through tamping (PML),ETMW,2,1,tamping-machine,2026-09-01,2026-09-08,4.0
+BD-039,TMS,ENGG,SEC-D,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-08,2026-09-20,4.0
+BD-040,TMS,ENGG,SEC-B,Destressing / de-stress,EOMT,2,1,none,2026-09-03,2026-09-27,2.5
+BD-044,TMS,ENGG,SEC-G,Fishplate / joint attention,EOMT,3,1,none,2026-09-18,2026-09-30,1.5
+BD-045,TMS,ENGG,SEC-H,Fishplate / joint attention,EOMT,3,1,none,2026-09-26,2026-09-30,1.5
+BD-048,TMS,ENGG,SEC-G,Through tamping (PML),ETMW,2,1,tamping-machine,2026-09-11,2026-09-26,4.0
+BD-049,TMS,ENGG,SEC-E,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-07,2026-09-08,2.5
+BD-050,TMS,ENGG,SEC-H,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-19,2026-09-30,4.0
+BD-051,TMS,ENGG,SEC-E,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-15,2026-09-30,4.0
+BD-052,TMS,ENGG,SEC-C,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-25,2026-09-26,2.5
+BD-055,TMS,ENGG,SEC-E,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-03,2026-09-08,4.0
+BD-056,TMS,ENGG,SEC-G,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-11,2026-09-13,2.5
+BD-057,TMS,ENGG,SEC-C,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-02,2026-09-03,2.5
+BD-062,TMS,ENGG,SEC-B,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-08,2026-09-10,2.5
+BD-063,TMS,ENGG,SEC-H,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-15,2026-09-29,4.0
+BD-064,TMS,ENGG,SEC-D,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-08,2026-09-10,2.5
+BD-068,TMS,ENGG,SEC-A,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-26,2026-09-27,2.5
+BD-072,TMS,ENGG,SEC-A,Fishplate / joint attention,EOMT,3,1,none,2026-09-01,2026-09-15,1.5
+BD-073,TMS,ENGG,SEC-A,Fishplate / joint attention,EOMT,3,1,none,2026-09-19,2026-09-30,1.5
+BD-075,TMS,ENGG,SEC-A,Destressing / de-stress,EOMT,2,1,none,2026-09-02,2026-09-21,2.5
+BD-076,TMS,ENGG,SEC-C,Rail grinding,ETMW,3,1,rail-grinder,2026-09-02,2026-09-12,3.0
+BD-077,TMS,ENGG,SEC-G,Rail grinding,ETMW,3,1,rail-grinder,2026-09-03,2026-09-11,3.0
+BD-078,TMS,ENGG,SEC-H,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-21,2026-09-22,2.5
+BD-081,TMS,ENGG,SEC-D,Destressing / de-stress,EOMT,2,1,none,2026-09-08,2026-09-11,2.5
+BD-083,TMS,ENGG,SEC-F,Rail grinding,ETMW,3,1,rail-grinder,2026-09-18,2026-09-30,3.0
+BD-085,TMS,ENGG,SEC-E,Rail grinding,ETMW,3,1,rail-grinder,2026-09-24,2026-09-30,3.0
+BD-086,TMS,ENGG,SEC-E,Rail grinding,ETMW,3,1,rail-grinder,2026-09-06,2026-09-11,3.0
+BD-087,TMS,ENGG,SEC-A,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-07,2026-09-09,2.5
+BD-088,TMS,ENGG,SEC-A,Through tamping (PML),ETMW,2,1,tamping-machine,2026-09-21,2026-09-25,4.0
+BD-090,TMS,ENGG,SEC-F,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-02,2026-09-03,2.5
+BD-091,TMS,ENGG,SEC-H,Rail grinding,ETMW,3,1,rail-grinder,2026-09-22,2026-09-28,3.0
+BD-094,TMS,ENGG,SEC-B,Destressing / de-stress,EOMT,2,1,none,2026-09-10,2026-09-13,2.5
+BD-096,TMS,ENGG,SEC-C,Destressing / de-stress,EOMT,2,1,none,2026-09-09,2026-09-30,2.5
+BD-105,TMS,ENGG,SEC-A,Through tamping (PML),ETMW,2,1,tamping-machine,2026-09-10,2026-09-30,4.0
+BD-107,TMS,ENGG,SEC-F,Destressing / de-stress,EOMT,2,1,none,2026-09-09,2026-09-21,2.5
+BD-109,TMS,ENGG,SEC-F,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-30,2026-09-30,4.0
+BD-118,TMS,ENGG,SEC-A,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-05,2026-09-15,4.0
+BD-119,TMS,ENGG,SEC-C,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-30,2026-09-30,4.0
+BD-120,TMS,ENGG,SEC-G,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-24,2026-09-30,4.0
+BD-121,TMS,ENGG,SEC-B,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-18,2026-09-21,2.5
+BD-123,TMS,ENGG,SEC-B,Rail grinding,ETMW,3,1,rail-grinder,2026-09-28,2026-09-30,3.0
+BD-124,TMS,ENGG,SEC-C,Ballast cleaning,ETMW,2,1,ballast-cleaner,2026-09-17,2026-09-30,4.0
+BD-129,TMS,ENGG,SEC-H,Fishplate / joint attention,EOMT,3,1,none,2026-09-24,2026-09-28,1.5
+BD-130,TMS,ENGG,SEC-G,Destressing / de-stress,EOMT,2,1,none,2026-09-07,2026-09-09,2.5
+BD-132,TMS,ENGG,SEC-G,Through tamping (PML),ETMW,2,1,tamping-machine,2026-09-20,2026-09-30,4.0
+BD-136,TMS,ENGG,SEC-F,Destressing / de-stress,EOMT,2,1,none,2026-09-25,2026-09-30,2.5
+BD-140,TMS,ENGG,SEC-H,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-19,2026-09-20,2.5
+BD-141,TMS,ENGG,SEC-E,Fishplate / joint attention,EOMT,3,1,none,2026-09-21,2026-09-23,1.5
+BD-144,TMS,ENGG,SEC-B,Through tamping (PML),ETMW,2,1,tamping-machine,2026-09-30,2026-09-30,4.0
+BD-145,TMS,ENGG,SEC-G,Through tamping (PML),ETMW,2,1,tamping-machine,2026-09-09,2026-09-25,4.0
+BD-148,TMS,ENGG,SEC-H,Rail grinding,ETMW,3,1,rail-grinder,2026-09-12,2026-09-18,3.0
+BD-150,TMS,ENGG,SEC-F,Destressing / de-stress,EOMT,2,1,none,2026-09-28,2026-09-30,2.5
+BD-156,TMS,ENGG,SEC-B,Weld defect renewal,ERRL,1,2,rail-grinder,2026-09-05,2026-09-06,2.5
