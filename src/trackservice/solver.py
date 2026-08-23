@@ -30,9 +30,21 @@ def solve(
     scenario: Scenario,
     time_limit: float = 10.0,
     warm_start: Schedule | None = None,
+    mandatory: set[str] | None = None,
 ) -> Schedule:
+    """Solve the block plan.
+
+    `mandatory` names statutory jobs (T0 — IMR replacement, UML clearance) whose
+    deadline may never be traded for lower work. Each is weighted above all other
+    work combined, so the optimiser schedules every one it physically can before
+    it places anything else — a lexicographic guarantee in a single solve. If the
+    inputs are genuinely over-constrained the plan degrades gracefully (it seats as
+    many statutory jobs as possible) instead of returning INFEASIBLE; the caller
+    reads the shortfall from `unscheduled` and explains it.
+    """
     model = cp_model.CpModel()
     reqs = scenario.requests
+    mandatory = set(mandatory or ())
 
     # --- decision variables -------------------------------------------------
     # present[(r, n)]  : this request runs on night n
@@ -121,8 +133,16 @@ def solve(
             if load:
                 model.Add(sum(load) <= budget)
 
-    # --- objective: maximise scheduled priority weight ----------------------
-    model.Maximize(sum(scheduled[r.id] * r.priority.value for r in reqs))
+    # --- objective: statutory work first, then priority weight --------------
+    # A mandatory (T0) job outweighs every other job combined, so any optimal
+    # plan seats all the statutory work it can before placing routine work.
+    normal_total = sum(r.priority.value for r in reqs if r.id not in mandatory)
+    big = normal_total + 1
+
+    def weight(r) -> int:
+        return big if r.id in mandatory else r.priority.value
+
+    model.Maximize(sum(scheduled[r.id] * weight(r) for r in reqs))
 
     # --- warm start: hint the previous placements to speed incremental solves
     if warm_start is not None:
@@ -167,5 +187,10 @@ def _extract(scenario, solver, status, present, starts, elapsed) -> Schedule:
         if not placed:
             result.unscheduled.append(r.id)
 
-    result.objective = int(solver.ObjectiveValue())
+    # Report the TRUE priority weight of what's scheduled, not the internal
+    # objective (which is inflated by the statutory-dominance weighting).
+    placed_ids = {a.request_id for a in result.assignments}
+    result.objective = sum(
+        r.priority.value for r in scenario.requests if r.id in placed_ids
+    )
     return result

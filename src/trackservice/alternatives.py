@@ -35,7 +35,7 @@ def propose_for(
 ) -> Alternative:
     """What would it take to grant `request_id`, given the current baseline plan?"""
     forced = _force(scenario, request_id)
-    trial = _solver.solve(forced, time_limit=5.0)
+    trial = _solver.solve(forced, time_limit=1.2)
 
     if request_id not in trial.scheduled_ids:
         return Alternative(

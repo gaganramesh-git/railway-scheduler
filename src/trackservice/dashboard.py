@@ -18,11 +18,11 @@ _TEMPLATE = r"""<!doctype html>
 <title>Track Service — Maintenance Block Scheduler</title>
 <style>
 :root {
-  --bg:#0f1419; --panel:#171d24; --panel2:#1e262f; --rule:#2a343e;
-  --ink:#e6ecf1; --ink-soft:#9aa8b4; --ink-faint:#6b7885;
-  --accent:#4fd1c5; --accent-dim:#1f3d3a;
-  --p3:#546b82; --p4:#c98a2b; --p5:#d1495b;
-  --good:#3fb56b; --bad:#d1495b; --new:#4fd1c5;
+  --bg:#eef1f5; --panel:#ffffff; --panel2:#f1f4f8; --rule:#d8dfe7;
+  --ink:#1b2430; --ink-soft:#566473; --ink-faint:#8391a0;
+  --accent:#0d9488; --accent-dim:#d7efec;
+  --p3:#5b7290; --p4:#b7841f; --p5:#cf4655;
+  --good:#2f9e5c; --bad:#cf4655; --new:#8b2fd6;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
@@ -44,7 +44,7 @@ h1 { margin:0; font-size:1.9rem; letter-spacing:-.02em; }
 button { font-family:var(--sans); font-size:.85rem; padding:.5rem .9rem; border-radius:7px; border:1px solid var(--rule); background:var(--panel2); color:var(--ink); cursor:pointer; transition:background .12s,border-color .12s; }
 button:hover { border-color:var(--accent); }
 button.active { background:var(--accent); color:#06201d; border-color:var(--accent); font-weight:600; }
-button.emg { border-color:var(--p5); color:#f0a6b0; }
+button.emg { border-color:var(--p5); color:#c0392b; }
 button.emg.on { background:var(--p5); color:#fff; }
 .tabs { display:flex; gap:.35rem; flex-wrap:wrap; }
 .spacer { flex:1; }
@@ -61,12 +61,42 @@ button.emg.on { background:var(--p5); color:#fff; }
 .lane-label { font-size:.8rem; color:var(--ink-soft); }
 .lane-label .traffic { font-size:.68rem; color:var(--ink-faint); }
 .track { position:relative; height:34px; background:var(--panel2); border-radius:5px; overflow:hidden; }
-.track.nowindow { background:repeating-linear-gradient(45deg,#151b21,#151b21 6px,#11161b 6px,#11161b 12px); }
-.track .window { position:absolute; top:0; bottom:0; background:#131a20; border-left:1px dashed var(--rule); border-right:1px dashed var(--rule); }
+.track.nowindow { background:repeating-linear-gradient(45deg,#e6ebf1,#e6ebf1 6px,#dde3ea 6px,#dde3ea 12px); }
+.track .window { position:absolute; top:0; bottom:0; background:#e3ecf5; border-left:1px dashed var(--rule); border-right:1px dashed var(--rule); }
 .block { position:absolute; top:3px; bottom:3px; border-radius:4px; padding:0 .4rem; font-size:.7rem; color:#fff; display:flex; align-items:center; overflow:hidden; white-space:nowrap; cursor:default; box-shadow:0 1px 3px rgba(0,0,0,.4); }
 .block.p3 { background:var(--p3); } .block.p4 { background:var(--p4); } .block.p5 { background:var(--p5); }
-.block.newly { outline:2px solid var(--new); outline-offset:-2px; }
+/* BDMS department colours: ENGG green, TRD yellow, S&T blue */
+.block.ENGG { background:#3f8f5f; } .block.TRD { background:#c99a1f; color:#1a1400; } .block.SNT { background:#3f7fc9; }
+.block.statutory { box-shadow:0 0 0 2px #e5484d, 0 1px 3px rgba(0,0,0,.4); }
+.block.newly { outline:3px solid var(--new); outline-offset:-3px; box-shadow:0 0 0 1px var(--new), 0 0 8px rgba(139,47,214,.55); }
+.tabs button.hasnew { position:relative; }
+.tabs button.hasnew::after { content:''; position:absolute; top:5px; right:6px; width:7px; height:7px; border-radius:50%; background:var(--new); box-shadow:0 0 0 2px var(--panel); }
+.newhint { margin:0 0 1rem; padding:.55rem .85rem; border-radius:9px; background:var(--accent-dim); border:1px solid var(--accent); color:var(--accent); font-size:.85rem; font-weight:600; }
+.newhint a { color:var(--accent); text-decoration:underline; cursor:pointer; margin-left:.15rem; }
 .block.bumped { opacity:.28; text-decoration:line-through; }
+.kpi.hero { border-color:#e5484d; }
+.kpi.hero .n { color:#e5484d; }
+.tt .stat { color:#c0392b; font-weight:600; }
+.shadowcard { border-color:#c99a1f; }
+.auditscope { font-family:var(--mono); font-size:.66rem; letter-spacing:.04em; color:var(--ink-faint); text-transform:none; font-weight:400; margin-left:.5rem; }
+.audittable { width:100%; border-collapse:collapse; font-size:.82rem; }
+.audittable th { text-align:left; font-family:var(--mono); font-size:.64rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); font-weight:600; padding:.4rem .6rem; border-bottom:1px solid var(--rule); }
+.audittable td { padding:.5rem .6rem; border-bottom:1px solid var(--rule); vertical-align:top; }
+.audittable tr:last-child td { border-bottom:none; }
+.audittable .mono { font-family:var(--mono); white-space:nowrap; color:var(--ink-soft); }
+.deptpill { font-family:var(--mono); font-size:.6rem; padding:.08rem .35rem; border-radius:3px; margin-left:.35rem; }
+.deptpill.ENGG { background:#dff0e6; color:#1f6b3f; } .deptpill.TRD { background:#f6ecd0; color:#8a6a12; } .deptpill.SNT { background:#dde8f6; color:#2a5590; }
+.savedbadge { font-family:var(--mono); font-size:.7rem; font-weight:700; color:#1a1400; background:#c99a1f; padding:.15rem .5rem; border-radius:4px; margin-left:.5rem; vertical-align:middle; }
+.rolebar { display:flex; align-items:center; gap:.6rem; margin:0 0 1.1rem; font-size:.85rem; flex-wrap:wrap; }
+.rolelbl { color:var(--ink-faint); }
+.depotlink { margin-left:auto; text-decoration:none; font-size:.8rem; font-weight:600; color:var(--accent); border:1px solid var(--accent-dim); background:var(--accent-dim); border-radius:8px; padding:.35rem .7rem; }
+.depotlink:hover { filter:brightness(.97); }
+.rolebar select { background:var(--panel2); color:var(--ink); border:1px solid var(--rule); border-radius:8px; padding:.4rem .6rem; font-size:.9rem; }
+.rolebadge { font-family:var(--mono); font-size:.66rem; letter-spacing:.04em; border:1px solid var(--rule); border-radius:20px; padding:.18rem .65rem; color:var(--ink-soft); }
+.roleperm { color:var(--ink-faint); font-size:.78rem; margin-left:auto; text-align:right; }
+.block.muted { opacity:.28; filter:saturate(.4); }
+.audit { display:none; background:var(--panel2); border:1px dashed var(--rule); border-radius:8px; padding:.5rem .8rem; margin-top:.6rem; font-family:var(--mono); font-size:.72rem; color:var(--ink-soft); }
+.audit.show { display:block; }
 .axis { display:grid; grid-template-columns:180px 1fr; gap:.5rem; margin-top:.3rem; min-width:640px; }
 .axis .ticks { position:relative; height:16px; font-size:.62rem; color:var(--ink-faint); }
 .axis .ticks span { position:absolute; transform:translateX(-50%); }
@@ -80,19 +110,21 @@ button.emg.on { background:var(--p5); color:#fff; }
 .row .id { font-family:var(--mono); color:var(--accent); font-size:.78rem; }
 .row .why { color:var(--ink-soft); font-size:.8rem; margin-top:.15rem; }
 .tag { font-family:var(--mono); font-size:.64rem; padding:.1rem .35rem; border-radius:3px; background:var(--panel2); color:var(--ink-soft); margin-left:.3rem; }
-.tag.crew { color:#f0a6b0; } .tag.equipment { color:#c98a2b; } .tag.window { color:#9aa8b4; }
+.tag.crew { color:#c0392b; } .tag.equipment { color:#c98a2b; } .tag.window { color:#9aa8b4; }
+.tag.applied { color:var(--good); border:1px solid var(--good); background:transparent; }
+.row.isdone { opacity:.6; }
 .prov { font-size:.75rem; color:var(--accent); margin-top:.4rem; }
 .empty { color:var(--ink-faint); font-size:.82rem; font-style:italic; }
 footer { margin-top:2rem; color:var(--ink-faint); font-size:.75rem; }
 
-.tt { position:fixed; pointer-events:none; background:#000; border:1px solid var(--rule); border-radius:6px; padding:.5rem .65rem; font-size:.75rem; max-width:240px; opacity:0; transition:opacity .1s; z-index:50; }
+.tt { position:fixed; pointer-events:none; background:var(--panel); color:var(--ink); box-shadow:0 4px 16px rgba(0,0,0,.15); border:1px solid var(--rule); border-radius:6px; padding:.5rem .65rem; font-size:.75rem; max-width:240px; opacity:0; transition:opacity .1s; z-index:50; }
 .tt .tt-id { font-family:var(--mono); color:var(--accent); }
 .tt dl { margin:.3rem 0 0; display:grid; grid-template-columns:auto 1fr; gap:.1rem .5rem; }
 .tt dt { color:var(--ink-faint); } .tt dd { margin:0; }
 
 .livepanel { display:none; background:var(--panel); border:1px solid var(--p5); border-radius:10px; padding:1.1rem 1.2rem; margin:0 0 1.2rem; }
 .livepanel.show { display:block; }
-.live-title { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:#f0a6b0; margin-bottom:.9rem; }
+.live-title { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:#c0392b; margin-bottom:.9rem; }
 .live-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:.7rem; }
 .live-grid label { display:flex; flex-direction:column; gap:.25rem; font-size:.72rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.05em; }
 .live-grid select, .live-grid input { font-family:var(--sans); font-size:.85rem; padding:.4rem .5rem; border-radius:6px; border:1px solid var(--rule); background:var(--panel2); color:var(--ink); }
@@ -111,9 +143,18 @@ button.solve:disabled { opacity:.5; cursor:wait; }
     <p class="sub">Detects conflicts across engineering windows, optimises the block plan for priority, proves why unscheduled work didn't fit, and proposes alternatives. CP-SAT vs a real first-come-first-served baseline.</p>
   </header>
 
+  <div class="rolebar" id="rolebar" style="display:none">
+    <span class="rolelbl">Signed in as</span>
+    <select id="roleSel"></select>
+    <span class="rolebadge" id="roleBadge"></span>
+    <span class="roleperm" id="rolePerm"></span>
+    <a id="depotLink" class="depotlink" href="/depot" style="display:none">↗ Raise a demand</a>
+  </div>
+
   <div class="kpis" id="kpis"></div>
 
   <div class="diff" id="diff"></div>
+  <div class="audit" id="audit"></div>
 
   <div class="controls">
     <div class="tabs" id="nightTabs"></div>
@@ -123,6 +164,8 @@ button.solve:disabled { opacity:.5; cursor:wait; }
     <button id="emgBtn" class="emg">⚠ Inject emergency</button>
     <button id="liveBtn" class="emg" style="display:none">✦ Custom emergency (live)</button>
   </div>
+
+  <div class="newhint" id="newhint" style="display:none"></div>
 
   <div class="livepanel" id="livepanel">
     <div class="live-title">Author an emergency — the solver places it live</div>
@@ -145,15 +188,15 @@ button.solve:disabled { opacity:.5; cursor:wait; }
     </div>
   </div>
 
-  <div class="legend">
-    <span><i class="sw" style="background:var(--p5)"></i> Urgent (wt 5)</span>
-    <span><i class="sw" style="background:var(--p4)"></i> Important (wt 4)</span>
-    <span><i class="sw" style="background:var(--p3)"></i> Routine (wt 3)</span>
-    <span><i class="sw" style="background:var(--new)"></i> Newly placed</span>
-    <span><i class="sw" style="background:var(--panel2)"></i> Available block</span>
-  </div>
+  <div class="legend" id="legend"></div>
 
   <div class="gantt" id="gantt"></div>
+
+  <div class="card shadowcard" id="shadowCard" style="display:none; margin-top:1.4rem;">
+    <h2>⚡ Shadow / integrated block proposals <span id="shadowSaved"></span></h2>
+    <p class="prov" style="margin:0 0 .6rem">BDMS has the buttons and waits for a human to notice. We find them: two departments wanting the same section can share one closure — one block demand, not two.</p>
+    <div id="shadows"></div>
+  </div>
 
   <div class="panels">
     <div class="card">
@@ -164,6 +207,15 @@ button.solve:disabled { opacity:.5; cursor:wait; }
     <div class="card">
       <h2>Proposed alternatives</h2>
       <div id="alternatives"></div>
+    </div>
+  </div>
+
+  <div class="card auditcard" id="auditCard" style="display:none; margin-top:1.4rem;">
+    <h2>Audit log <span id="auditScope" class="auditscope"></span></h2>
+    <p class="prov" style="margin:0 0 .7rem">Every demand, approval and override — with role, timestamp and reason. A block decision may later be examined by an accident inquiry, so you see your own trail and everyone below you, never above.</p>
+    <div class="tablewrap" style="overflow-x:auto">
+      <table class="audittable"><thead><tr><th>Time</th><th>Role</th><th>User</th><th>Action</th><th>Detail</th></tr></thead>
+      <tbody id="auditRows"></tbody></table>
     </div>
   </div>
 
@@ -178,6 +230,10 @@ const BASE = JSON.parse(document.getElementById('data').textContent);  // pristi
 let DATA = BASE;
 const LIVE = __LIVE__;
 let state = { view:'opt', night:0, emergency:false };
+let analysisPending = false;  // true while the lazy explanation/alternatives fetch is in flight
+// Deep-link: /?night=4 opens straight on that night (used after committing a demand).
+{ const qn=new URLSearchParams(location.search).get('night');
+  if(qn!==null && !isNaN(+qn)) state.night=Math.max(0, Math.min(+qn-1, (BASE.scenario.nights||1)-1)); }
 
 const TICK_MIN = 30, DAY_START = 22*60;
 const clock = t => { const m=DAY_START+t*30; return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
@@ -191,25 +247,116 @@ function maxTick(){ return Math.max(...DATA.scenario.windows.map(w=>w.end), 12);
 
 function reqMap(sc){ const m={}; sc.requests.forEach(r=>m[r.id]=r); return m; }
 
+const BDMS = !!(DATA.statutory);
+
+// ---- Role-based access (BDMS mode) — mirrors the real IR hierarchy ----------
+const ROLES = [
+  {id:'sse-pway', label:'SSE/PWAY/SUR (R. Kulkarni)', badge:'sse/pway', dept:'ENGG', tier:'depot',      rank:1},
+  {id:'sse-trd',  label:'SSE/TRD/SUR (V. Kamble)',    badge:'sse/trd',  dept:'TRD',  tier:'depot',      rank:1},
+  {id:'sse-snt',  label:'SSE/SNT/KWV (A. Deshmukh)',  badge:'sse/snt',  dept:'SNT',  tier:'depot',      rank:1},
+  {id:'ctpc',     label:'CTPC / Sr.DEE(TRD)',          badge:'ctpc',     dept:'TRD',  tier:'deptcontrol',rank:2},
+  {id:'sdom',     label:'Sr.DOM / Chief Controller',   badge:'sr.dom',   tier:'corridor',   rank:3},
+  {id:'drm',      label:'Divisional Railway Manager',  badge:'drm',      tier:'divapproval',rank:4},
+  {id:'board',    label:'Zonal HQ / Railway Board',    badge:'board',    tier:'oversight',  rank:5},
+];
+function permsFor(r){
+  switch(r.tier){
+    case 'depot':       return {act:false, ownDept:r.dept, note:`Raise & edit ${r.dept} demands only · other departments shown as summary · cannot grant or alter priority`};
+    case 'deptcontrol': return {act:true,  ownDept:r.dept, note:`Forward & grant ${r.dept} blocks, division-wide`};
+    case 'corridor':    return {act:true,  note:'Approve, shorten or refuse corridor windows · cannot create jobs'};
+    case 'divapproval': return {act:true,  override:true, note:'Sign off the plan · override placement with a logged reason'};
+    case 'oversight':   return {act:false, readonly:true, note:'View & export only — aggregate oversight'};
+  }
+}
+let role = ROLES.find(r=>r.id==='drm');   // default: sees everything
+let RP = permsFor(role);
+
+function setupRoles(){
+  if(!BDMS) return;
+  document.getElementById('rolebar').style.display='flex';
+  const sel=document.getElementById('roleSel');
+  sel.innerHTML=ROLES.map(r=>`<option value="${r.id}">${r.label}</option>`).join('');
+  sel.value=role.id;
+  sel.onchange=()=>{ role=ROLES.find(r=>r.id===sel.value); RP=permsFor(role); applyRole(); };
+  applyRole();
+}
+function applyRole(){
+  RP=permsFor(role);
+  document.getElementById('roleBadge').textContent=role.badge;
+  document.getElementById('rolePerm').textContent=RP.note;
+  // Only roles that may act see the emergency / live controls.
+  ['emgBtn','liveBtn'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display = RP.act ? '' : 'none'; });
+  // Depot roles get a shortcut to their demand-entry screen (needs the live server).
+  const dl=document.getElementById('depotLink');
+  if(dl){ dl.style.display = (LIVE && role.tier==='depot') ? '' : 'none';
+          dl.href = '/depot?role='+encodeURIComponent(role.id); }
+  if(!RP.act && document.getElementById('livepanel')) document.getElementById('livepanel').classList.remove('show');
+  render();
+}
+
+function renderHeaderLegend(){
+  if(BDMS){
+    document.querySelector('h1').textContent = 'Automatic Block Planning';
+    document.querySelector('.sub').innerHTML =
+      `Decision layer over BDMS for <strong>${DATA.corridor.name}</strong>. Statutory (T0) deadlines are guaranteed; conflicts, shadow blocks and emergencies are handled automatically. `+
+      `<span style="color:var(--ink-faint)">Corridor from ${DATA.corridor.source}.</span>`;
+    document.getElementById('legend').innerHTML = `
+      <span><i class="sw" style="background:#3f8f5f"></i> Engineering</span>
+      <span><i class="sw" style="background:#c99a1f"></i> Traction (OHE)</span>
+      <span><i class="sw" style="background:#3f7fc9"></i> Signal &amp; Telecom</span>
+      <span><i class="sw" style="box-shadow:0 0 0 2px #e5484d inset;background:transparent"></i> Statutory (T0)</span>
+      <span><i class="sw" style="box-shadow:0 0 0 2px var(--new) inset;background:transparent"></i> Newly placed (raised in depot)</span>
+      <span><i class="sw" style="background:var(--panel2)"></i> Available block</span>`;
+  } else {
+    document.getElementById('legend').innerHTML = `
+      <span><i class="sw" style="background:var(--p5)"></i> Urgent (wt 5)</span>
+      <span><i class="sw" style="background:var(--p4)"></i> Important (wt 4)</span>
+      <span><i class="sw" style="background:var(--p3)"></i> Routine (wt 3)</span>
+      <span><i class="sw" style="box-shadow:0 0 0 2px var(--new) inset;background:transparent"></i> Newly placed (raised in depot)</span>
+      <span><i class="sw" style="background:var(--panel2)"></i> Available block</span>`;
+  }
+}
 function renderKpis(){
   const om=DATA.metrics.optimal, gm=DATA.metrics.greedy;
-  const wtGap=om.priority_weight-gm.priority_weight, schGap=om.scheduled-gm.scheduled;
-  document.getElementById('kpis').innerHTML = `
-    <div class="kpi"><div class="n">${om.scheduled}/${om.total_requests}</div><div class="l">Scheduled (CP-SAT)</div><div class="d">greedy: ${gm.scheduled}</div></div>
+  const wtGap=om.priority_weight-gm.priority_weight;
+  const statCard = BDMS ? `
+    <div class="kpi hero"><div class="n">${DATA.statutory.cpsat_met}/${DATA.statutory.total}</div>
+      <div class="l">Statutory deadlines met</div><div class="d">FIFO meets only ${DATA.statutory.greedy_met}/${DATA.statutory.total}</div></div>` : '';
+  document.getElementById('kpis').innerHTML = statCard + `
+    <div class="kpi"><div class="n">${om.scheduled}/${om.total_requests}</div><div class="l">Jobs scheduled (CP-SAT)</div><div class="d">greedy: ${gm.scheduled}</div></div>
     <div class="kpi"><div class="n">${om.priority_weight}</div><div class="l">Priority weight</div><div class="d">+${wtGap} vs greedy</div></div>
-    <div class="kpi"><div class="n">${om.window_utilisation_pct}%</div><div class="l">Window utilisation</div><div class="d">greedy: ${gm.window_utilisation_pct}%</div></div>
     <div class="kpi"><div class="n">${om.solve_seconds}s</div><div class="l">Solve time</div><div class="d">${om.proven_optimal?'OPTIMAL — proven':om.status}</div></div>`;
+}
+
+function committedNights(){
+  const cm={}; DATA.scenario.requests.forEach(r=>{ if(r.committed) cm[r.id]=true; });
+  const nights=new Set();
+  DATA.optimal.assignments.forEach(a=>{ if(cm[a.id]) nights.add(a.night); });
+  return nights;
 }
 
 function renderTabs(){
   const el=document.getElementById('nightTabs'); el.innerHTML='';
+  const newN=committedNights();
   for(let n=0;n<DATA.scenario.nights;n++){
     const b=document.createElement('button');
     b.textContent='Night '+(n+1);
     if(n===state.night) b.classList.add('active');
+    if(newN.has(n)) b.classList.add('hasnew');
     b.onclick=()=>{ state.night=n; render(); };
     el.appendChild(b);
   }
+}
+
+function renderNewHint(){
+  const el=document.getElementById('newhint');
+  const ns=[...committedNights()].sort((a,b)=>a-b);
+  if(!ns.length || state.emergency){ el.style.display='none'; return; }
+  el.style.display='';
+  el.innerHTML='● Newly raised demand'+(ns.length>1?'s':'')+' on '
+    +ns.map(n=>`<a data-n="${n}">Night ${n+1}</a>`).join(', ')
+    +(ns.includes(state.night)?' — shown below.':' — click to view.');
+  el.querySelectorAll('a').forEach(a=>a.onclick=()=>{ state.night=+a.dataset.n; render(); });
 }
 
 function renderGantt(){
@@ -232,7 +379,10 @@ function renderGantt(){
     sch.assignments.filter(a=>rm[a.id] && rm[a.id].section===section.id && a.night===n).forEach(a=>{
       const r=rm[a.id];
       const b=document.createElement('div');
-      b.className='block p'+r.priority + (state.emergency && !baseIds.has(a.id)?' newly':'');
+      const colour = (BDMS && r.department) ? r.department : 'p'+r.priority;  // BDMS dept colour, else priority
+      const muted = (BDMS && RP.ownDept && r.department && r.department!==RP.ownDept) ? ' muted' : '';  // depot sees others as summary
+      const isNew = r.committed || (state.emergency && !baseIds.has(a.id));  // depot-raised or live emergency
+      b.className='block '+colour + (r.statutory?' statutory':'') + muted + (isNew?' newly':'');
       b.style.left=(100*a.start/mx)+'%'; b.style.width=(100*(a.end-a.start)/mx)+'%';
       b.textContent=r.id+' '+r.title;
       attachTip(b,r,a);
@@ -251,12 +401,16 @@ function renderGantt(){
 function attachTip(el,r,a){
   el.addEventListener('mousemove',e=>{
     const tt=document.getElementById('tooltip');
+    const bdmsRows = (BDMS && r.department) ? `
+      <dt>dept</dt><dd>${r.department}</dd>
+      <dt>reason</dt><dd>${r.reason_code||'—'}</dd>
+      <dt>tier</dt><dd>${r.statutory?'<span class="stat">T0 statutory</span>':'T'+r.tier}</dd>${r.committed?'<dt>source</dt><dd><span class="stat">raised in depot</span></dd>':''}` : `
+      <dt>priority</dt><dd>${r.priority}</dd>`;
     tt.innerHTML=`<div class="tt-id">${r.id}</div>${r.title}
       <dl><dt>section</dt><dd>${r.section}</dd>
       <dt>time</dt><dd>${a.start_clock}–${a.end_clock}</dd>
       <dt>crew</dt><dd>${r.crew} ×${r.crew_size}</dd>
-      <dt>equip</dt><dd>${r.equipment}</dd>
-      <dt>priority</dt><dd>${r.priority}</dd></dl>`;
+      <dt>equip</dt><dd>${r.equipment}</dd>${bdmsRows}</dl>`;
     tt.style.opacity=1; tt.style.left=Math.min(e.clientX+14,innerWidth-250)+'px'; tt.style.top=(e.clientY+14)+'px';
   });
   el.addEventListener('mouseleave',()=>document.getElementById('tooltip').style.opacity=0);
@@ -266,7 +420,12 @@ function renderConflicts(){
   const el=document.getElementById('conflicts');
   const rm=reqMap(DATA.scenario);
   const exps=DATA.explanations;
-  if(!exps.length){ el.innerHTML='<p class="empty">Every request was scheduled — no conflicts.</p>'; return; }
+  if(!exps.length){
+    el.innerHTML = (analysisPending && DATA===BASE)
+      ? '<p class="empty">Analysing why work didn’t fit…</p>'
+      : '<p class="empty">Every request was scheduled — no conflicts.</p>';
+    return;
+  }
   el.innerHTML=exps.map(e=>{
     const r=rm[e.request_id]||{title:'',priority:''};
     const tags=e.binding.map(b=>`<span class="tag ${b}">${b}</span>`).join('');
@@ -278,11 +437,19 @@ function renderConflicts(){
 function renderAlternatives(){
   const el=document.getElementById('alternatives');
   const alts=DATA.alternatives.filter(a=>a);
-  if(!alts.length){ el.innerHTML='<p class="empty">Nothing to propose — all work placed.</p>'; return; }
+  if(!alts.length){
+    el.innerHTML = (analysisPending && DATA===BASE)
+      ? '<p class="empty">Computing alternatives…</p>'
+      : '<p class="empty">Nothing to propose — all work placed.</p>';
+    return;
+  }
   el.innerHTML=alts.map(a=>{
-    const applyBtn = (LIVE && a.feasible)
-      ? `<button class="applybtn" onclick="applyAlt('${a.request_id}')">Apply →</button>` : '';
-    return `<div class="row"><span class="id">${a.request_id}</span>
+    const done = pinned.includes(a.request_id);
+    const applyBtn = done
+      ? `<span class="tag applied">✓ applied</span>`
+      : ((LIVE && a.feasible && RP.act)
+        ? `<button class="applybtn" onclick="applyAlt('${a.request_id}')">${RP.override?'Override & apply →':'Apply →'}</button>` : '');
+    return `<div class="row${done?' isdone':''}"><span class="id">${a.request_id}</span>
       ${a.feasible?`<span class="tag">${a.weight_cost<=0?'no net loss':'−'+a.weight_cost+' wt'}</span>`:'<span class="tag crew">infeasible</span>'}
       ${applyBtn}
       <div class="why">${a.note}</div></div>`;
@@ -295,7 +462,7 @@ async function applyAlt(id){
   el.style.opacity=.5;
   const candidate=[...pinned, id];
   try{
-    const res=await fetch('/api/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids:candidate})});
+    const res=await fetch('/api/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids:candidate, actor:role.id})});
     if(!res.ok) throw new Error('HTTP '+res.status);
     const rep=await res.json(), e=rep.emergency;
     // A pin is sticky: only commit if EVERY pinned job is honoured together.
@@ -304,12 +471,56 @@ async function applyAlt(id){
       alert('Cannot pin '+id+' on top of the current pins — no single plan fits them all. Keeping the previous plan.');
       return;                       // keep the old plan untouched
     }
+    // Actions skip the slow analysis, so carry the base explanations/alternatives
+    // across — otherwise the panels would wrongly read "all work placed" and you
+    // couldn't see or apply the remaining cases.
+    rep.explanations = BASE.explanations;
+    rep.alternatives = BASE.alternatives;
     DATA=rep; pinned=candidate.slice();
+    if(RP.override){  // DRM override writes to the audit log (brief §8.2)
+      const au=document.getElementById('audit');
+      au.className='audit show';
+      au.textContent=`AUDIT · ${role.badge} · ${new Date().toLocaleTimeString()} · override: pinned ${id} · reason: operational priority`;
+    }
     state.emergency=true; state.view='opt';
     state.night=e.request.night;
     render();
   }catch(e){ alert('Apply failed: '+e.message); }
   finally{ el.style.opacity=1; }
+}
+
+function renderShadows(){
+  const card=document.getElementById('shadowCard');
+  if(!BDMS || !DATA.shadows || !DATA.shadows.proposals.length){ card.style.display='none'; return; }
+  card.style.display='';
+  const sh=DATA.shadows;
+  document.getElementById('shadowSaved').innerHTML =
+    `<span class="savedbadge">${sh.corridors_saved} corridors saved</span>`;
+  const top = sh.proposals.slice(0,6);
+  document.getElementById('shadows').innerHTML = top.map(p=>`
+    <div class="row"><span class="id">${p.job_ids.join(' + ')}</span>
+      <span class="tag">${p.departments.join(' + ')}</span>
+      <div class="why">${p.note}</div></div>`).join('')
+    + (sh.proposals.length>top.length ? `<div class="row" style="color:var(--ink-faint)">+ ${sh.proposals.length-top.length} more across the corridor</div>`:'');
+}
+
+function renderAudit(){
+  const card=document.getElementById('auditCard'), A=DATA.audit;
+  if(!BDMS || !A){ card.style.display='none'; return; }
+  card.style.display='';
+  const me = A.roles[role.id] || {};
+  const vis = A.entries.filter(e=>{
+    if(role.rank>=3) return e.rank<=role.rank;                       // corridor/DRM/board: all up to level
+    if(role.rank===2) return e.rank<=2 && e.department===role.dept;  // dept control: own dept
+    return e.user===me.user;                                        // depot: own entries only
+  });
+  document.getElementById('auditScope').textContent = role.rank>=3 ? '· all roles up to your level'
+    : role.rank===2 ? '· your department, up to your level' : '· your own entries only';
+  document.getElementById('auditRows').innerHTML = vis.length ? vis.map(e=>`
+    <tr><td class="mono">${e.time}</td>
+      <td>${e.role}${e.department?`<span class="deptpill ${e.department}">${e.department}</span>`:''}</td>
+      <td>${e.user}</td><td>${e.action}</td><td>${e.detail}</td></tr>`).join('')
+    : '<tr><td colspan="5" style="color:var(--ink-faint)">No entries visible to this role.</td></tr>';
 }
 
 function renderDiff(){
@@ -332,14 +543,18 @@ function renderDiff(){
 }
 
 function render(){
-  renderKpis(); renderTabs(); renderGantt(); renderConflicts(); renderAlternatives(); renderDiff();
+  renderHeaderLegend(); renderKpis(); renderTabs(); renderNewHint(); renderGantt(); renderShadows(); renderConflicts(); renderAlternatives(); renderAudit(); renderDiff();
+  if(!state.emergency){ const au=document.getElementById('audit'); if(au) au.classList.remove('show'); }
   document.getElementById('viewOpt').classList.toggle('active', state.view==='opt' && !state.emergency);
   document.getElementById('viewGreedy').classList.toggle('active', state.view==='greedy' && !state.emergency);
   document.getElementById('emgBtn').classList.toggle('on', state.emergency);
   const om=DATA.metrics.optimal;
-  document.getElementById('foot').textContent=
-    `Seed ${DATA.scenario.seed} · ${DATA.scenario.requests.length} requests · ${DATA.scenario.nights} nights · `+
-    `CP-SAT ${om.proven_optimal?'proved OPTIMAL':om.status} in ${om.solve_seconds}s. Regenerate: trackservice run --seed N`;
+  const ver = DATA.verification;
+  const verTxt = ver ? ` · ${ver.ok?'✓ independently verified':'✗ FAILED verification'} (${ver.checks_run} checks)` : '';
+  document.getElementById('foot').innerHTML=
+    `${DATA.scenario.requests.length} demands · ${DATA.scenario.nights} nights · `+
+    `CP-SAT ${om.proven_optimal?'proved OPTIMAL':om.status} in ${om.solve_seconds}s`+
+    `<span style="color:${ver&&ver.ok?'var(--accent)':'inherit'}">${verTxt}</span>`;
 }
 
 // Returning to a base view restores the pristine plan in full — Gantt, conflicts,
@@ -374,13 +589,14 @@ function setupLive(){
       crew:document.getElementById('f-crew').value,
       crew_size:parseInt(document.getElementById('f-crewsize').value,10),
       equipment:document.getElementById('f-equip').value,
-      priority:5, title:'EMERGENCY (live)'
+      priority:5, title:'EMERGENCY (live)', actor:role.id
     };
     try{
       const t0=performance.now();
       const res=await fetch('/api/solve',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
       if(!res.ok) throw new Error('HTTP '+res.status);
       DATA=await res.json();
+      DATA.explanations=BASE.explanations; DATA.alternatives=BASE.alternatives;  // carry base analysis
       state.emergency=true; state.view='opt';
       state.night=DATA.emergency.request.night;
       render();
@@ -391,7 +607,21 @@ function setupLive(){
 }
 
 if(LIVE) setupLive();
+setupRoles();
 render();
+
+// In live mode the plan is served instantly and the per-job analysis (why work
+// didn't fit, what to bump) arrives a moment later — so nothing blocks on the
+// slow relax-and-re-solve. The static file already has it baked in.
+analysisPending = LIVE && BDMS;
+function loadAnalysis(){
+  fetch('/api/analysis').then(r=>r.json()).then(a=>{
+    BASE.explanations=a.explanations||[]; BASE.alternatives=a.alternatives||[];
+    analysisPending=false;
+    if(DATA===BASE){ renderConflicts(); renderAlternatives(); }
+  }).catch(()=>{ analysisPending=false; });
+}
+if(analysisPending) loadAnalysis();
 </script>
 </body>
 </html>

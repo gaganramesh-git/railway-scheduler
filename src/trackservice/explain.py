@@ -61,7 +61,9 @@ def _explain_one(scenario: Scenario, request_id: str) -> Explanation:
     binding: list[str] = []
     if _enters_when(scenario, request_id, crew=r.crew):
         binding.append("crew")
-    if r.equipment is not Equipment.NONE and _enters_when(
+    # Only pay for the equipment re-solve when crew wasn't the binding constraint —
+    # if freeing the crew already seats the job, that's the explanation.
+    elif r.equipment is not Equipment.NONE and _enters_when(
         scenario, request_id, equipment=r.equipment
     ):
         binding.append("equipment")
@@ -83,7 +85,7 @@ def _enters_when(
 ) -> bool:
     """Relax exactly one dimension, re-solve, and report whether the request got in."""
     relaxed = _relax(scenario, crew=crew, equipment=equipment)
-    result = _solver.solve(relaxed, time_limit=3.0)
+    result = _solver.solve(relaxed, time_limit=1.0)
     return request_id in result.scheduled_ids
 
 

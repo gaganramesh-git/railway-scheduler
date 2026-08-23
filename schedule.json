@@ -908,7 +908,7 @@
   "optimal": {
     "status": "OPTIMAL",
     "objective": 120,
-    "solve_seconds": 0.022,
+    "solve_seconds": 0.015,
     "proven_optimal": true,
     "assignments": [
       {
@@ -1460,7 +1460,7 @@
       "scheduled_pct": 85.0,
       "window_utilisation_pct": 43.5,
       "priority_weight": 120,
-      "solve_seconds": 0.022,
+      "solve_seconds": 0.015,
       "proven_optimal": true
     },
     "greedy": {
@@ -1558,11 +1558,12 @@
       "feasible": true,
       "bumped": [
         "WR-007",
-        "WR-014"
+        "WR-014",
+        "WR-032"
       ],
       "weight_cost": -139,
-      "night": 3,
-      "note": "Grant on night 4 by bumping WR-007 (OHE insulator replacement), WR-014 (OHE insulator replacement) \u2014 no net weight lost."
+      "night": 4,
+      "note": "Grant on night 5 by bumping WR-007 (OHE insulator replacement), WR-014 (OHE insulator replacement), WR-032 (Signal testing) \u2014 no net weight lost."
     },
     {
       "request_id": "WR-024",
@@ -2508,7 +2509,7 @@
     "schedule": {
       "status": "OPTIMAL",
       "objective": 120,
-      "solve_seconds": 0.031,
+      "solve_seconds": 0.015,
       "proven_optimal": true,
       "assignments": [
         {
@@ -2522,10 +2523,10 @@
         {
           "id": "WR-003",
           "night": 2,
-          "start": 3,
-          "end": 7,
-          "start_clock": "23:30",
-          "end_clock": "01:30"
+          "start": 0,
+          "end": 4,
+          "start_clock": "22:00",
+          "end_clock": "00:00"
         },
         {
           "id": "WR-004",
@@ -2538,10 +2539,10 @@
         {
           "id": "WR-006",
           "night": 3,
-          "start": 3,
-          "end": 8,
-          "start_clock": "23:30",
-          "end_clock": "02:00"
+          "start": 0,
+          "end": 5,
+          "start_clock": "22:00",
+          "end_clock": "00:30"
         },
         {
           "id": "WR-007",
@@ -2560,20 +2561,12 @@
           "end_clock": "02:30"
         },
         {
-          "id": "WR-009",
-          "night": 4,
-          "start": 0,
-          "end": 6,
-          "start_clock": "22:00",
-          "end_clock": "01:00"
-        },
-        {
           "id": "WR-012",
-          "night": 1,
-          "start": 6,
-          "end": 10,
-          "start_clock": "01:00",
-          "end_clock": "03:00"
+          "night": 0,
+          "start": 0,
+          "end": 4,
+          "start_clock": "22:00",
+          "end_clock": "00:00"
         },
         {
           "id": "WR-013",
@@ -2582,6 +2575,14 @@
           "end": 5,
           "start_clock": "22:00",
           "end_clock": "00:30"
+        },
+        {
+          "id": "WR-014",
+          "night": 4,
+          "start": 0,
+          "end": 6,
+          "start_clock": "22:00",
+          "end_clock": "01:00"
         },
         {
           "id": "WR-015",
@@ -2593,7 +2594,7 @@
         },
         {
           "id": "WR-016",
-          "night": 4,
+          "night": 3,
           "start": 6,
           "end": 9,
           "start_clock": "01:00",
@@ -2609,7 +2610,7 @@
         },
         {
           "id": "WR-018",
-          "night": 2,
+          "night": 1,
           "start": 0,
           "end": 6,
           "start_clock": "22:00",
@@ -2618,14 +2619,14 @@
         {
           "id": "WR-019",
           "night": 1,
-          "start": 3,
-          "end": 7,
-          "start_clock": "23:30",
-          "end_clock": "01:30"
+          "start": 0,
+          "end": 4,
+          "start_clock": "22:00",
+          "end_clock": "00:00"
         },
         {
           "id": "WR-020",
-          "night": 0,
+          "night": 1,
           "start": 0,
           "end": 3,
           "start_clock": "22:00",
@@ -2634,26 +2635,26 @@
         {
           "id": "WR-021",
           "night": 1,
-          "start": 0,
-          "end": 3,
-          "start_clock": "22:00",
-          "end_clock": "23:30"
+          "start": 6,
+          "end": 9,
+          "start_clock": "01:00",
+          "end_clock": "02:30"
         },
         {
           "id": "WR-022",
           "night": 0,
-          "start": 3,
-          "end": 6,
-          "start_clock": "23:30",
-          "end_clock": "01:00"
+          "start": 4,
+          "end": 7,
+          "start_clock": "00:00",
+          "end_clock": "01:30"
         },
         {
           "id": "WR-023",
           "night": 3,
-          "start": 0,
-          "end": 3,
-          "start_clock": "22:00",
-          "end_clock": "23:30"
+          "start": 6,
+          "end": 9,
+          "start_clock": "01:00",
+          "end_clock": "02:30"
         },
         {
           "id": "WR-025",
@@ -2666,26 +2667,26 @@
         {
           "id": "WR-026",
           "night": 3,
-          "start": 0,
-          "end": 4,
-          "start_clock": "22:00",
-          "end_clock": "00:00"
+          "start": 4,
+          "end": 8,
+          "start_clock": "00:00",
+          "end_clock": "02:00"
         },
         {
           "id": "WR-027",
-          "night": 3,
-          "start": 6,
-          "end": 12,
-          "start_clock": "01:00",
-          "end_clock": "04:00"
+          "night": 1,
+          "start": 0,
+          "end": 6,
+          "start_clock": "22:00",
+          "end_clock": "01:00"
         },
         {
           "id": "WR-028",
           "night": 1,
-          "start": 8,
-          "end": 12,
-          "start_clock": "02:00",
-          "end_clock": "04:00"
+          "start": 6,
+          "end": 10,
+          "start_clock": "01:00",
+          "end_clock": "03:00"
         },
         {
           "id": "WR-029",
@@ -2705,19 +2706,19 @@
         },
         {
           "id": "WR-031",
-          "night": 2,
-          "start": 0,
-          "end": 3,
-          "start_clock": "22:00",
-          "end_clock": "23:30"
+          "night": 4,
+          "start": 6,
+          "end": 9,
+          "start_clock": "01:00",
+          "end_clock": "02:30"
         },
         {
           "id": "WR-032",
           "night": 4,
-          "start": 4,
-          "end": 8,
-          "start_clock": "00:00",
-          "end_clock": "02:00"
+          "start": 5,
+          "end": 9,
+          "start_clock": "00:30",
+          "end_clock": "02:30"
         },
         {
           "id": "WR-033",
@@ -2729,31 +2730,31 @@
         },
         {
           "id": "WR-034",
-          "night": 4,
-          "start": 0,
-          "end": 4,
-          "start_clock": "22:00",
-          "end_clock": "00:00"
+          "night": 2,
+          "start": 5,
+          "end": 9,
+          "start_clock": "00:30",
+          "end_clock": "02:30"
         },
         {
           "id": "WR-035",
           "night": 1,
-          "start": 0,
-          "end": 6,
-          "start_clock": "22:00",
-          "end_clock": "01:00"
+          "start": 6,
+          "end": 12,
+          "start_clock": "01:00",
+          "end_clock": "04:00"
         },
         {
           "id": "WR-036",
-          "night": 2,
-          "start": 5,
-          "end": 10,
-          "start_clock": "00:30",
-          "end_clock": "03:00"
+          "night": 4,
+          "start": 0,
+          "end": 5,
+          "start_clock": "22:00",
+          "end_clock": "00:30"
         },
         {
           "id": "WR-038",
-          "night": 1,
+          "night": 2,
           "start": 0,
           "end": 8,
           "start_clock": "22:00",
@@ -2762,14 +2763,14 @@
         {
           "id": "WR-039",
           "night": 1,
-          "start": 0,
-          "end": 5,
-          "start_clock": "22:00",
-          "end_clock": "00:30"
+          "start": 3,
+          "end": 8,
+          "start_clock": "23:30",
+          "end_clock": "02:00"
         },
         {
           "id": "WR-040",
-          "night": 2,
+          "night": 3,
           "start": 0,
           "end": 4,
           "start_clock": "22:00",
@@ -2787,9 +2788,9 @@
       "unscheduled": [
         "WR-001",
         "WR-005",
+        "WR-009",
         "WR-010",
         "WR-011",
-        "WR-014",
         "WR-024",
         "WR-037"
       ]
@@ -2800,13 +2801,12 @@
       "scheduled_pct": 82.9,
       "window_utilisation_pct": 43.8,
       "priority_weight": 120,
-      "solve_seconds": 0.031,
+      "solve_seconds": 0.015,
       "proven_optimal": true
     },
     "bumped": [
       "WR-001",
-      "WR-011",
-      "WR-014"
+      "WR-011"
     ],
     "weight_before": 120,
     "weight_after": 120

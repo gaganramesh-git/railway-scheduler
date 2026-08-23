@@ -1,0 +1,82 @@
+[
+  {
+    "id": "SEC-A",
+    "from_code": "GOY",
+    "to_code": "CNB",
+    "from_name": "Govindpuri",
+    "to_name": "Kanpur Central",
+    "trains_per_day": 205,
+    "window_start_min": 3,
+    "window_end_min": 8
+  },
+  {
+    "id": "SEC-B",
+    "from_code": "CNB",
+    "to_code": "SSL",
+    "from_name": "Kanpur Central",
+    "to_name": "Sirsaul",
+    "trains_per_day": 143,
+    "window_start_min": 3,
+    "window_end_min": 11
+  },
+  {
+    "id": "SEC-C",
+    "from_code": "SSL",
+    "to_code": "MWH",
+    "from_name": "Sirsaul",
+    "to_name": "Malwan",
+    "trains_per_day": 143,
+    "window_start_min": 3,
+    "window_end_min": 11
+  },
+  {
+    "id": "SEC-D",
+    "from_code": "MWH",
+    "to_code": "FYZ",
+    "from_name": "Malwan",
+    "to_name": "Faizullapur",
+    "trains_per_day": 141,
+    "window_start_min": 3,
+    "window_end_min": 11
+  },
+  {
+    "id": "SEC-E",
+    "from_code": "FYZ",
+    "to_code": "KUW",
+    "from_name": "Faizullapur",
+    "to_name": "Kanwar",
+    "trains_per_day": 141,
+    "window_start_min": 3,
+    "window_end_min": 11
+  },
+  {
+    "id": "SEC-F",
+    "from_code": "KUW",
+    "to_code": "BEO",
+    "from_name": "Kanwar",
+    "to_name": "Birohe",
+    "trains_per_day": 113,
+    "window_start_min": 3,
+    "window_end_min": 11
+  },
+  {
+    "id": "SEC-G",
+    "from_code": "BEO",
+    "to_code": "DAP",
+    "from_name": "Birohe",
+    "to_name": "Dagmagpur",
+    "trains_per_day": 177,
+    "window_start_min": 3,
+    "window_end_min": 9
+  },
+  {
+    "id": "SEC-H",
+    "from_code": "DAP",
+    "to_code": "MGS",
+    "from_name": "Dagmagpur",
+    "to_name": "Mughal Sarai Jn",
+    "trains_per_day": 151,
+    "window_start_min": 3,
+    "window_end_min": 9
+  }
+]

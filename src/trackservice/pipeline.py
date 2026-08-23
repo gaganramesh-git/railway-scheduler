@@ -20,8 +20,14 @@ def run(
     nights: int = 5,
     explain: bool = True,
     custom_emergency=None,
+    input_csv: str | None = None,
 ) -> dict:
-    scenario = _data.build_scenario(seed=seed, n_requests=n_requests, nights=nights)
+    if input_csv:
+        from . import importer as _importer
+
+        scenario = _importer.load_scenario(input_csv, nights=nights, seed=seed)
+    else:
+        scenario = _data.build_scenario(seed=seed, n_requests=n_requests, nights=nights)
 
     optimal = _solver.solve(scenario, time_limit=10.0)
     greedy = _greedy.schedule_greedy(scenario)

@@ -1,0 +1,21 @@
+id,title,section,duration_h,priority,crew,crew_size,equipment,earliest_night,latest_night
+WR-101,Rail fracture repair,SEC-A,2.5,URGENT,p-way,2,road-railer,1,2
+WR-102,Points failure rectification,SEC-B,2,URGENT,signalling,1,none,1,2
+WR-103,Track tamping,SEC-C,3,IMPORTANT,p-way,1,tamping-machine,1,4
+WR-104,Ballast cleaning,SEC-D,4,IMPORTANT,p-way,1,ballast-cleaner,2,5
+WR-105,Signal testing,SEC-E,2,ROUTINE,signalling,1,none,1,5
+WR-106,OHE insulator replacement,SEC-F,3,IMPORTANT,ohe,1,tower-wagon,1,3
+WR-107,Bridge girder inspection,SEC-G,2,ROUTINE,bridge,1,road-railer,2,5
+WR-108,Rail grinding,SEC-H,3,ROUTINE,p-way,1,rail-grinder,1,5
+WR-109,OHE breakdown repair,SEC-A,3,URGENT,ohe,2,tower-wagon,1,1
+WR-110,Interlocking check,SEC-B,2.5,IMPORTANT,signalling,1,none,2,5
+WR-111,Points lubrication,SEC-C,1.5,ROUTINE,signalling,1,none,1,5
+WR-112,Fishplate greasing,SEC-D,1.5,ROUTINE,p-way,1,none,1,5
+WR-113,Weld defect grinding,SEC-E,2.5,URGENT,p-way,2,rail-grinder,1,2
+WR-114,OHE tension adjustment,SEC-F,2.5,ROUTINE,ohe,1,tower-wagon,1,5
+WR-115,Track tamping,SEC-G,3,IMPORTANT,p-way,1,tamping-machine,2,5
+WR-116,Signal testing,SEC-H,2,ROUTINE,signalling,1,none,1,5
+WR-117,Ballast cleaning,SEC-A,4,IMPORTANT,p-way,1,ballast-cleaner,3,5
+WR-118,Bridge girder inspection,SEC-B,2,ROUTINE,bridge,1,road-railer,1,5
+WR-119,OHE insulator replacement,SEC-C,3,IMPORTANT,ohe,1,tower-wagon,2,5
+WR-120,Rail fracture repair,SEC-D,2.5,URGENT,p-way,2,road-railer,1,1

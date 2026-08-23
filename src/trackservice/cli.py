@@ -23,9 +23,10 @@ def run(
     nights: int = typer.Option(5, help="Number of engineering nights."),
     out: str = typer.Option("schedule.json", help="Where to write the JSON report."),
     dashboard: str = typer.Option("dashboard.html", help="Where to write the HTML dashboard."),
+    input_csv: str = typer.Option(None, "--input", help="Load work requests from a CSV instead of the synthetic scenario."),
 ) -> None:
     """Solve, explain, propose alternatives, inject an emergency, and render."""
-    report = _pipeline.run(seed=seed, n_requests=requests, nights=nights)
+    report = _pipeline.run(seed=seed, n_requests=requests, nights=nights, input_csv=input_csv)
 
     pathlib.Path(out).write_text(json.dumps(report, indent=2))
     render_dashboard(report, dashboard)
@@ -75,6 +76,53 @@ def sweep(
 
 
 @app.command()
+def sih(
+    seed: int = typer.Option(1, help="Scenario seed (1 is the showcase)."),
+    nights: int = typer.Option(30, help="Planning horizon in nights."),
+    out: str = typer.Option("sih_schedule.json", help="Where to write the JSON report."),
+    dashboard: str = typer.Option("sih_dashboard.html", help="Where to write the HTML dashboard."),
+) -> None:
+    """SIH26027: block plan on the REAL corridor, with the statutory guarantee."""
+    from .dashboard import build_html
+    from .railops import sih_pipeline
+
+    report = sih_pipeline.run(seed=seed, nights=nights)
+    pathlib.Path(out).write_text(json.dumps(report, indent=2))
+    pathlib.Path(dashboard).write_text(build_html(report, live=False))
+
+    s = report["statutory"]
+    console.print(f"\n[bold]{report['corridor']['name']}[/]")
+    console.print(
+        f"[green]Statutory (T0) deadlines met:[/] CP-SAT [bold]{s['cpsat_met']}/{s['total']}[/]  "
+        f"vs FIFO [bold red]{s['greedy_met']}/{s['total']}[/]"
+        + (f"  (FIFO misses {', '.join(s['greedy_missed'])})" if s['greedy_missed'] else "")
+    )
+    _print_metrics(report)
+    console.print(f"\n[green]Wrote[/] {out} and [green]{dashboard}[/] (open it directly).")
+
+
+@app.command(name="sih-eval")
+def sih_eval(seeds: int = typer.Option(20, help="Number of scenarios."),
+             nights: int = typer.Option(7)) -> None:
+    """Phase 7: evidence across many scenarios — ours vs manual, on real metrics."""
+    from .railops.evaluate import run_eval
+
+    r = run_eval(seeds=seeds, nights=nights)
+    table = Table(title=f"Evidence across {r['seeds']} scenarios "
+                        f"({int(r['t0_per_scenario'])} statutory jobs each)")
+    for c in ("Metric", "Ours (CP-SAT)", "Manual / FIFO", "Better"):
+        table.add_column(c)
+    for m in r["metrics"]:
+        win = "✓ ours" if (
+            (m["better"] == "higher" and m["ours_mean"] > m["base_mean"]) or
+            (m["better"] == "lower" and m["ours_mean"] < m["base_mean"])
+        ) else "="
+        table.add_row(m["label"], f"{m['ours_mean']} ± {m['ours_sd']}",
+                      f"{m['base_mean']} ± {m['base_sd']}", win)
+    console.print(table)
+
+
+@app.command()
 def serve(
     host: str = typer.Option("127.0.0.1", help="Bind address (localhost by default)."),
     port: int = typer.Option(8000, help="Port."),
@@ -84,6 +132,15 @@ def serve(
 
     console.print(f"[green]Live dashboard:[/] http://{host}:{port}  (Ctrl-C to stop)")
     _serve(host=host, port=port)
+
+
+@app.command(name="sih-serve")
+def sih_serve(host: str = typer.Option("127.0.0.1"), port: int = typer.Option(8000)) -> None:
+    """Live SIH26027 server on the real corridor — judges inject emergencies live."""
+    from .service import serve as _serve
+
+    console.print(f"[green]Live SIH block-planning dashboard:[/] http://{host}:{port}  (Ctrl-C to stop)")
+    _serve(host=host, port=port, sih=True)
 
 
 def _print_metrics(report: dict) -> None:

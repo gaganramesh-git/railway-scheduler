@@ -133,3 +133,41 @@ def test_solve_is_fast_enough_for_live_demo():
     sc = _data.build_scenario(seed=7)
     sch = _solver.solve(sc, time_limit=10.0)
     assert sch.solve_seconds < 10.0
+
+
+def test_independent_checker_passes_valid_and_catches_corruption():
+    from trackservice import checker
+    from trackservice.types import Assignment
+
+    sc = _data.build_scenario(seed=7)
+    sch = _solver.solve(sc, time_limit=10.0)
+
+    # A real solver plan must pass the independent checker.
+    v = checker.verify(sc, sch)
+    assert v.ok, v.violations
+    assert v.checks_run > 0
+
+    # A corrupted plan (a job on a night it isn't allowed) must be caught.
+    bad = _solver.solve(sc, time_limit=10.0)
+    r = sc.requests[0]
+    bad.assignments.append(
+        Assignment(request_id=r.id, night=r.latest_night, start=0, end=r.duration + 2)
+    )
+    assert not checker.verify(sc, bad).ok
+
+
+def test_statutory_mandatory_are_scheduled_when_feasible():
+    """Mandatory (statutory) jobs are never traded for lower work when they fit."""
+    sc = _data.build_scenario(seed=7)
+    # Pick a couple of urgent jobs to treat as statutory.
+    urgent = [r.id for r in sc.requests if r.priority.value == 5][:2]
+    sch = _solver.solve(sc, time_limit=10.0, mandatory=set(urgent))
+    placed = sch.scheduled_ids
+    for rid in urgent:
+        r = sc.request(rid)
+        feasible = any(
+            (w := sc.window(r.section_id, n)) and r.duration <= w.length
+            for n in r.nights()
+        )
+        if feasible:
+            assert rid in placed, f"statutory {rid} feasible but dropped"

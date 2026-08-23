@@ -1,11 +1,19 @@
-# Python
-.venv/
-__pycache__/
-*.py[cod]
-*.egg-info/
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
 
 # OS
+# Python
+*.egg-info/
+*.py[cod]
 .DS_Store
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv/
+__pycache__/
+
+# Runtime data and the 82MB raw timetable are ignored; the small computed
+# corridor cache is committed so a fresh clone runs without the raw download.
+data/*
+!data/corridor.json
+
+# Stale one-off export
+dashboard_imported.html
