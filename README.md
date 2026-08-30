@@ -5,8 +5,7 @@ Maintenance block scheduling for railway engineering windows. **Statement 27**
 coordination — software that detects conflicts, proposes alternatives, and
 optimises the plan.*
 
-It does the three things the statement asks for, and does the third one — the one
-most teams skip — properly:
+It does the three things the statement asks for, and does the third one properly:
 
 1. **Detect conflicts** — an OR-Tools CP-SAT model over sections, crews, machines
    and duty hours.
