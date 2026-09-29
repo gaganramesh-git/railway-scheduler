@@ -1,0 +1,5 @@
+id,name,dwt,draft_m,loa_m,base_rate_per_t,baltic_index
+HANDY,Handysize,35000,10.0,180,22.0,BHSI
+SUPRA,Supramax,58000,12.5,200,18.5,BSI
+PANA,Panamax,75000,14.0,229,16.0,BPI
+CAPE,Capesize,180000,18.0,290,12.5,BCI

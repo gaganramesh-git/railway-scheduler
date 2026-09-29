@@ -51,3 +51,50 @@ def test_eval_cost_saving_positive_on_average():
     assert r["all_verified"]
     assert r["cost_saved_pct"][0] > 0        # saves money on average
     assert r["on_time_pct"][0] == 100.0      # all feasible cargo delivered on time
+
+
+def test_manual_add_and_cancel_replan(tmp_path, monkeypatch):
+    """A raised cargo appears (pinned); a cancelled one is dropped and re-planned."""
+    import trackservice.marine.requests_store as st
+    monkeypatch.setattr(st, "_ADD", tmp_path / "add.jsonl")
+    monkeypatch.setattr(st, "_CANCEL", tmp_path / "cancel.jsonl")
+    from trackservice.marine import pipeline as pl
+
+    base = pl.run(seed=3, weeks=12)
+    n = base["metrics"]["total_parcels"]
+
+    st.record_addition({"commodity": "Coking coal", "origin": "AUS", "port": "GGV",
+                        "volume_t": 68000, "required_by_week": 9, "priority": 5})
+    added = pl.run(seed=3, weeks=12)
+    assert added["metrics"]["total_parcels"] == n + 1
+    assert added["manual_ids"] == ["CR-001"]
+
+    st.record_cancellation("CGO-005", "gm-commercial", "buyer pulled tender")
+    after = pl.run(seed=3, weeks=12)
+    assert "CGO-005" in after["cancelled"]
+    assert not any(p["id"] == "CGO-005" for p in after["scenario"]["parcels"])
+
+
+def test_audit_hierarchy_present():
+    from trackservice.marine import pipeline as pl
+    r = pl.run(seed=3, weeks=12)
+    au = r["audit"]
+    assert au["entries"] and "roles" in au
+    ranks = {e["rank"] for e in au["entries"]}
+    assert ranks  # seeded chain populated
+
+
+def test_market_calibrated_to_baltic():
+    from trackservice.marine import pipeline as pl
+    r = pl.run(seed=3, weeks=12)
+    assert r["market"]["BDI"] == 3178 and r["market"]["date"] == "2026-09-29"
+
+
+def test_feeds_roundtrip(tmp_path):
+    from trackservice.marine import feeds as fd
+    from trackservice.marine.optimizer import optimize, verify
+    fd.generate_sample_feeds(seed=3, weeks=12, feeds_dir=str(tmp_path))
+    sc = fd.build_scenario_from_feeds(str(tmp_path))
+    assert len(sc.parcels) == 24 and sc.weeks == 12
+    plan = optimize(sc, time_limit=10.0)
+    assert verify(sc, plan).ok

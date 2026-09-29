@@ -52,8 +52,18 @@ def _metrics(scenario, plan, spot) -> dict:
     }
 
 
-def run(seed: int = 3, weeks: int = 12) -> dict:
-    scenario = _data.build_scenario(seed=seed, weeks=weeks)
+def run(seed: int = 3, weeks: int = 12, from_feeds: bool = False) -> dict:
+    if from_feeds:
+        from . import feeds as _feeds
+        scenario = _feeds.build_scenario_from_feeds()
+    else:
+        scenario = _data.build_scenario(seed=seed, weeks=weeks)
+
+    # Fold in operator edits: manually-raised cargo (pinned) and cancellations.
+    from . import requests_store as _store
+    scenario, manual_ids, cancelled = _store.apply_to(scenario)
+    weeks = scenario.weeks
+
     plan = optimize(scenario, time_limit=10.0)
     spot = spot_baseline(scenario)
     ver = verify(scenario, plan)
@@ -76,7 +86,8 @@ def run(seed: int = 3, weeks: int = 12) -> dict:
                         for o in scenario.origins],
             "parcels": [{"id": p.id, "commodity": p.commodity, "origin": p.origin_id,
                          "port": p.port_id, "volume_t": p.volume_t,
-                         "required_by_week": p.required_by_week, "priority": p.priority}
+                         "required_by_week": p.required_by_week, "priority": p.priority,
+                         "manual": p.manual}
                         for p in scenario.parcels],
             "rate_index": {f"{k[0]}|{k[1]}": val for k, val in scenario.rate_index.items()},
         },
@@ -92,7 +103,17 @@ def run(seed: int = 3, weeks: int = 12) -> dict:
         "forecast": forecast,
         "verification": {"ok": ver.ok, "checks_run": ver.checks_run,
                          "violations": ver.violations},
+        "market": _data.BALTIC,
+        "manual_ids": manual_ids,
+        "cancelled": cancelled,
     }
+    # flag voyages that carry a manually-raised parcel, for the dashboard badge
+    manual_set = set(manual_ids)
+    for v in report["plan"]["voyages"]:
+        v["manual"] = any(pid in manual_set for pid in v["parcels"])
+
+    from . import audit as _audit
+    report["audit"] = _audit.report_entries(report)
     return report
 
 

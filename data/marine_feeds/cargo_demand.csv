@@ -1,0 +1,25 @@
+id,commodity,origin,port,volume_t,required_by_week,priority
+CGO-001,Thermal coal,RUS,VZG,45000,11,5
+CGO-002,Steam coal,RUS,HDA,28000,11,4
+CGO-003,Steam coal,RUS,DHM,28000,11,5
+CGO-004,Thermal coal,RUS,GGV,45000,6,5
+CGO-005,Coking coal,MOZ,PPT,45000,6,4
+CGO-006,Coking coal,AUS,GGV,55000,11,4
+CGO-007,Thermal coal,AUS,DHM,68000,11,5
+CGO-008,Coking coal,RUS,GGV,68000,8,3
+CGO-009,Steam coal,AUS,GGV,28000,5,5
+CGO-010,Steam coal,RUS,PPT,30000,9,4
+CGO-011,Thermal coal,USA,VZG,70000,8,4
+CGO-012,Steam coal,USA,VZG,55000,11,4
+CGO-013,Thermal coal,MOZ,HDA,28000,10,3
+CGO-014,Thermal coal,MOZ,HDA,28000,8,4
+CGO-015,Thermal coal,RUS,GGV,68000,8,5
+CGO-016,Steam coal,RUS,GGV,28000,9,3
+CGO-017,Thermal coal,IDN,PPT,70000,9,4
+CGO-018,Coking coal,USA,DHM,70000,10,4
+CGO-019,Thermal coal,RUS,PPT,70000,6,4
+CGO-020,Coking coal,MOZ,GGV,68000,10,4
+CGO-021,Thermal coal,USA,VZG,45000,10,3
+CGO-022,Steam coal,USA,GPL,28000,8,3
+CGO-023,Coking coal,IDN,GGV,68000,7,4
+CGO-024,Coking coal,USA,VZG,70000,11,5

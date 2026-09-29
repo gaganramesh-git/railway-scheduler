@@ -18,6 +18,11 @@ data/*
 !data/feeds
 data/feeds/*
 !data/feeds/*.csv
+# Sample marine chartering feeds (ports, vessels, cargo, freight rates), so
+# `charter --from-feeds` runs after clone
+!data/marine_feeds
+data/marine_feeds/*
+!data/marine_feeds/*.csv
 
 # Stale one-off export
 dashboard_imported.html

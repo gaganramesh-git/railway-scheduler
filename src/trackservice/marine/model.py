@@ -60,6 +60,7 @@ class CargoParcel:
     volume_t: int
     required_by_week: int
     priority: int          # 3 routine .. 5 critical (plant-critical coal)
+    manual: bool = False   # True → raised by hand through the charter-entry screen
 
 
 @dataclass(frozen=True)
@@ -127,3 +128,9 @@ class Scenario:
 
     def rate(self, vessel_id: str, week: int) -> float:
         return self.rate_index.get((vessel_id, week), 1.0)
+
+    def with_parcels(self, extra) -> "Scenario":
+        """A copy with more cargo parcels added — folds in manually-raised
+        requirements without mutating the base scenario."""
+        from dataclasses import replace
+        return replace(self, parcels=list(self.parcels) + list(extra))

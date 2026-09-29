@@ -45,12 +45,30 @@ tr:last-child td{border-bottom:none;}
 .rec{background:var(--goodbg);border:1px solid var(--good);border-radius:8px;padding:3px 9px;font-size:.72rem;color:var(--good);font-weight:600;display:inline-block;}
 .verline{margin-top:18px;font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--soft);}
 .verline .ok{color:var(--good);}
+.rolebar{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:0 0 16px;font-size:.85rem;}
+.rolebar .lbl{color:var(--faint);font-family:"IBM Plex Mono",monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;}
+.rolebar select{background:var(--panel2);color:var(--ink);border:1px solid var(--rule);border-radius:8px;padding:.35rem .55rem;font-family:inherit;}
+.rolebar .perm{color:var(--soft);font-size:.82rem;}
+.rolebar .entry{margin-left:auto;text-decoration:none;font-size:.8rem;font-weight:600;color:#fff;background:var(--accent);border-radius:8px;padding:.4rem .75rem;}
+.chip{font-family:"IBM Plex Mono",monospace;font-size:.66rem;background:var(--panel2);border:1px solid var(--rule);border-radius:999px;padding:2px 7px;margin:1px 2px;display:inline-flex;align-items:center;gap:5px;}
+.chip.manual{background:var(--goodbg);border-color:var(--good);color:var(--good);}
+.chip .x{cursor:pointer;color:var(--bad);font-weight:700;}
+.mbadge{font-family:"IBM Plex Mono",monospace;font-size:.6rem;font-weight:600;color:var(--good);background:var(--goodbg);padding:2px 7px;border-radius:999px;}
+.auditwrap{margin-top:10px;}
+#audit td,#audit th{font-size:.8rem;}
+.deptpill{font-family:"IBM Plex Mono",monospace;font-size:.58rem;padding:1px 6px;border-radius:999px;background:var(--panel2);border:1px solid var(--rule);color:var(--soft);margin-left:6px;}
 @media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr);}.cmp{grid-template-columns:1fr;}}
 </style>
 <div class="wrap">
   <p class="eyebrow">SIH26006 · Ministry of Steel</p>
   <h1>Charter Planner</h1>
   <p class="sub" id="sub"></p>
+  <div class="rolebar" id="rolebar" style="display:none">
+    <span class="lbl">Signed in as</span>
+    <select id="roleSel"></select>
+    <span class="perm" id="rolePerm"></span>
+    <a class="entry" id="entryLink" href="/entry" style="display:none">↗ Raise a cargo requirement</a>
+  </div>
   <div class="kpis" id="kpis"></div>
 
   <h2>Optimised plan vs today's reactive spot procurement</h2>
@@ -69,14 +87,53 @@ tr:last-child td{border-bottom:none;}
   <p class="h2sub">A vessel drawing more than a port's max draft cannot berth — the hard physical limit the optimiser respects.</p>
   <div class="card" style="overflow-x:auto"><table id="ports"></table></div>
 
+  <h2>Audit log</h2>
+  <p class="h2sub" id="auditScope">Every action is recorded. You see your own level and everyone below you.</p>
+  <div class="card auditwrap" style="overflow-x:auto"><table id="audit"></table></div>
+
   <div class="verline" id="ver"></div>
 </div>
 <script id="data" type="application/json">__DATA__</script>
 <script>
 const D=JSON.parse(document.getElementById('data').textContent);
+const LIVE=__LIVE__;
 const m=D.metrics, S=D.scenario;
 const money=x=>'$'+Math.round(x).toLocaleString();
-document.getElementById('sub').textContent=D.problem+' — '+S.parcels.length+' cargo parcels, '+S.ports.length+' East-Coast ports, '+S.weeks+'-week horizon.';
+const mk=D.market||{};
+document.getElementById('sub').innerHTML=D.problem+' — '+S.parcels.length+' cargo parcels, '+S.ports.length+' East-Coast ports, '+S.weeks+'-week horizon.'+
+ (mk.date?` <span style="color:var(--faint)">Market calibrated to Baltic Exchange (BDI ${mk.BDI}, ${mk.date}).</span>`:'');
+
+// ---------- controlled access: role hierarchy + audit visibility ----------
+const ROLES=[
+ {id:'chartering-officer',label:'Chartering Officer (R. Menon)',dept:'CHARTER',rank:1,tier:'desk'},
+ {id:'procurement-mgr',   label:'Procurement Manager (S. Iyer)',dept:'PROC',rank:2,tier:'control'},
+ {id:'logistics-head',    label:'Logistics Head / DGM (A. Banerjee)',rank:3,tier:'approve'},
+ {id:'gm-commercial',     label:'GM Commercial (P. Rao)',rank:4,tier:'signoff'},
+ {id:'board',             label:'Director (Finance) / Board',rank:5,tier:'oversight'},
+];
+function permsFor(r){switch(r.tier){
+  case 'desk':return {act:true,cancel:false,note:'Raise cargo requirements · cannot cancel booked shipments'};
+  case 'control':return {act:true,cancel:true,note:'Raise & approve; may cancel within '+r.dept};
+  case 'approve':return {act:true,cancel:true,note:'Validate lanes & ports · may cancel shipments'};
+  case 'signoff':return {act:true,cancel:true,note:'Sign off the plan · cancel with a logged reason'};
+  case 'oversight':return {act:false,cancel:false,note:'View & export only — aggregate oversight'};
+}}
+let role=ROLES.find(r=>r.id==='gm-commercial'); let RP=permsFor(role);
+function setupRoles(){
+  const bar=document.getElementById('rolebar'); bar.style.display='flex';
+  const sel=document.getElementById('roleSel');
+  sel.innerHTML=ROLES.map(r=>`<option value="${r.id}">${r.label}</option>`).join('');
+  sel.value=role.id;
+  sel.onchange=()=>{role=ROLES.find(r=>r.id===sel.value);RP=permsFor(role);applyRole();};
+  applyRole();
+}
+function applyRole(){
+  document.getElementById('rolePerm').textContent=RP.note;
+  const el=document.getElementById('entryLink');
+  el.style.display=(LIVE && role.tier==='desk')?'':'none';
+  el.href='/entry?role='+encodeURIComponent(role.id);
+  renderVoyages(); renderAudit();
+}
 
 document.getElementById('kpis').innerHTML=[
  ['good',m.cost_saved_pct+'%','Freight cost saved'],
@@ -116,18 +173,62 @@ document.getElementById('chart').innerHTML=svg;
 document.getElementById('chartleg').innerHTML=D.forecast.map(f=>
  `<span><i style="background:${colors[f.vessel]}"></i>${f.vessel_name}: <span class="rec">best wk ${f.best_week} (−${f.saving_pct}% vs now)</span></span>`).join('');
 
-// ---- voyage table ----
-const vt=D.plan.voyages;
-document.getElementById('voyages').innerHTML=
- '<thead><tr><th>Voyage</th><th>Vessel</th><th>Lane</th><th>Depart→Arrive</th><th>Load</th><th>Utilisation</th><th>Parcels</th></tr></thead><tbody>'+
- vt.map(v=>`<tr>
+// ---- voyage table (cargo chips are cancellable in live mode) ----
+const manualSet=new Set(D.manual_ids||[]);
+function renderVoyages(){
+ const vt=D.plan.voyages;
+ document.getElementById('voyages').innerHTML=
+ '<thead><tr><th>Voyage</th><th>Vessel</th><th>Lane</th><th>Depart→Arrive</th><th>Load</th><th>Utilisation</th><th>Cargo</th></tr></thead><tbody>'+
+ vt.map(v=>{
+   const chips=v.parcels.map(pid=>{
+     const man=manualSet.has(pid);
+     const x=(LIVE && RP.cancel)?`<span class="x" title="Cancel shipment" onclick="cancelShipment('${pid}')">✕</span>`:'';
+     return `<span class="chip${man?' manual':''}">${pid}${man?' ●':''} ${x}</span>`;
+   }).join('');
+   return `<tr>
    <td class="mono">${v.voyage_id}</td>
-   <td><span class="vpill ${v.vessel_id}">${v.vessel}</span></td>
+   <td><span class="vpill ${v.vessel_id}">${v.vessel}</span>${v.manual?' <span class="mbadge">raised</span>':''}</td>
    <td>${v.origin} → ${v.port}</td>
    <td class="mono">wk ${v.depart_week} → ${v.arrive_week}</td>
    <td class="mono">${v.load_t.toLocaleString()} / ${v.capacity_t.toLocaleString()} t</td>
    <td><div class="util"><i style="width:${v.utilisation_pct}%"></i></div></td>
-   <td>${v.parcels.length} ${v.shared?'<span class="shared">consolidated</span>':''}</td></tr>`).join('')+'</tbody>';
+   <td>${chips} ${v.shared?'<span class="shared">consolidated</span>':''}</td></tr>`;
+ }).join('')+'</tbody>';
+}
+renderVoyages();
+
+async function cancelShipment(pid){
+  if(!(LIVE && RP.cancel)) return;
+  const reason=prompt('Cancel shipment '+pid+' and re-plan. Reason?','buyer pulled the tender');
+  if(reason===null) return;
+  try{
+    await fetch('/api/charter/cancel',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({parcel_id:pid, reason, actor:role.id})});
+    location.reload();
+  }catch(e){ alert('Cancel failed: '+e.message); }
+}
+
+// ---- audit log with hierarchy visibility ----
+function renderAudit(){
+  const au=D.audit; if(!au){document.getElementById('audit').innerHTML='';return;}
+  const me=role;
+  const visible=au.entries.filter(e=>{
+    if(me.rank>=3) return e.rank<=me.rank;                       // approver+ sees all below
+    if(me.rank===2) return e.rank<=2 && e.department===me.dept;  // control: own dept
+    return e.role_id===me.id;                                    // desk: only own
+  });
+  document.getElementById('auditScope').textContent =
+    me.rank>=3 ? 'Showing all actions at or below '+me.label.split(' (')[0]+'.'
+    : me.rank===2 ? 'Showing '+me.dept+' actions up to your level.'
+    : 'Showing your own actions only.';
+  document.getElementById('audit').innerHTML=
+   '<thead><tr><th>Time</th><th>Role</th><th>User</th><th>Action</th><th>Detail</th></tr></thead><tbody>'+
+   (visible.length?visible.map(e=>`<tr>
+     <td class="mono">${e.time}</td>
+     <td>${e.role}${e.department?`<span class="deptpill">${e.department}</span>`:''}</td>
+     <td>${e.user}</td><td>${e.action}</td><td>${e.detail}</td></tr>`).join('')
+    :'<tr><td colspan="5" style="color:var(--faint)">No actions visible at your level.</td></tr>')+'</tbody>';
+}
 
 // ---- ports ----
 document.getElementById('ports').innerHTML=
@@ -139,9 +240,13 @@ document.getElementById('ports').innerHTML=
 
 const ver=D.verification;
 document.getElementById('ver').innerHTML=`${S.parcels.length} parcels · CP-SAT ${D.plan.proven_optimal?'proved OPTIMAL':D.plan.status} in ${D.plan.solve_seconds}s · <span class="${ver.ok?'ok':''}">${ver.ok?'✓ independently verified ('+ver.checks_run+' checks)':'✗ FAILED VERIFICATION'}</span>`;
+
+setupRoles();
 </script>
 """
 
 
-def build_html(report: dict) -> str:
-    return _TEMPLATE.replace("__DATA__", json.dumps(report))
+def build_html(report: dict, live: bool = False) -> str:
+    return (_TEMPLATE
+            .replace("__DATA__", json.dumps(report))
+            .replace("__LIVE__", "true" if live else "false"))

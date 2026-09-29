@@ -5,10 +5,21 @@ live deployments would read ports/vessels from masters and rates from a market f
 
 from __future__ import annotations
 
-import math
 import random
 
 from .model import CargoParcel, Origin, Port, Scenario, VesselClass, Voyage
+
+# Real Baltic Exchange dry-bulk snapshot the market model is calibrated to. The
+# sub-indices map one-to-one onto our vessel classes; a licensed Baltic history
+# feed drops straight into freight_rates.csv (see marine/feeds.py).
+BALTIC = {
+    "date": "2026-09-29",
+    "source": "Baltic Exchange (via Trading Economics)",
+    "BDI": 3178, "BCI": 5103, "BPI": 2390, "BSI": 1797, "BHSI": 745,
+}
+# vessel class -> Baltic sub-index, and that class's recent weekly volatility
+VESSEL_INDEX = {"CAPE": "BCI", "PANA": "BPI", "SUPRA": "BSI", "HANDY": "BHSI"}
+_WEEKLY_VOL = {"CAPE": 0.075, "PANA": 0.045, "SUPRA": 0.038, "HANDY": 0.030}
 
 # East-Coast India discharge ports — max draft is the binding limit.
 PORTS = [
@@ -41,17 +52,20 @@ _COMMODITIES = ["Coking coal", "Thermal coal", "Steam coal"]
 
 
 def _rate_series(vessels, weeks, rng) -> dict:
-    """A freight-rate index per (vessel, week): a volatile market with seasonality.
-    Index multiplies each class's base $/tonne. This is what timing optimisation
-    exploits — charter in a soft week, not reactively at the deadline."""
+    """A freight-rate index per (vessel, week): a market that starts at today's
+    Baltic level (week 0 = 1.0) and evolves as a mean-reverting random walk whose
+    weekly volatility is calibrated to each class's real Baltic sub-index. This is
+    what timing optimisation exploits — charter in a soft week, not at the deadline.
+    Replace with real Baltic history via freight_rates.csv for a live deployment."""
     idx = {}
-    # a shared market cycle + per-class noise
-    phase = rng.uniform(0, math.pi)
-    for w in range(weeks):
-        market = 1.0 + 0.18 * math.sin(2 * math.pi * w / 13 + phase)  # ~quarterly cycle
-        for v in vessels:
-            noise = rng.uniform(-0.06, 0.06)
-            idx[(v.id, w)] = round(max(0.7, market + noise), 3)
+    for v in vessels:
+        vol = _WEEKLY_VOL.get(v.id, 0.04)
+        level = 1.0
+        for w in range(weeks):
+            idx[(v.id, w)] = round(level, 3)
+            shock = rng.gauss(0, vol)
+            revert = 0.15 * (1.0 - level)          # pull back toward the mean
+            level = max(0.7, min(1.4, level + shock + revert))
     return idx
 
 

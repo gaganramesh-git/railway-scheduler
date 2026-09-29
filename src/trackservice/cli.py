@@ -175,12 +175,14 @@ def charter(
     weeks: int = typer.Option(12, help="Planning horizon in weeks."),
     out: str = typer.Option("charter_schedule.json", help="Where to write the JSON report."),
     dashboard: str = typer.Option("charter_dashboard.html", help="Where to write the HTML dashboard."),
+    from_feeds: bool = typer.Option(False, "--from-feeds",
+        help="Plan from the CSV feeds in data/marine_feeds instead of the generator."),
 ) -> None:
     """SIH26006: optimise bulk-cargo vessel chartering on India's East Coast."""
     from .marine import pipeline as mp
     from .marine.dashboard import build_html
 
-    report = mp.run(seed=seed, weeks=weeks)
+    report = mp.run(seed=seed, weeks=weeks, from_feeds=from_feeds)
     pathlib.Path(out).write_text(json.dumps(report, indent=2))
     pathlib.Path(dashboard).write_text(build_html(report))
 
@@ -202,6 +204,28 @@ def charter(
     table.add_row("Verified", "✓" if v["ok"] else "✗ FAIL", "—")
     console.print(table)
     console.print(f"\n[green]Wrote[/] {out} and [green]{dashboard}[/] (open it directly).")
+
+
+@app.command(name="charter-serve")
+def charter_serve(host: str = typer.Option("127.0.0.1"), port: int = typer.Option(8000)) -> None:
+    """Live chartering server — roles, audit, raise a cargo requirement, cancel a shipment."""
+    from .marine.service import serve as _serve
+
+    console.print(f"[green]Live Charter Planner:[/] http://{host}:{port}  (Ctrl-C to stop)")
+    _serve(host=host, port=port)
+
+
+@app.command(name="charter-feeds")
+def charter_feeds(seed: int = typer.Option(3), weeks: int = typer.Option(12),
+                  out: str = typer.Option("data/marine_feeds")) -> None:
+    """Generate the CSV feeds (ports, vessels, origins, cargo demand, freight rates)."""
+    from .marine import feeds as mf
+
+    info = mf.generate_sample_feeds(seed=seed, weeks=weeks, feeds_dir=out)
+    console.print(f"[green]Wrote feeds to {out}/[/] — {info['parcels']} cargo parcels, "
+                  f"{info['rate_rows']} freight-rate rows "
+                  f"(calibrated to Baltic {info['baltic']['date']}: BDI {info['baltic']['BDI']}).")
+    console.print("Run: [bold]trackservice charter --from-feeds[/]")
 
 
 @app.command(name="charter-eval")
