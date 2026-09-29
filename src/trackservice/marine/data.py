@@ -50,6 +50,22 @@ VESSELS = [
 
 _COMMODITIES = ["Coking coal", "Thermal coal", "Steam coal"]
 
+# East-Coast ports ordered north -> south along the coastline, so "next nearest"
+# is the closest neighbour that can still physically take the cargo.
+PORT_ORDER = ["HDA", "DHM", "PPT", "GPL", "VZG", "GGV"]
+
+
+def nearest_feasible_port(scenario, port_id: str, volume_t: int) -> "Port | None":
+    """The closest coastal port (to `port_id`) that can berth a vessel large enough
+    for `volume_t`. Used when a port goes unavailable and cargo must be rerouted."""
+    order = {pid: i for i, pid in enumerate(PORT_ORDER)}
+    here = order.get(port_id, 0)
+    cap_ok = lambda p: any(v.dwt >= volume_t and v.draft_m <= p.max_draft_m
+                           and v.loa_m <= p.max_loa_m for v in scenario.vessels)
+    others = [p for p in scenario.ports if p.id != port_id and cap_ok(p)]
+    others.sort(key=lambda p: abs(order.get(p.id, 99) - here))
+    return others[0] if others else None
+
 
 def _rate_series(vessels, weeks, rng) -> dict:
     """A freight-rate index per (vessel, week): a market that starts at today's

@@ -118,6 +118,100 @@ def charter_cancel(req: CancelRequest) -> dict:
             "new_cost": rep["metrics"]["ours_cost"], "new_voyages": rep["metrics"]["ours_voyages"]}
 
 
+def _current_scenario():
+    """Base scenario with all operator edits already folded in."""
+    sc, _, _ = _store.apply_to(_data.build_scenario(**_M))
+    return sc
+
+
+class RescheduleRequest(BaseModel):
+    parcel_id: str
+    required_by_week: int
+    actor: str = "logistics-head"
+
+
+@app.post("/api/charter/reschedule")
+def charter_reschedule(req: RescheduleRequest) -> dict:
+    """Shipment needed earlier/later — change its required-by week and re-plan."""
+    sc = _current_scenario()
+    try:
+        p = sc.parcel(req.parcel_id)
+    except StopIteration:
+        return {"ok": False, "reason": f"{req.parcel_id} is not in the current plan."}
+    transit = sc.origin(p.origin_id).transit_weeks
+    if req.required_by_week < transit:
+        return {"ok": False, "reason": f"Impossible: {sc.origin(p.origin_id).name} is "
+                f"{transit} weeks away, so it cannot arrive by week {req.required_by_week}."}
+    _store.record_reschedule(req.parcel_id, req.required_by_week, req.actor)
+    rep = _pipeline.run(**_M)
+    _audit.record(req.actor, "shipment rescheduled",
+                  f"{req.parcel_id} required-by moved to wk{req.required_by_week} "
+                  f"(was wk{p.required_by_week}) — re-planned to ${rep['metrics']['ours_cost']:,.0f}")
+    return {"ok": True, "parcel_id": req.parcel_id,
+            "new_cost": rep["metrics"]["ours_cost"], "new_voyages": rep["metrics"]["ours_voyages"]}
+
+
+class PortDisruptRequest(BaseModel):
+    port: str
+    days: int = 14
+    from_week: int = 4
+    actor: str = "logistics-head"
+
+
+@app.post("/api/charter/port-disrupt")
+def charter_port_disrupt(req: PortDisruptRequest) -> dict:
+    """A port is unavailable for N days from a given week. Find cargo due at that port
+    during the outage, notify the sender, and propose the next-nearest feasible port."""
+    import math
+    sc = _current_scenario()
+    try:
+        port = sc.port(req.port)
+    except StopIteration:
+        return {"ok": False, "reason": "unknown port"}
+    weeks = max(1, math.ceil(req.days / 7))
+    lo, hi = req.from_week, req.from_week + weeks
+    affected = [p for p in sc.parcels
+                if p.port_id == req.port and lo <= p.required_by_week <= hi]
+    proposals = []
+    for p in affected:
+        alt = _data.nearest_feasible_port(sc, req.port, p.volume_t)
+        proposals.append({
+            "parcel_id": p.id, "origin": sc.origin(p.origin_id).name,
+            "current_port": port.name, "volume_t": p.volume_t,
+            "suggested_port": alt.id if alt else None,
+            "suggested_port_name": alt.name if alt else "— none feasible —",
+        })
+    _audit.record(req.actor, "port disruption declared",
+                  f"{port.name} unavailable {req.days} days (~{weeks} wk); "
+                  f"{len(affected)} shipment(s) affected — senders notified")
+    return {"ok": True, "port": port.name, "days": req.days, "weeks": weeks,
+            "from_week": req.from_week, "affected": proposals}
+
+
+class RerouteRequest(BaseModel):
+    parcel_id: str
+    new_port: str
+    actor: str = "logistics-head"
+
+
+@app.post("/api/charter/reroute")
+def charter_reroute(req: RerouteRequest) -> dict:
+    """Accept a proposed reroute to the nearest port and re-plan."""
+    sc = _current_scenario()
+    try:
+        p = sc.parcel(req.parcel_id)
+        newp = sc.port(req.new_port)
+    except StopIteration:
+        return {"ok": False, "reason": "unknown parcel or port"}
+    _store.record_reroute(req.parcel_id, req.new_port, req.actor)
+    rep = _pipeline.run(**_M)
+    _audit.record(req.actor, "shipment rerouted",
+                  f"{req.parcel_id} diverted to {newp.name} — re-planned to "
+                  f"${rep['metrics']['ours_cost']:,.0f}, {rep['metrics']['ours_voyages']} charters")
+    return {"ok": True, "parcel_id": req.parcel_id, "new_port": newp.name,
+            "new_cost": rep["metrics"]["ours_cost"]}
+
+
 @app.get("/entry", response_class=HTMLResponse)
 def entry_view() -> str:
     from .entry import entry_page

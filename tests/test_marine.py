@@ -98,3 +98,26 @@ def test_feeds_roundtrip(tmp_path):
     assert len(sc.parcels) == 24 and sc.weeks == 12
     plan = optimize(sc, time_limit=10.0)
     assert verify(sc, plan).ok
+
+
+def test_reschedule_and_reroute(tmp_path, monkeypatch):
+    """Rescheduling changes a parcel's deadline; rerouting changes its port."""
+    import trackservice.marine.requests_store as st
+    for attr, name in [("_ADD","a"),("_CANCEL","c"),("_RESCHED","r"),("_REROUTE","x")]:
+        monkeypatch.setattr(st, attr, tmp_path / (name + ".jsonl"))
+    from trackservice.marine import pipeline as pl
+
+    st.record_reschedule("CGO-010", 5, "logistics-head")
+    st.record_reroute("CGO-010", "GPL", "logistics-head")
+    r = pl.run(seed=3, weeks=12)
+    p = next(x for x in r["scenario"]["parcels"] if x["id"] == "CGO-010")
+    assert p["required_by_week"] == 5 and p["port"] == "GPL"
+
+
+def test_nearest_feasible_port_respects_draft():
+    from trackservice.marine import data as d
+    sc = d.build_scenario(seed=3, weeks=12)
+    # a big parcel can't reroute to shallow Haldia; nearest must accept the size
+    alt = d.nearest_feasible_port(sc, "PPT", 70000)
+    assert alt is not None and alt.id != "HDA"
+    assert any(v.dwt >= 70000 and v.draft_m <= alt.max_draft_m for v in sc.vessels)

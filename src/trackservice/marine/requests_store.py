@@ -20,6 +20,8 @@ from .model import CargoParcel, Scenario
 
 _ADD = Path("data/cargo_requests.jsonl")
 _CANCEL = Path("data/cargo_cancellations.jsonl")
+_RESCHED = Path("data/cargo_reschedules.jsonl")
+_REROUTE = Path("data/cargo_reroutes.jsonl")
 
 
 def _read(path: Path) -> list[dict]:
@@ -53,8 +55,33 @@ def record_cancellation(parcel_id: str, actor: str, reason: str) -> dict:
     return rec
 
 
+def record_reschedule(parcel_id: str, required_by_week: int, actor: str) -> dict:
+    _RESCHED.parent.mkdir(parents=True, exist_ok=True)
+    rec = {"parcel_id": parcel_id, "required_by_week": int(required_by_week),
+           "actor": actor, "ts": time.time()}
+    with _RESCHED.open("a") as f:
+        f.write(json.dumps(rec) + "\n")
+    return rec
+
+
+def record_reroute(parcel_id: str, new_port: str, actor: str) -> dict:
+    _REROUTE.parent.mkdir(parents=True, exist_ok=True)
+    rec = {"parcel_id": parcel_id, "new_port": new_port, "actor": actor, "ts": time.time()}
+    with _REROUTE.open("a") as f:
+        f.write(json.dumps(rec) + "\n")
+    return rec
+
+
 def cancelled_ids() -> set[str]:
     return {r["parcel_id"] for r in _read(_CANCEL)}
+
+
+def _latest(path: Path, field: str) -> dict:
+    """Last value wins for repeated edits to the same parcel."""
+    out = {}
+    for r in _read(path):
+        out[r["parcel_id"]] = r[field]
+    return out
 
 
 def additions() -> list[dict]:
@@ -67,6 +94,8 @@ def apply_to(scenario: Scenario):
     Manually-raised cargo becomes a pinned high-priority parcel; cancelled parcels
     (base or manual) are dropped so the re-solve frees their capacity."""
     cancelled = cancelled_ids()
+    resched = _latest(_RESCHED, "required_by_week")   # parcel_id -> new week
+    reroute = _latest(_REROUTE, "new_port")           # parcel_id -> new port
     manual: list[CargoParcel] = []
     for d in _read(_ADD):
         if d["id"] in cancelled:
@@ -76,6 +105,16 @@ def apply_to(scenario: Scenario):
             origin_id=d["origin"], port_id=d["port"], volume_t=int(d["volume_t"]),
             required_by_week=int(d["required_by_week"]),
             priority=int(d.get("priority", 5)), manual=True))
-    kept = [p for p in scenario.parcels if p.id not in cancelled]
+
+    def edited(p: CargoParcel) -> CargoParcel:
+        changes = {}
+        if p.id in resched:
+            changes["required_by_week"] = resched[p.id]
+        if p.id in reroute:
+            changes["port_id"] = reroute[p.id]
+        return replace(p, **changes) if changes else p
+
+    kept = [edited(p) for p in scenario.parcels if p.id not in cancelled]
+    manual = [edited(m) for m in manual]
     scenario2 = replace(scenario, parcels=kept + manual)
     return scenario2, [m.id for m in manual], sorted(cancelled)

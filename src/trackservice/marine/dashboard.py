@@ -54,6 +54,17 @@ tr:last-child td{border-bottom:none;}
 .chip.manual{background:var(--goodbg);border-color:var(--good);color:var(--good);}
 .chip .x{cursor:pointer;color:var(--bad);font-weight:700;}
 .mbadge{font-family:"IBM Plex Mono",monospace;font-size:.6rem;font-weight:600;color:var(--good);background:var(--goodbg);padding:2px 7px;border-radius:999px;}
+.entry.warn{background:var(--warn);border:none;font-family:inherit;cursor:pointer;}
+.mini{font-family:inherit;font-size:.66rem;font-weight:600;border:1px solid var(--rule);background:var(--panel);color:var(--soft);border-radius:6px;padding:2px 7px;margin:1px 2px 1px 0;cursor:pointer;}
+.mini.cancel{color:var(--bad);border-color:var(--bad);}
+.mini.resched{color:var(--accent);border-color:var(--accent);}
+.mini:hover{filter:brightness(.97);}
+.cargoline{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin:2px 0;}
+.dpanel h3{font-family:"Archivo",sans-serif;font-size:1rem;margin:0 0 8px;color:var(--warn);}
+.dpanel .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0;font-size:.85rem;}
+.dpanel select,.dpanel input{font-family:inherit;padding:.4rem .55rem;border:1px solid var(--rule);border-radius:8px;background:var(--panel2);color:var(--ink);}
+.dpanel button{font-family:inherit;font-weight:600;border:none;border-radius:8px;padding:.45rem .8rem;cursor:pointer;color:#fff;background:var(--warn);}
+.reroute{background:var(--accent)!important;font-size:.72rem;padding:.3rem .6rem!important;}
 .auditwrap{margin-top:10px;}
 #audit td,#audit th{font-size:.8rem;}
 .deptpill{font-family:"IBM Plex Mono",monospace;font-size:.58rem;padding:1px 6px;border-radius:999px;background:var(--panel2);border:1px solid var(--rule);color:var(--soft);margin-left:6px;}
@@ -67,8 +78,10 @@ tr:last-child td{border-bottom:none;}
     <span class="lbl">Signed in as</span>
     <select id="roleSel"></select>
     <span class="perm" id="rolePerm"></span>
-    <a class="entry" id="entryLink" href="/entry" style="display:none">↗ Raise a cargo requirement</a>
+    <a class="entry" id="entryLink" href="/entry" style="display:none">＋ Add shipment</a>
+    <button class="entry warn" id="disruptBtn" style="display:none">⚠ Declare port disruption</button>
   </div>
+  <div class="card" id="disruptPanel" style="display:none;margin-bottom:16px"></div>
   <div class="kpis" id="kpis"></div>
 
   <h2>Optimised plan vs today's reactive spot procurement</h2>
@@ -112,11 +125,11 @@ const ROLES=[
  {id:'board',             label:'Director (Finance) / Board',rank:5,tier:'oversight'},
 ];
 function permsFor(r){switch(r.tier){
-  case 'desk':return {act:true,cancel:false,note:'Raise cargo requirements · cannot cancel booked shipments'};
-  case 'control':return {act:true,cancel:true,note:'Raise & approve; may cancel within '+r.dept};
-  case 'approve':return {act:true,cancel:true,note:'Validate lanes & ports · may cancel shipments'};
-  case 'signoff':return {act:true,cancel:true,note:'Sign off the plan · cancel with a logged reason'};
-  case 'oversight':return {act:false,cancel:false,note:'View & export only — aggregate oversight'};
+  case 'desk':return {act:true,cancel:false,edit:false,note:'Raise cargo requirements · cannot cancel or reroute booked shipments'};
+  case 'control':return {act:true,cancel:true,edit:true,note:'Raise, cancel, reschedule & reroute within '+r.dept};
+  case 'approve':return {act:true,cancel:true,edit:true,note:'Validate lanes & ports · cancel, reschedule, declare port disruptions'};
+  case 'signoff':return {act:true,cancel:true,edit:true,note:'Sign off the plan · cancel, reschedule, reroute with a logged reason'};
+  case 'oversight':return {act:false,cancel:false,edit:false,note:'View & export only — aggregate oversight'};
 }}
 let role=ROLES.find(r=>r.id==='gm-commercial'); let RP=permsFor(role);
 function setupRoles(){
@@ -130,8 +143,10 @@ function setupRoles(){
 function applyRole(){
   document.getElementById('rolePerm').textContent=RP.note;
   const el=document.getElementById('entryLink');
-  el.style.display=(LIVE && role.tier==='desk')?'':'none';
+  el.style.display=(LIVE && RP.act)?'':'none';
   el.href='/entry?role='+encodeURIComponent(role.id);
+  const pd=document.getElementById('disruptBtn');
+  if(pd) pd.style.display=(LIVE && RP.edit)?'':'none';
   renderVoyages(); renderAudit();
 }
 
@@ -182,8 +197,9 @@ function renderVoyages(){
  vt.map(v=>{
    const chips=v.parcels.map(pid=>{
      const man=manualSet.has(pid);
-     const x=(LIVE && RP.cancel)?`<span class="x" title="Cancel shipment" onclick="cancelShipment('${pid}')">✕</span>`:'';
-     return `<span class="chip${man?' manual':''}">${pid}${man?' ●':''} ${x}</span>`;
+     const resched=(LIVE && RP.edit)?`<button class="mini resched" onclick="rescheduleShipment('${pid}')">Reschedule</button>`:'';
+     const cancel=(LIVE && RP.cancel)?`<button class="mini cancel" onclick="cancelShipment('${pid}')">Cancel</button>`:'';
+     return `<div class="cargoline"><span class="chip${man?' manual':''}">${pid}${man?' ● raised':''}</span>${resched}${cancel}</div>`;
    }).join('');
    return `<tr>
    <td class="mono">${v.voyage_id}</td>
@@ -206,6 +222,55 @@ async function cancelShipment(pid){
       body:JSON.stringify({parcel_id:pid, reason, actor:role.id})});
     location.reload();
   }catch(e){ alert('Cancel failed: '+e.message); }
+}
+
+async function rescheduleShipment(pid){
+  if(!(LIVE && RP.edit)) return;
+  const wk=prompt('Reschedule '+pid+' — new "needed by" week (0–'+(S.weeks-1)+'). '+
+                  'Use an earlier week if the cargo is arriving ahead of time:');
+  if(wk===null) return;
+  try{
+    const d=await (await fetch('/api/charter/reschedule',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({parcel_id:pid, required_by_week:parseInt(wk), actor:role.id})})).json();
+    if(!d.ok){ alert(d.reason); return; }
+    location.reload();
+  }catch(e){ alert('Reschedule failed: '+e.message); }
+}
+
+// ---- port disruption: choose days -> notify sender -> reroute to nearest ----
+document.getElementById('disruptBtn').onclick=()=>{
+  const el=document.getElementById('disruptPanel');
+  if(el.style.display!=='none'){ el.style.display='none'; return; }
+  el.style.display='block';
+  el.className='card dpanel';
+  el.innerHTML=`<h3>⚠ Declare a port disruption</h3>
+    <div class="row">Port
+      <select id="dp-port">${S.ports.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select>
+      from week <input id="dp-from" type="number" min="0" max="${S.weeks-1}" value="4" style="width:60px">
+      for <input id="dp-days" type="number" min="1" max="60" value="14" style="width:70px"> days
+      <button id="dp-go">Find affected shipments</button></div>
+    <div id="dp-result"></div>`;
+  document.getElementById('dp-go').onclick=runDisrupt;
+};
+async function runDisrupt(){
+  const port=document.getElementById('dp-port').value, days=parseInt(document.getElementById('dp-days').value);
+  const from_week=parseInt(document.getElementById('dp-from').value);
+  const res=document.getElementById('dp-result');
+  res.innerHTML='<p style="color:var(--faint)">Checking…</p>';
+  const d=await (await fetch('/api/charter/port-disrupt',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({port, days, from_week, actor:role.id})})).json();
+  if(!d.ok){ res.innerHTML='<p>'+(d.reason||'error')+'</p>'; return; }
+  if(!d.affected.length){ res.innerHTML=`<p>${d.port} out for ~${d.weeks} week(s): <b>no shipments affected</b> in that window. Senders notified.</p>`; return; }
+  res.innerHTML=`<p>${d.port} unavailable ~${d.weeks} week(s) — <b>${d.affected.length} shipment(s) affected, senders notified.</b> Choose the next-nearest port to reroute:</p>`+
+    d.affected.map(a=>`<div class="row"><span class="chip">${a.parcel_id}</span> ${a.origin} · ${a.volume_t.toLocaleString()} t ·
+      ${a.current_port} → <b>${a.suggested_port_name}</b>
+      ${a.suggested_port?`<button class="reroute" onclick="applyReroute('${a.parcel_id}','${a.suggested_port}')">Reroute &amp; re-plan</button>`:''}</div>`).join('');
+}
+async function applyReroute(pid, newPort){
+  const d=await (await fetch('/api/charter/reroute',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({parcel_id:pid, new_port:newPort, actor:role.id})})).json();
+  if(!d.ok){ alert(d.reason||'reroute failed'); return; }
+  location.reload();
 }
 
 // ---- audit log with hierarchy visibility ----
