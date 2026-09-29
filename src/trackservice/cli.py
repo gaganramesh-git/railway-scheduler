@@ -169,6 +169,60 @@ def sih_serve(host: str = typer.Option("127.0.0.1"), port: int = typer.Option(80
     _serve(host=host, port=port, sih=True)
 
 
+@app.command()
+def charter(
+    seed: int = typer.Option(3, help="Scenario seed."),
+    weeks: int = typer.Option(12, help="Planning horizon in weeks."),
+    out: str = typer.Option("charter_schedule.json", help="Where to write the JSON report."),
+    dashboard: str = typer.Option("charter_dashboard.html", help="Where to write the HTML dashboard."),
+) -> None:
+    """SIH26006: optimise bulk-cargo vessel chartering on India's East Coast."""
+    from .marine import pipeline as mp
+    from .marine.dashboard import build_html
+
+    report = mp.run(seed=seed, weeks=weeks)
+    pathlib.Path(out).write_text(json.dumps(report, indent=2))
+    pathlib.Path(dashboard).write_text(build_html(report))
+
+    m = report["metrics"]
+    console.print(f"\n[bold]{report['problem']}[/]  ([dim]{report['org']}[/])")
+    console.print(
+        f"[green]Freight cost:[/] optimised [bold]${m['ours_cost']:,.0f}[/] vs spot "
+        f"[bold red]${m['spot_cost']:,.0f}[/]  → saved [bold green]{m['cost_saved_pct']}%[/] "
+        f"(${m['cost_saved']:,.0f})"
+    )
+    table = Table(title="Chartering plan vs reactive spot")
+    for c in ("", "Optimised", "Reactive spot"):
+        table.add_column(c, justify="right")
+    table.add_row("Charters used", str(m["ours_voyages"]), str(m["spot_voyages"]))
+    table.add_row("Parcels on time", f"{m['ours_served']}/{m['total_parcels']}", f"{m['spot_served']}/{m['total_parcels']}")
+    table.add_row("Vessel utilisation", f"{m['utilisation_pct']}%", "—")
+    table.add_row("Parcels / voyage", str(m["parcels_per_voyage"]), "1.0")
+    v = report["verification"]
+    table.add_row("Verified", "✓" if v["ok"] else "✗ FAIL", "—")
+    console.print(table)
+    console.print(f"\n[green]Wrote[/] {out} and [green]{dashboard}[/] (open it directly).")
+
+
+@app.command(name="charter-eval")
+def charter_eval(seeds: int = typer.Option(20), weeks: int = typer.Option(12)) -> None:
+    """Evidence across many scenarios: optimised chartering vs reactive spot."""
+    from .marine import pipeline as mp
+
+    r = mp.run_eval(seeds=seeds, weeks=weeks)
+    table = Table(title=f"Chartering evidence across {r['seeds']} scenarios")
+    for c in ("Metric", "Mean ± SD"):
+        table.add_column(c)
+    table.add_row("Freight cost saved %", f"{r['cost_saved_pct'][0]} ± {r['cost_saved_pct'][1]}")
+    table.add_row("Charters saved", f"{r['voyages_saved'][0]} ± {r['voyages_saved'][1]}")
+    table.add_row("Cargo on time %", f"{r['on_time_pct'][0]} ± {r['on_time_pct'][1]}")
+    table.add_row("Vessel utilisation %", f"{r['utilisation_pct'][0]} ± {r['utilisation_pct'][1]}")
+    table.add_row("Parcels / voyage", f"{r['parcels_per_voyage'][0]} ± {r['parcels_per_voyage'][1]}")
+    table.add_row("Solve time (s)", f"{r['solve_seconds'][0]} ± {r['solve_seconds'][1]}")
+    console.print(table)
+    console.print(f"[green]All plans independently verified:[/] {r['all_verified']}")
+
+
 def _print_metrics(report: dict) -> None:
     om = report["metrics"]["optimal"]
     gm = report["metrics"]["greedy"]

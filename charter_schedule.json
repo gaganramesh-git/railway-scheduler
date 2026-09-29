@@ -1,0 +1,815 @@
+{
+  "problem": "SIH26006 \u2014 Intelligent Freight Forecasting & Optimised Vessel Chartering",
+  "org": "Ministry of Steel",
+  "scenario": {
+    "weeks": 12,
+    "ports": [
+      {
+        "id": "PPT",
+        "name": "Paradip",
+        "max_draft_m": 18.0,
+        "handling_tpd": 60000
+      },
+      {
+        "id": "VZG",
+        "name": "Visakhapatnam",
+        "max_draft_m": 17.0,
+        "handling_tpd": 55000
+      },
+      {
+        "id": "GGV",
+        "name": "Gangavaram",
+        "max_draft_m": 21.0,
+        "handling_tpd": 70000
+      },
+      {
+        "id": "GPL",
+        "name": "Gopalpur",
+        "max_draft_m": 14.5,
+        "handling_tpd": 35000
+      },
+      {
+        "id": "DHM",
+        "name": "Dhamra",
+        "max_draft_m": 18.5,
+        "handling_tpd": 60000
+      },
+      {
+        "id": "HDA",
+        "name": "Haldia",
+        "max_draft_m": 10.5,
+        "handling_tpd": 30000
+      }
+    ],
+    "vessels": [
+      {
+        "id": "HANDY",
+        "name": "Handysize",
+        "dwt": 35000,
+        "draft_m": 10.0,
+        "base_rate_per_t": 22.0
+      },
+      {
+        "id": "SUPRA",
+        "name": "Supramax",
+        "dwt": 58000,
+        "draft_m": 12.5,
+        "base_rate_per_t": 18.5
+      },
+      {
+        "id": "PANA",
+        "name": "Panamax",
+        "dwt": 75000,
+        "draft_m": 14.0,
+        "base_rate_per_t": 16.0
+      },
+      {
+        "id": "CAPE",
+        "name": "Capesize",
+        "dwt": 180000,
+        "draft_m": 18.0,
+        "base_rate_per_t": 12.5
+      }
+    ],
+    "origins": [
+      {
+        "id": "AUS",
+        "name": "Australia (Hay Point)",
+        "transit_weeks": 3
+      },
+      {
+        "id": "IDN",
+        "name": "Indonesia (Kalimantan)",
+        "transit_weeks": 2
+      },
+      {
+        "id": "USA",
+        "name": "USA (Baltimore)",
+        "transit_weeks": 6
+      },
+      {
+        "id": "MOZ",
+        "name": "Mozambique (Maputo)",
+        "transit_weeks": 4
+      },
+      {
+        "id": "RUS",
+        "name": "Russia (Vostochny)",
+        "transit_weeks": 4
+      }
+    ],
+    "parcels": [
+      {
+        "id": "CGO-001",
+        "commodity": "Steam coal",
+        "origin": "USA",
+        "port": "HDA",
+        "volume_t": 28000,
+        "required_by_week": 10,
+        "priority": 3
+      },
+      {
+        "id": "CGO-002",
+        "commodity": "Steam coal",
+        "origin": "IDN",
+        "port": "HDA",
+        "volume_t": 30000,
+        "required_by_week": 5,
+        "priority": 5
+      },
+      {
+        "id": "CGO-003",
+        "commodity": "Thermal coal",
+        "origin": "RUS",
+        "port": "GGV",
+        "volume_t": 45000,
+        "required_by_week": 6,
+        "priority": 5
+      },
+      {
+        "id": "CGO-004",
+        "commodity": "Coking coal",
+        "origin": "MOZ",
+        "port": "PPT",
+        "volume_t": 45000,
+        "required_by_week": 6,
+        "priority": 4
+      },
+      {
+        "id": "CGO-005",
+        "commodity": "Coking coal",
+        "origin": "AUS",
+        "port": "GGV",
+        "volume_t": 55000,
+        "required_by_week": 11,
+        "priority": 4
+      },
+      {
+        "id": "CGO-006",
+        "commodity": "Thermal coal",
+        "origin": "AUS",
+        "port": "DHM",
+        "volume_t": 68000,
+        "required_by_week": 11,
+        "priority": 5
+      },
+      {
+        "id": "CGO-007",
+        "commodity": "Coking coal",
+        "origin": "RUS",
+        "port": "GGV",
+        "volume_t": 68000,
+        "required_by_week": 8,
+        "priority": 3
+      },
+      {
+        "id": "CGO-008",
+        "commodity": "Steam coal",
+        "origin": "AUS",
+        "port": "GGV",
+        "volume_t": 28000,
+        "required_by_week": 5,
+        "priority": 5
+      },
+      {
+        "id": "CGO-009",
+        "commodity": "Steam coal",
+        "origin": "RUS",
+        "port": "PPT",
+        "volume_t": 30000,
+        "required_by_week": 9,
+        "priority": 4
+      },
+      {
+        "id": "CGO-010",
+        "commodity": "Thermal coal",
+        "origin": "USA",
+        "port": "VZG",
+        "volume_t": 70000,
+        "required_by_week": 8,
+        "priority": 4
+      },
+      {
+        "id": "CGO-011",
+        "commodity": "Steam coal",
+        "origin": "USA",
+        "port": "VZG",
+        "volume_t": 55000,
+        "required_by_week": 11,
+        "priority": 4
+      },
+      {
+        "id": "CGO-012",
+        "commodity": "Thermal coal",
+        "origin": "MOZ",
+        "port": "HDA",
+        "volume_t": 28000,
+        "required_by_week": 10,
+        "priority": 3
+      },
+      {
+        "id": "CGO-013",
+        "commodity": "Thermal coal",
+        "origin": "MOZ",
+        "port": "HDA",
+        "volume_t": 28000,
+        "required_by_week": 8,
+        "priority": 4
+      },
+      {
+        "id": "CGO-014",
+        "commodity": "Thermal coal",
+        "origin": "RUS",
+        "port": "GGV",
+        "volume_t": 68000,
+        "required_by_week": 8,
+        "priority": 5
+      },
+      {
+        "id": "CGO-015",
+        "commodity": "Steam coal",
+        "origin": "RUS",
+        "port": "GGV",
+        "volume_t": 28000,
+        "required_by_week": 9,
+        "priority": 3
+      },
+      {
+        "id": "CGO-016",
+        "commodity": "Thermal coal",
+        "origin": "IDN",
+        "port": "PPT",
+        "volume_t": 70000,
+        "required_by_week": 9,
+        "priority": 4
+      },
+      {
+        "id": "CGO-017",
+        "commodity": "Coking coal",
+        "origin": "USA",
+        "port": "DHM",
+        "volume_t": 70000,
+        "required_by_week": 10,
+        "priority": 4
+      },
+      {
+        "id": "CGO-018",
+        "commodity": "Thermal coal",
+        "origin": "RUS",
+        "port": "PPT",
+        "volume_t": 70000,
+        "required_by_week": 6,
+        "priority": 4
+      },
+      {
+        "id": "CGO-019",
+        "commodity": "Coking coal",
+        "origin": "MOZ",
+        "port": "GGV",
+        "volume_t": 68000,
+        "required_by_week": 10,
+        "priority": 4
+      },
+      {
+        "id": "CGO-020",
+        "commodity": "Thermal coal",
+        "origin": "USA",
+        "port": "VZG",
+        "volume_t": 45000,
+        "required_by_week": 10,
+        "priority": 3
+      },
+      {
+        "id": "CGO-021",
+        "commodity": "Steam coal",
+        "origin": "USA",
+        "port": "GPL",
+        "volume_t": 28000,
+        "required_by_week": 8,
+        "priority": 3
+      },
+      {
+        "id": "CGO-022",
+        "commodity": "Coking coal",
+        "origin": "IDN",
+        "port": "GGV",
+        "volume_t": 68000,
+        "required_by_week": 7,
+        "priority": 4
+      },
+      {
+        "id": "CGO-023",
+        "commodity": "Coking coal",
+        "origin": "USA",
+        "port": "VZG",
+        "volume_t": 70000,
+        "required_by_week": 11,
+        "priority": 5
+      },
+      {
+        "id": "CGO-024",
+        "commodity": "Thermal coal",
+        "origin": "RUS",
+        "port": "GGV",
+        "volume_t": 45000,
+        "required_by_week": 11,
+        "priority": 5
+      }
+    ],
+    "rate_index": {
+      "HANDY|0": 1.128,
+      "SUPRA|0": 1.107,
+      "PANA|0": 1.135,
+      "CAPE|0": 1.137,
+      "HANDY|1": 1.118,
+      "SUPRA|1": 1.111,
+      "PANA|1": 1.21,
+      "CAPE|1": 1.141,
+      "HANDY|2": 1.146,
+      "SUPRA|2": 1.238,
+      "PANA|2": 1.175,
+      "CAPE|2": 1.219,
+      "HANDY|3": 1.143,
+      "SUPRA|3": 1.162,
+      "PANA|3": 1.104,
+      "CAPE|3": 1.162,
+      "HANDY|4": 1.124,
+      "SUPRA|4": 1.083,
+      "PANA|4": 1.109,
+      "CAPE|4": 1.101,
+      "HANDY|5": 0.944,
+      "SUPRA|5": 1.027,
+      "PANA|5": 1.007,
+      "CAPE|5": 0.972,
+      "HANDY|6": 0.856,
+      "SUPRA|6": 0.957,
+      "PANA|6": 0.909,
+      "CAPE|6": 0.939,
+      "HANDY|7": 0.895,
+      "SUPRA|7": 0.875,
+      "PANA|7": 0.9,
+      "CAPE|7": 0.837,
+      "HANDY|8": 0.857,
+      "SUPRA|8": 0.814,
+      "PANA|8": 0.873,
+      "CAPE|8": 0.866,
+      "HANDY|9": 0.785,
+      "SUPRA|9": 0.789,
+      "PANA|9": 0.799,
+      "CAPE|9": 0.889,
+      "HANDY|10": 0.876,
+      "SUPRA|10": 0.899,
+      "PANA|10": 0.86,
+      "CAPE|10": 0.885,
+      "HANDY|11": 0.947,
+      "SUPRA|11": 0.943,
+      "PANA|11": 0.971,
+      "CAPE|11": 0.971
+    }
+  },
+  "plan": {
+    "status": "OPTIMAL",
+    "proven_optimal": true,
+    "solve_seconds": 0.012,
+    "total_cost": 24309493.0,
+    "voyages_used": 22,
+    "unserved": [],
+    "voyages": [
+      {
+        "voyage_id": "V0708",
+        "vessel": "Capesize",
+        "vessel_id": "CAPE",
+        "origin": "Russia (Vostochny)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 0,
+        "arrive_week": 4,
+        "capacity_t": 180000,
+        "parcels": [
+          "CGO-003",
+          "CGO-014",
+          "CGO-024"
+        ],
+        "load_t": 158000,
+        "utilisation_pct": 87.8,
+        "shared": true
+      },
+      {
+        "voyage_id": "V0484",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "Mozambique (Maputo)",
+        "port": "Paradip",
+        "port_id": "PPT",
+        "depart_week": 0,
+        "arrive_week": 4,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-004"
+        ],
+        "load_t": 45000,
+        "utilisation_pct": 77.6,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0644",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Russia (Vostochny)",
+        "port": "Paradip",
+        "port_id": "PPT",
+        "depart_week": 0,
+        "arrive_week": 4,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-018"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0398",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "USA (Baltimore)",
+        "port": "Visakhapatnam",
+        "port_id": "VZG",
+        "depart_week": 0,
+        "arrive_week": 6,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-010"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0065",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Australia (Hay Point)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 1,
+        "arrive_week": 4,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-008"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0429",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "USA (Baltimore)",
+        "port": "Gopalpur",
+        "port_id": "GPL",
+        "depart_week": 1,
+        "arrive_week": 7,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-021"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0471",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "USA (Baltimore)",
+        "port": "Haldia",
+        "port_id": "HDA",
+        "depart_week": 1,
+        "arrive_week": 7,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-001"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0353",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Indonesia (Kalimantan)",
+        "port": "Haldia",
+        "port_id": "HDA",
+        "depart_week": 1,
+        "arrive_week": 3,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-002"
+        ],
+        "load_t": 30000,
+        "utilisation_pct": 85.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0621",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Mozambique (Maputo)",
+        "port": "Haldia",
+        "port_id": "HDA",
+        "depart_week": 1,
+        "arrive_week": 5,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-013"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0461",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "USA (Baltimore)",
+        "port": "Dhamra",
+        "port_id": "DHM",
+        "depart_week": 3,
+        "arrive_week": 9,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-017"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0703",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Russia (Vostochny)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 3,
+        "arrive_week": 7,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-007"
+        ],
+        "load_t": 68000,
+        "utilisation_pct": 90.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0396",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "USA (Baltimore)",
+        "port": "Visakhapatnam",
+        "port_id": "VZG",
+        "depart_week": 4,
+        "arrive_week": 10,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-020"
+        ],
+        "load_t": 45000,
+        "utilisation_pct": 77.6,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0689",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Russia (Vostochny)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 5,
+        "arrive_week": 9,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-015"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0267",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Indonesia (Kalimantan)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 5,
+        "arrive_week": 7,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-022"
+        ],
+        "load_t": 68000,
+        "utilisation_pct": 90.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0633",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Russia (Vostochny)",
+        "port": "Paradip",
+        "port_id": "PPT",
+        "depart_week": 5,
+        "arrive_week": 9,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-009"
+        ],
+        "load_t": 30000,
+        "utilisation_pct": 85.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0397",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "USA (Baltimore)",
+        "port": "Visakhapatnam",
+        "port_id": "VZG",
+        "depart_week": 5,
+        "arrive_week": 11,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-011"
+        ],
+        "load_t": 55000,
+        "utilisation_pct": 94.8,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0403",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "USA (Baltimore)",
+        "port": "Visakhapatnam",
+        "port_id": "VZG",
+        "depart_week": 5,
+        "arrive_week": 11,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-023"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0554",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Mozambique (Maputo)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 6,
+        "arrive_week": 10,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-019"
+        ],
+        "load_t": 68000,
+        "utilisation_pct": 90.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0626",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Mozambique (Maputo)",
+        "port": "Haldia",
+        "port_id": "HDA",
+        "depart_week": 6,
+        "arrive_week": 10,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-012"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0199",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Indonesia (Kalimantan)",
+        "port": "Paradip",
+        "port_id": "PPT",
+        "depart_week": 7,
+        "arrive_week": 9,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-016"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0153",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Australia (Hay Point)",
+        "port": "Dhamra",
+        "port_id": "DHM",
+        "depart_week": 8,
+        "arrive_week": 11,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-006"
+        ],
+        "load_t": 68000,
+        "utilisation_pct": 90.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "V0081",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "Australia (Hay Point)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 8,
+        "arrive_week": 11,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-005"
+        ],
+        "load_t": 55000,
+        "utilisation_pct": 94.8,
+        "shared": false
+      }
+    ]
+  },
+  "baseline": {
+    "total_cost": 25669465.0,
+    "voyages_used": 24,
+    "unserved": []
+  },
+  "metrics": {
+    "ours_cost": 24309493.0,
+    "spot_cost": 25669465.0,
+    "cost_saved": 1359972.0,
+    "cost_saved_pct": 5.3,
+    "ours_voyages": 22,
+    "spot_voyages": 24,
+    "voyages_saved": 2,
+    "ours_served": 24,
+    "spot_served": 24,
+    "total_parcels": 24,
+    "on_time_pct": 100.0,
+    "utilisation_pct": 88.4,
+    "parcels_per_voyage": 1.09
+  },
+  "forecast": [
+    {
+      "vessel": "HANDY",
+      "best_week": 9,
+      "best_index": 0.785,
+      "spot_now_index": 1.128,
+      "saving_pct": 30.4,
+      "vessel_name": "Handysize"
+    },
+    {
+      "vessel": "SUPRA",
+      "best_week": 9,
+      "best_index": 0.789,
+      "spot_now_index": 1.107,
+      "saving_pct": 28.7,
+      "vessel_name": "Supramax"
+    },
+    {
+      "vessel": "PANA",
+      "best_week": 9,
+      "best_index": 0.799,
+      "spot_now_index": 1.135,
+      "saving_pct": 29.6,
+      "vessel_name": "Panamax"
+    },
+    {
+      "vessel": "CAPE",
+      "best_week": 7,
+      "best_index": 0.837,
+      "spot_now_index": 1.137,
+      "saving_pct": 26.4,
+      "vessel_name": "Capesize"
+    }
+  ],
+  "verification": {
+    "ok": true,
+    "checks_run": 95,
+    "violations": []
+  }
+}
