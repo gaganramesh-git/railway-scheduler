@@ -394,7 +394,7 @@
   "plan": {
     "status": "OPTIMAL",
     "proven_optimal": true,
-    "solve_seconds": 0.009,
+    "solve_seconds": 0.014,
     "total_cost": 22556330.0,
     "voyages_used": 22,
     "unserved": [],
@@ -879,7 +879,7 @@
         "user": "R. Menon",
         "action": "requirements filed",
         "detail": "24 cargo requirements logged for the horizon",
-        "time": "29 Sep 23:27"
+        "time": "29 Sep 23:41"
       },
       {
         "role_id": "procurement-mgr",
@@ -889,7 +889,7 @@
         "user": "S. Iyer",
         "action": "budget cleared",
         "detail": "freight budget approved; benchmark spot cost $23,750,751",
-        "time": "29 Sep 23:27"
+        "time": "29 Sep 23:41"
       },
       {
         "role_id": "logistics-head",
@@ -899,7 +899,7 @@
         "user": "A. Banerjee",
         "action": "lanes & ports validated",
         "detail": "origin lanes and discharge-port draft limits confirmed",
-        "time": "29 Sep 23:27"
+        "time": "29 Sep 23:41"
       },
       {
         "role_id": "gm-commercial",
@@ -909,7 +909,7 @@
         "user": "P. Rao",
         "action": "charter plan approved",
         "detail": "optimised plan signed off - $22,556,330, 5.0% under spot, 22 charters",
-        "time": "29 Sep 23:27"
+        "time": "29 Sep 23:41"
       }
     ],
     "roles": {

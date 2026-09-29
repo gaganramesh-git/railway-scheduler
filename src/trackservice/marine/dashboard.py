@@ -60,6 +60,12 @@ tr:last-child td{border-bottom:none;}
 .dpanel .tmpl{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--faint);background:var(--panel2);border:1px solid var(--rule);border-radius:6px;padding:.5rem .6rem;margin:.4rem 0;white-space:pre;overflow-x:auto;}
 .dpanel .okline{color:var(--good);} .dpanel .skipline{color:var(--bad);}
 .dpanel h3.imp{color:var(--accent2);}
+.importfoot{margin-top:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.importlink{font-size:.82rem;font-weight:600;color:var(--accent2);border:1px solid var(--accent2);border-radius:8px;padding:.4rem .75rem;cursor:pointer;}
+.importlink:hover{background:var(--goodbg);}
+.importhint{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--faint);}
+#importMsg{font-size:.82rem;}
+#importMsg .ok{color:var(--good);font-weight:600;} #importMsg .bad{color:var(--bad);}
 .mini{font-family:inherit;font-size:.66rem;font-weight:600;border:1px solid var(--rule);background:var(--panel);color:var(--soft);border-radius:6px;padding:2px 7px;margin:1px 2px 1px 0;cursor:pointer;}
 .mini.cancel{color:var(--bad);border-color:var(--bad);}
 .mini.resched{color:var(--accent);border-color:var(--accent);}
@@ -84,10 +90,8 @@ tr:last-child td{border-bottom:none;}
     <select id="roleSel"></select>
     <span class="perm" id="rolePerm"></span>
     <a class="entry" id="entryLink" href="/entry" style="display:none">＋ Add shipment</a>
-    <button class="entry alt" id="importBtn" style="display:none">⬆ Import CSV</button>
     <button class="entry warn" id="disruptBtn" style="display:none">⚠ Declare port disruption</button>
   </div>
-  <div class="card" id="importPanel" style="display:none;margin-bottom:16px"></div>
   <div class="card" id="disruptPanel" style="display:none;margin-bottom:16px"></div>
   <div class="kpis" id="kpis"></div>
 
@@ -110,6 +114,13 @@ tr:last-child td{border-bottom:none;}
   <h2>Audit log</h2>
   <p class="h2sub" id="auditScope">Every action is recorded. You see your own level and everyone below you.</p>
   <div class="card auditwrap" style="overflow-x:auto"><table id="audit"></table></div>
+
+  <div class="importfoot" id="importFoot" style="display:none">
+    <label class="importlink" for="csvFile">⬆ Import cargo requirements (CSV)</label>
+    <input type="file" id="csvFile" accept=".csv,text/csv" hidden>
+    <span class="importhint" id="importHint">columns: commodity, origin, port, volume_t, required_by_week, priority — validated on import</span>
+    <span id="importMsg"></span>
+  </div>
 
   <div class="verline" id="ver"></div>
 </div>
@@ -154,8 +165,8 @@ function applyRole(){
   el.href='/entry?role='+encodeURIComponent(role.id);
   const pd=document.getElementById('disruptBtn');
   if(pd) pd.style.display=(LIVE && RP.edit)?'':'none';
-  const ib=document.getElementById('importBtn');
-  if(ib) ib.style.display=(LIVE && RP.act)?'':'none';
+  const imf=document.getElementById('importFoot');
+  if(imf) imf.style.display=(LIVE && RP.act)?'flex':'none';
   renderVoyages(); renderAudit();
 }
 
@@ -246,44 +257,25 @@ async function rescheduleShipment(pid){
   }catch(e){ alert('Reschedule failed: '+e.message); }
 }
 
-// ---- bulk import cargo requirements from CSV (paste or file) ----
-document.getElementById('importBtn').onclick=()=>{
-  const el=document.getElementById('importPanel');
-  if(el.style.display!=='none'){ el.style.display='none'; return; }
-  el.style.display='block'; el.className='card dpanel';
-  const ports=S.ports.map(p=>p.id).join('/'), origins=S.origins.map(o=>o.id).join('/');
-  el.innerHTML=`<h3 class="imp">⬆ Import cargo requirements (CSV)</h3>
-    <p style="font-size:.82rem;color:var(--soft);margin:.2rem 0">Columns: <b>commodity, origin, port, volume_t, required_by_week, priority</b>.
-    Origins: ${origins} · Ports: ${ports}. Each row is feasibility-checked before it's added.</p>
-    <div class="tmpl">commodity,origin,port,volume_t,required_by_week,priority
-Coking coal,AUS,GGV,68000,9,5
-Thermal coal,IDN,VZG,55000,7,4
-Steam coal,MOZ,PPT,45000,10,3</div>
-    <div class="row"><input type="file" id="imp-file" accept=".csv,text/csv"></div>
-    <textarea id="imp-text" placeholder="…or paste CSV rows here (including the header line)"></textarea>
-    <div class="row"><button id="imp-go" style="background:var(--accent2)">Validate &amp; import</button></div>
-    <div id="imp-result"></div>`;
-  document.getElementById('imp-file').onchange=e=>{
-    const f=e.target.files[0]; if(!f) return;
-    const rd=new FileReader(); rd.onload=()=>{document.getElementById('imp-text').value=rd.result;}; rd.readAsText(f);
+// ---- CSV import: pick a file -> auto-validate & import -> re-plan ----
+const csvFile=document.getElementById('csvFile');
+if(csvFile) csvFile.onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const msg=document.getElementById('importMsg'); msg.innerHTML=' importing…';
+  const rd=new FileReader();
+  rd.onload=async()=>{
+    try{
+      const d=await (await fetch('/api/charter/import-csv',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({csv:rd.result, actor:role.id})})).json();
+      if(!d.ok){ msg.innerHTML=' <span class="bad">'+(d.reason||'import failed')+'</span>'; return; }
+      const skip=d.skipped.length?` · <span class="bad">${d.skipped.length} skipped (${d.skipped.map(s=>'row '+s.row).join(', ')})</span>`:'';
+      msg.innerHTML=` <span class="ok">✓ ${d.added.length} added</span>${skip}`;
+      if(d.added.length) setTimeout(()=>location.reload(), 1200);
+    }catch(err){ msg.innerHTML=' <span class="bad">'+err.message+'</span>'; }
+    finally{ e.target.value=''; }
   };
-  document.getElementById('imp-go').onclick=runImport;
+  rd.readAsText(f);
 };
-async function runImport(){
-  const csv=document.getElementById('imp-text').value.trim();
-  const res=document.getElementById('imp-result');
-  if(!csv){ res.innerHTML='<p class="skipline">Paste CSV or choose a file first.</p>'; return; }
-  res.innerHTML='<p style="color:var(--faint)">Importing…</p>';
-  const d=await (await fetch('/api/charter/import-csv',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({csv, actor:role.id})})).json();
-  if(!d.ok){ res.innerHTML='<p class="skipline">'+(d.reason||'import failed')+'</p>'; return; }
-  let html=`<p class="okline"><b>${d.added.length} added</b>${d.skipped.length?`, <span class="skipline">${d.skipped.length} skipped</span>`:''}.</p>`;
-  if(d.added.length) html+='<div class="tmpl">'+d.added.map(a=>a.id+'  '+a.summary).join('\n')+'</div>';
-  if(d.skipped.length) html+='<div class="tmpl skipline">'+d.skipped.map(s=>'row '+s.row+': '+s.reason).join('\n')+'</div>';
-  if(d.added.length) html+='<p>Opening the updated plan… <span id="icd">(1)</span></p>';
-  res.innerHTML=html;
-  if(d.added.length){let s=1;const t=setInterval(()=>{s--;const el=document.getElementById('icd');if(el)el.textContent='('+s+')';if(s<=0){clearInterval(t);location.reload();}},1000);}
-}
 
 // ---- port disruption: choose days -> notify sender -> reroute to nearest ----
 document.getElementById('disruptBtn').onclick=()=>{
