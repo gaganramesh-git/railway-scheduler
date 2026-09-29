@@ -121,3 +121,17 @@ def test_nearest_feasible_port_respects_draft():
     alt = d.nearest_feasible_port(sc, "PPT", 70000)
     assert alt is not None and alt.id != "HDA"
     assert any(v.dwt >= 70000 and v.draft_m <= alt.max_draft_m for v in sc.vessels)
+
+
+def test_csv_import_endpoint(tmp_path, monkeypatch):
+    """CSV import adds feasible rows and reports skips with reasons."""
+    import trackservice.marine.requests_store as st
+    for attr, name in [("_ADD","a"),("_CANCEL","c"),("_RESCHED","r"),("_REROUTE","x")]:
+        monkeypatch.setattr(st, attr, tmp_path / (name + ".jsonl"))
+    from trackservice.marine import service as sv
+    csv = ("commodity,origin,port,volume_t,required_by_week,priority\n"
+           "Coking coal,AUS,GGV,68000,9,5\n"        # ok
+           "Steam coal,USA,HDA,68000,10,3\n"        # skip: Haldia too shallow for 68kt
+           "Coal,AUS,XXX,30000,8,5\n")              # skip: unknown port
+    r = sv.charter_import_csv(sv.CsvImport(csv=csv, actor="chartering-officer"))
+    assert r["ok"] and len(r["added"]) == 1 and len(r["skipped"]) == 2

@@ -212,6 +212,60 @@ def charter_reroute(req: RerouteRequest) -> dict:
             "new_cost": rep["metrics"]["ours_cost"]}
 
 
+class CsvImport(BaseModel):
+    csv: str
+    actor: str = "chartering-officer"
+
+
+@app.post("/api/charter/import-csv")
+def charter_import_csv(req: CsvImport) -> dict:
+    """Bulk-add cargo requirements from a pasted/uploaded CSV. Each row is validated
+    for feasibility; feasible rows are added, the rest reported with a reason.
+
+    Columns: commodity, origin, port, volume_t, required_by_week, priority
+    """
+    import csv as _csv
+    import io
+    sc = _current_scenario()
+    port_ids = {p.id for p in sc.ports}
+    origin_ids = {o.id for o in sc.origins}
+    added, skipped = [], []
+    reader = _csv.DictReader(io.StringIO(req.csv.strip()))
+    if not reader.fieldnames or "port" not in reader.fieldnames or "origin" not in reader.fieldnames:
+        return {"ok": False, "reason": "CSV needs at least 'origin', 'port', 'volume_t', "
+                "'required_by_week' columns (commodity, priority optional)."}
+    for i, row in enumerate(reader, start=1):
+        try:
+            r = CargoRequest(
+                origin=(row.get("origin") or "").strip(),
+                port=(row.get("port") or "").strip(),
+                commodity=(row.get("commodity") or "Coal").strip() or "Coal",
+                volume_t=int(float(row["volume_t"])),
+                required_by_week=int(float(row["required_by_week"])),
+                priority=int(float(row.get("priority") or 5)),
+                actor=req.actor)
+        except Exception as e:
+            skipped.append({"row": i, "reason": f"malformed row ({e})"})
+            continue
+        if r.origin not in origin_ids:
+            skipped.append({"row": i, "reason": f"unknown origin '{r.origin}'"}); continue
+        if r.port not in port_ids:
+            skipped.append({"row": i, "reason": f"unknown port '{r.port}'"}); continue
+        best, reason = _best_option(sc, r)
+        if best is None:
+            skipped.append({"row": i, "reason": reason}); continue
+        rec = _store.record_addition({
+            "commodity": r.commodity, "origin": r.origin, "port": r.port,
+            "volume_t": r.volume_t, "required_by_week": r.required_by_week,
+            "priority": r.priority, "actor": r.actor})
+        added.append({"id": rec["id"],
+                      "summary": f"{r.volume_t:,}t {r.origin}->{r.port} wk{r.required_by_week}"})
+    if added:
+        _audit.record(req.actor, "cargo imported (CSV)",
+                      f"{len(added)} requirement(s) imported, {len(skipped)} skipped")
+    return {"ok": True, "added": added, "skipped": skipped}
+
+
 @app.get("/entry", response_class=HTMLResponse)
 def entry_view() -> str:
     from .entry import entry_page
