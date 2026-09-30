@@ -802,7 +802,417 @@
   "baseline": {
     "total_cost": 23750751.0,
     "voyages_used": 24,
-    "unserved": []
+    "unserved": [],
+    "voyages": [
+      {
+        "voyage_id": "SPOT-CGO-004",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "Russia (Vostochny)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 2,
+        "arrive_week": 6,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-004"
+        ],
+        "load_t": 45000,
+        "utilisation_pct": 77.6,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-009",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Australia (Hay Point)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 2,
+        "arrive_week": 5,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-009"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-022",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "USA (Baltimore)",
+        "port": "Gopalpur",
+        "port_id": "GPL",
+        "depart_week": 2,
+        "arrive_week": 8,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-022"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-005",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "Mozambique (Maputo)",
+        "port": "Paradip",
+        "port_id": "PPT",
+        "depart_week": 2,
+        "arrive_week": 6,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-005"
+        ],
+        "load_t": 45000,
+        "utilisation_pct": 77.6,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-019",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Russia (Vostochny)",
+        "port": "Paradip",
+        "port_id": "PPT",
+        "depart_week": 2,
+        "arrive_week": 6,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-019"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-011",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "USA (Baltimore)",
+        "port": "Visakhapatnam",
+        "port_id": "VZG",
+        "depart_week": 2,
+        "arrive_week": 8,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-011"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-018",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "USA (Baltimore)",
+        "port": "Dhamra",
+        "port_id": "DHM",
+        "depart_week": 4,
+        "arrive_week": 10,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-018"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-008",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Russia (Vostochny)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 4,
+        "arrive_week": 8,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-008"
+        ],
+        "load_t": 68000,
+        "utilisation_pct": 90.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-015",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Russia (Vostochny)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 4,
+        "arrive_week": 8,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-015"
+        ],
+        "load_t": 68000,
+        "utilisation_pct": 90.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-014",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Mozambique (Maputo)",
+        "port": "Haldia",
+        "port_id": "HDA",
+        "depart_week": 4,
+        "arrive_week": 8,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-014"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-021",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "USA (Baltimore)",
+        "port": "Visakhapatnam",
+        "port_id": "VZG",
+        "depart_week": 4,
+        "arrive_week": 10,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-021"
+        ],
+        "load_t": 45000,
+        "utilisation_pct": 77.6,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-016",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Russia (Vostochny)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 5,
+        "arrive_week": 9,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-016"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-023",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Indonesia (Kalimantan)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 5,
+        "arrive_week": 7,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-023"
+        ],
+        "load_t": 68000,
+        "utilisation_pct": 90.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-010",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Russia (Vostochny)",
+        "port": "Paradip",
+        "port_id": "PPT",
+        "depart_week": 5,
+        "arrive_week": 9,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-010"
+        ],
+        "load_t": 30000,
+        "utilisation_pct": 85.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-012",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "USA (Baltimore)",
+        "port": "Visakhapatnam",
+        "port_id": "VZG",
+        "depart_week": 5,
+        "arrive_week": 11,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-012"
+        ],
+        "load_t": 55000,
+        "utilisation_pct": 94.8,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-024",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "USA (Baltimore)",
+        "port": "Visakhapatnam",
+        "port_id": "VZG",
+        "depart_week": 5,
+        "arrive_week": 11,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-024"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-020",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Mozambique (Maputo)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 6,
+        "arrive_week": 10,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-020"
+        ],
+        "load_t": 68000,
+        "utilisation_pct": 90.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-013",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Mozambique (Maputo)",
+        "port": "Haldia",
+        "port_id": "HDA",
+        "depart_week": 6,
+        "arrive_week": 10,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-013"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-003",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Russia (Vostochny)",
+        "port": "Dhamra",
+        "port_id": "DHM",
+        "depart_week": 7,
+        "arrive_week": 11,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-003"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-002",
+        "vessel": "Handysize",
+        "vessel_id": "HANDY",
+        "origin": "Russia (Vostochny)",
+        "port": "Haldia",
+        "port_id": "HDA",
+        "depart_week": 7,
+        "arrive_week": 11,
+        "capacity_t": 35000,
+        "parcels": [
+          "CGO-002"
+        ],
+        "load_t": 28000,
+        "utilisation_pct": 80.0,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-017",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Indonesia (Kalimantan)",
+        "port": "Paradip",
+        "port_id": "PPT",
+        "depart_week": 7,
+        "arrive_week": 9,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-017"
+        ],
+        "load_t": 70000,
+        "utilisation_pct": 93.3,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-001",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "Russia (Vostochny)",
+        "port": "Visakhapatnam",
+        "port_id": "VZG",
+        "depart_week": 7,
+        "arrive_week": 11,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-001"
+        ],
+        "load_t": 45000,
+        "utilisation_pct": 77.6,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-007",
+        "vessel": "Panamax",
+        "vessel_id": "PANA",
+        "origin": "Australia (Hay Point)",
+        "port": "Dhamra",
+        "port_id": "DHM",
+        "depart_week": 8,
+        "arrive_week": 11,
+        "capacity_t": 75000,
+        "parcels": [
+          "CGO-007"
+        ],
+        "load_t": 68000,
+        "utilisation_pct": 90.7,
+        "shared": false
+      },
+      {
+        "voyage_id": "SPOT-CGO-006",
+        "vessel": "Supramax",
+        "vessel_id": "SUPRA",
+        "origin": "Australia (Hay Point)",
+        "port": "Gangavaram",
+        "port_id": "GGV",
+        "depart_week": 8,
+        "arrive_week": 11,
+        "capacity_t": 58000,
+        "parcels": [
+          "CGO-006"
+        ],
+        "load_t": 55000,
+        "utilisation_pct": 94.8,
+        "shared": false
+      }
+    ]
   },
   "metrics": {
     "ours_cost": 22556330.0,
@@ -879,7 +1289,7 @@
         "user": "R. Menon",
         "action": "requirements filed",
         "detail": "24 cargo requirements logged for the horizon",
-        "time": "30 Sep 10:37"
+        "time": "30 Sep 10:43"
       },
       {
         "role_id": "procurement-mgr",
@@ -889,7 +1299,7 @@
         "user": "S. Iyer",
         "action": "budget cleared",
         "detail": "freight budget approved; benchmark spot cost $23,750,751",
-        "time": "30 Sep 10:37"
+        "time": "30 Sep 10:43"
       },
       {
         "role_id": "logistics-head",
@@ -899,7 +1309,7 @@
         "user": "A. Banerjee",
         "action": "lanes & ports validated",
         "detail": "origin lanes and discharge-port draft limits confirmed",
-        "time": "30 Sep 10:37"
+        "time": "30 Sep 10:43"
       },
       {
         "role_id": "gm-commercial",
@@ -909,7 +1319,7 @@
         "user": "P. Rao",
         "action": "charter plan approved",
         "detail": "optimised plan signed off - $22,556,330, 5.0% under spot, 22 charters",
-        "time": "30 Sep 10:37"
+        "time": "30 Sep 10:43"
       }
     ],
     "roles": {

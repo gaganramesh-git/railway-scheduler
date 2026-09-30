@@ -58,8 +58,10 @@ th.sortable:hover{color:var(--accent);}
 .okmark{font-family:"IBM Plex Mono",monospace;font-size:.62rem;color:var(--good);background:var(--goodbg);padding:1px 6px;border-radius:999px;}
 .shared{font-family:"IBM Plex Mono",monospace;font-size:.6rem;font-weight:600;color:var(--good);background:var(--goodbg);padding:2px 7px;border-radius:999px;}
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.cmp .box{border:1px solid var(--rule);border-radius:10px;padding:14px 16px;}
-.cmp .box.ours{background:var(--accentbg);border-color:var(--accent);}
+.cmp .box{border:1px solid var(--rule);border-radius:10px;padding:14px 16px;background:var(--panel);cursor:pointer;transition:border-color .12s ease,background .12s ease,box-shadow .12s ease;}
+.cmp .box:hover{border-color:var(--soft);}
+.cmp .box.ours.active{background:var(--accentbg);border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);}
+.cmp .box.spot.active{background:#f4ecdd;border-color:var(--warn);box-shadow:inset 0 0 0 1px var(--warn);}
 .cmp .lab{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);}
 .cmp .big{font-family:"Archivo",sans-serif;font-weight:800;font-size:1.5rem;font-variant-numeric:tabular-nums;}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.76rem;color:var(--soft);margin:8px 0 0;}
@@ -125,8 +127,8 @@ th.sortable:hover{color:var(--accent);}
   <p class="h2sub">How each vessel class's charter rate moves over the horizon, relative to today (1.00×). Book in the dip — the ● marks the cheapest week per class.</p>
   <div class="card"><div id="chart"></div><div class="legend" id="chartleg"></div></div>
 
-  <h2>Voyage schedule</h2>
-  <p class="h2sub">Each chartered voyage — vessel class, lane, weeks, load vs capacity, and consolidated parcels.</p>
+  <h2 id="voyagesTitle">Voyage schedule — optimised</h2>
+  <p class="h2sub" id="voyagesSub">The optimised plan — each chartered voyage: vessel class, lane, weeks, best market week, load vs capacity, and consolidated parcels.</p>
   <div class="card" style="overflow-x:auto"><table id="voyages"></table></div>
 
   <h2>Port draft constraints</h2>
@@ -206,13 +208,27 @@ document.getElementById('kpis').innerHTML=[
  ['',m.utilisation_pct+'%','Vessel utilisation'],
 ].map(k=>`<div class="kpi ${k[0]}"><div class="n">${k[1]}</div><div class="l">${k[2]}</div></div>`).join('');
 
-document.getElementById('cmp').innerHTML=`
- <div class="box ours"><div class="lab">Optimised (this system)</div>
+function renderCmp(){
+ document.getElementById('cmp').innerHTML=`
+ <div class="box ours${planView==='ours'?' active':''}" onclick="setPlanView('ours')" role="button" tabindex="0">
+   <div class="lab">Optimised (this system) ${planView==='ours'?'· shown below':'· click to view'}</div>
    <div class="big">${money(m.ours_cost)}</div>
    <div class="lab" style="margin-top:6px">${m.ours_voyages} charters · ${m.parcels_per_voyage} parcels/voyage · ${m.utilisation_pct}% full</div></div>
- <div class="box"><div class="lab">Reactive spot (today)</div>
+ <div class="box spot${planView==='spot'?' active':''}" onclick="setPlanView('spot')" role="button" tabindex="0">
+   <div class="lab">Reactive spot (today) ${planView==='spot'?'· shown below':'· click to view'}</div>
    <div class="big">${money(m.spot_cost)}</div>
    <div class="lab" style="margin-top:6px">${m.spot_voyages} charters · 1 parcel each · booked at deadline</div></div>`;
+ [...document.querySelectorAll('#cmp .box')].forEach(b=>b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();b.click();}});
+}
+let planView='ours';
+function setPlanView(v){ planView=v; renderCmp(); renderVoyages();
+  const vs=document.getElementById('voyagesSub');
+  if(vs) vs.textContent = v==='spot'
+    ? 'Reactive spot as done today — one charter per cargo, smallest vessel, booked at the deadline (no consolidation, no market timing). This is what the optimiser is compared against.'
+    : 'The optimised plan — each chartered voyage: vessel class, lane, weeks, best market week, load vs capacity, and consolidated parcels.';
+  const t=document.getElementById('voyagesTitle'); if(t) t.textContent = v==='spot' ? 'Voyage schedule — reactive spot (today)' : 'Voyage schedule — optimised';
+}
+renderCmp();
 
 // ---- rate chart (inline SVG) — labelled axes, "today" baseline, line labels ----
 const W=1000,H=300,padL=64,padR=112,padT=22,padB=48;
@@ -272,7 +288,8 @@ function sortVoyages(key){ if(voyageSort.key===key) voyageSort.dir*=-1; else voy
 function renderVoyages(){
  const arrow=k=>voyageSort.key===k?(voyageSort.dir>0?' ▲':' ▼'):'';
  const sth=(k,label)=>`<th class="sortable" onclick="sortVoyages('${k}')">${label}${arrow(k)}</th>`;
- const vt=[...D.plan.voyages].sort((a,b)=>{
+ const source = planView==='spot' ? (D.baseline.voyages||[]) : D.plan.voyages;
+ const vt=[...source].sort((a,b)=>{
    const k=voyageSort.key; let av,bv;
    if(k==='best'){av=(fc[a.vessel_id]||{}).wk??99; bv=(fc[b.vessel_id]||{}).wk??99;}
    else if(k==='port'){av=a.port; bv=b.port;}
@@ -285,8 +302,9 @@ function renderVoyages(){
  vt.map(v=>{
    const chips=v.parcels.map(pid=>{
      const man=manualSet.has(pid);
-     const resched=(LIVE && RP.edit)?`<button class="mini resched" onclick="rescheduleShipment('${pid}')">Reschedule</button>`:'';
-     const cancel=(LIVE && RP.cancel)?`<button class="mini cancel" onclick="cancelShipment('${pid}')">Cancel</button>`:'';
+     const editable=(planView==='ours');
+     const resched=(editable && LIVE && RP.edit)?`<button class="mini resched" onclick="rescheduleShipment('${pid}')">Reschedule</button>`:'';
+     const cancel=(editable && LIVE && RP.cancel)?`<button class="mini cancel" onclick="cancelShipment('${pid}')">Cancel</button>`:'';
      return `<div class="cargoline"><span class="chip${man?' manual':''}">${pid}${man?' ● raised':''}</span>${resched}${cancel}</div>`;
    }).join('');
    const b=fc[v.vessel_id]||{wk:'—',pct:0};

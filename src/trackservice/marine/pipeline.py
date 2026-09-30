@@ -98,7 +98,7 @@ def run(seed: int = 3, weeks: int = 12, from_feeds: bool = False) -> dict:
             "voyages": _voyage_view(scenario, plan),
         },
         "baseline": {"total_cost": spot.total_cost, "voyages_used": spot.voyages_used,
-                     "unserved": spot.unserved},
+                     "unserved": spot.unserved, "voyages": _voyage_view(scenario, spot)},
         "metrics": _metrics(scenario, plan, spot),
         "forecast": forecast,
         "verification": {"ok": ver.ok, "checks_run": ver.checks_run,
