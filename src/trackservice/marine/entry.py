@@ -5,11 +5,13 @@ then commits it into the plan. Mirrors the railway depot screen.
 
 from __future__ import annotations
 
-_PAGE = r"""<title>Raise a Cargo Requirement</title>
+_PAGE = r"""<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raise a Cargo Requirement</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-:root{--bg:#eef2f5;--panel:#fff;--panel2:#f2f6f9;--rule:#d5dee5;--ink:#132029;--soft:#546572;--faint:#8496a3;
+:root{--bg:#eef2f5;--panel:#fff;--panel2:#f2f6f9;--rule:#d5dee5;--ink:#132029;--soft:#4a5a66;--faint:#5c6b78;
 --accent:#0b6fa4;--accent2:#0d9488;--good:#268a52;--goodbg:#e2f2e9;--bad:#c23b4a;--badbg:#f7e3e5;--warn:#a9741a;--warnbg:#f6ecd7;}
 *{box-sizing:border-box;}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;}

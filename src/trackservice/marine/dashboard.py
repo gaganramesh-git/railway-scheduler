@@ -4,15 +4,20 @@ from __future__ import annotations
 
 import json
 
-_TEMPLATE = r"""<title>Charter Planner</title>
+_TEMPLATE = r"""<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charter Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#eef2f5;--panel:#fff;--panel2:#f2f6f9;--rule:#d5dee5;--ink:#132029;--soft:#546572;--faint:#8496a3;
+:root{--bg:#eef2f5;--panel:#fff;--panel2:#f2f6f9;--rule:#d5dee5;--ink:#132029;--soft:#4a5a66;--faint:#5c6b78;
 --accent:#0b6fa4;--accent2:#0d9488;--accentbg:#dcecf5;--good:#268a52;--goodbg:#e2f2e9;--warn:#a9741a;--bad:#c23b4a;
 --cape:#0b4f7a;--pana:#0b6fa4;--supra:#1f9ac0;--handy:#5cc2c2;}
 *{box-sizing:border-box;}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;line-height:1.5;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px;}
+.vhidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+.vhidden:focus-visible{position:static;width:auto;height:auto;clip:auto;margin:0;}
 .wrap{max-width:1080px;margin:0 auto;padding:32px 22px 72px;}
 .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
 h1{font-family:"Archivo",sans-serif;font-weight:800;font-size:2rem;letter-spacing:-.02em;margin:0 0 6px;}
@@ -21,12 +26,12 @@ h1{font-family:"Archivo",sans-serif;font-weight:800;font-size:2rem;letter-spacin
 .kpi{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:15px 14px;box-shadow:0 1px 2px rgba(19,32,41,.04),0 6px 18px rgba(19,32,41,.05);}
 .kpi .n{font-family:"Archivo",sans-serif;font-weight:800;font-size:1.5rem;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums;}
 .kpi.good .n{color:var(--good);}
-.kpi .l{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:8px;}
+.kpi .l{font-family:"IBM Plex Mono",monospace;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin-top:8px;}
 h2{font-family:"Archivo",sans-serif;font-size:1.12rem;margin:30px 0 4px;}
 .h2sub{color:var(--faint);font-size:.82rem;margin:0 0 14px;}
 .card{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:16px 18px;box-shadow:0 1px 2px rgba(19,32,41,.04),0 6px 18px rgba(19,32,41,.05);}
 table{width:100%;border-collapse:collapse;font-size:.86rem;}
-th{background:var(--panel2);text-align:left;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--rule);}
+th{background:var(--panel2);text-align:left;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:.75rem;letter-spacing:.04em;text-transform:uppercase;color:var(--soft);border-bottom:1px solid var(--rule);}
 td{padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 .mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;}
@@ -100,7 +105,7 @@ tr:last-child td{border-bottom:none;}
   <div class="cmp" id="cmp"></div>
 
   <h2>Freight-rate outlook &amp; recommended entry weeks</h2>
-  <p class="h2sub">Market index per vessel class over the horizon. Charter in the trough, not reactively at the deadline.</p>
+  <p class="h2sub">How each vessel class's charter rate moves over the horizon, relative to today (1.00×). Book in the dip — the ● marks the cheapest week per class.</p>
   <div class="card"><div id="chart"></div><div class="legend" id="chartleg"></div></div>
 
   <h2>Voyage schedule</h2>
@@ -117,7 +122,8 @@ tr:last-child td{border-bottom:none;}
 
   <div class="importfoot" id="importFoot" style="display:none">
     <label class="importlink" for="csvFile">⬆ Import cargo requirements (CSV)</label>
-    <input type="file" id="csvFile" accept=".csv,text/csv" hidden>
+    <input type="file" id="csvFile" accept=".csv,text/csv" class="vhidden"
+           aria-label="Import cargo requirements from a CSV file">
     <span class="importhint" id="importHint">columns: commodity, origin, port, volume_t, required_by_week, priority — validated on import</span>
     <span id="importMsg"></span>
   </div>
@@ -186,27 +192,54 @@ document.getElementById('cmp').innerHTML=`
    <div class="big">${money(m.spot_cost)}</div>
    <div class="lab" style="margin-top:6px">${m.spot_voyages} charters · 1 parcel each · booked at deadline</div></div>`;
 
-// ---- rate chart (inline SVG) ----
-const W=1000,H=190,padL=34,padB=22,padT=10;
+// ---- rate chart (inline SVG) — labelled axes, "today" baseline, line labels ----
+const W=1000,H=300,padL=64,padR=112,padT=22,padB=48;
 const weeks=S.weeks, cls=S.vessels.map(v=>v.id);
-const colors={CAPE:'#0b4f7a',PANA:'#0b6fa4',SUPRA:'#1f9ac0',HANDY:'#5cc2c2'};
+const colors={CAPE:'#0b4f7a',PANA:'#0b6fa4',SUPRA:'#158fb0',HANDY:'#39b0a6'};
+const short={CAPE:'Capesize',PANA:'Panamax',SUPRA:'Supramax',HANDY:'Handysize'};
 let vals=[]; cls.forEach(c=>{for(let w=0;w<weeks;w++){vals.push(S.rate_index[c+'|'+w]);}});
-const lo=Math.min(...vals)*0.98, hi=Math.max(...vals)*1.02;
-const X=w=>padL+(W-padL-8)*(w/(weeks-1));
+let lo=Math.min(...vals,1.0), hi=Math.max(...vals,1.0);
+const pad=(hi-lo)*0.12||0.05; lo-=pad; hi+=pad;
+const X=w=>padL+(W-padL-padR)*(w/(weeks-1));
 const Y=v=>padT+(H-padT-padB)*(1-(v-lo)/(hi-lo));
-let svg=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">`;
-for(let g=0;g<=4;g++){const yy=padT+(H-padT-padB)*g/4;svg+=`<line x1="${padL}" y1="${yy}" x2="${W-8}" y2="${yy}" stroke="#e3ebf0"/>`;}
-for(let w=0;w<weeks;w++){svg+=`<text x="${X(w)}" y="${H-6}" font-size="9" fill="#8496a3" text-anchor="middle" font-family="IBM Plex Mono">${w}</text>`;}
+const AX='#5c6b78', GRID='#e6edf1';
+let svg=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" font-family="IBM Plex Mono, monospace">`;
+// Y gridlines + value labels
+const TICKS=5;
+for(let i=0;i<=TICKS;i++){const v=lo+(hi-lo)*i/TICKS, yy=Y(v);
+  svg+=`<line x1="${padL}" y1="${yy}" x2="${W-padR}" y2="${yy}" stroke="${GRID}"/>`;
+  svg+=`<text x="${padL-10}" y="${yy+3}" font-size="11" fill="${AX}" text-anchor="end">${v.toFixed(2)}×</text>`;}
+// "today" baseline at 1.00
+if(lo<1&&hi>1){const y1=Y(1.0);
+  svg+=`<line x1="${padL}" y1="${y1}" x2="${W-padR}" y2="${y1}" stroke="#b0505c" stroke-width="1.3" stroke-dasharray="5 4"/>`;
+  svg+=`<text x="${W-padR+6}" y="${y1+3}" font-size="10" fill="#b0505c">today (1.00×)</text>`;}
+// X ticks
+const step=weeks>14?2:1;
+for(let w=0;w<weeks;w+=step){svg+=`<text x="${X(w)}" y="${H-padB+18}" font-size="11" fill="${AX}" text-anchor="middle">${w}</text>`;}
+svg+=`<text x="${(padL+W-padR)/2}" y="${H-8}" font-size="11.5" fill="${AX}" text-anchor="middle">Planning week</text>`;
+svg+=`<text transform="translate(16 ${(padT+H-padB)/2}) rotate(-90)" font-size="11.5" fill="${AX}" text-anchor="middle">Freight rate (× today)</text>`;
+// axes
+svg+=`<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="${AX}"/>`;
+svg+=`<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="${AX}"/>`;
+// lines + best-week marker + end label
 const recByV={}; D.forecast.forEach(f=>recByV[f.vessel]=f.best_week);
+const ends=[];
 cls.forEach(c=>{
   let d=''; for(let w=0;w<weeks;w++){d+=(w?'L':'M')+X(w)+' '+Y(S.rate_index[c+'|'+w]);}
-  svg+=`<path d="${d}" fill="none" stroke="${colors[c]}" stroke-width="2"/>`;
-  const bw=recByV[c]; svg+=`<circle cx="${X(bw)}" cy="${Y(S.rate_index[c+'|'+bw])}" r="4.5" fill="${colors[c]}" stroke="#fff" stroke-width="1.5"/>`;
+  svg+=`<path d="${d}" fill="none" stroke="${colors[c]}" stroke-width="2.6"/>`;
+  const bw=recByV[c], by=Y(S.rate_index[c+'|'+bw]);
+  svg+=`<circle cx="${X(bw)}" cy="${by}" r="5" fill="${colors[c]}" stroke="#fff" stroke-width="2"/>`;
+  svg+=`<text x="${X(bw)}" y="${by-10}" font-size="9.5" fill="${colors[c]}" text-anchor="middle" font-weight="600">best</text>`;
+  ends.push({c, y:Y(S.rate_index[c+'|'+(weeks-1)])});
 });
+// de-overlap the end labels, then draw
+ends.sort((a,b)=>a.y-b.y); let prev=-99;
+ends.forEach(e=>{let y=Math.max(e.y, prev+13); prev=y;
+  svg+=`<text x="${W-padR+8}" y="${y+3}" font-size="11" fill="${colors[e.c]}" font-weight="600">${short[e.c]}</text>`;});
 svg+=`</svg>`;
 document.getElementById('chart').innerHTML=svg;
-document.getElementById('chartleg').innerHTML=D.forecast.map(f=>
- `<span><i style="background:${colors[f.vessel]}"></i>${f.vessel_name}: <span class="rec">best wk ${f.best_week} (−${f.saving_pct}% vs now)</span></span>`).join('');
+document.getElementById('chartleg').innerHTML='<span style="color:var(--soft)">Each line is a vessel class’s freight rate as a multiple of today. Below the dashed line = cheaper than today. ● = cheapest week to charter that class:</span> '+
+ D.forecast.map(f=>`<span><i style="background:${colors[f.vessel]}"></i>${f.vessel_name} <span class="rec">wk ${f.best_week}, −${f.saving_pct}%</span></span>`).join('');
 
 // ---- voyage table (cargo chips are cancellable in live mode) ----
 const manualSet=new Set(D.manual_ids||[]);
@@ -235,8 +268,9 @@ renderVoyages();
 
 async function cancelShipment(pid){
   if(!(LIVE && RP.cancel)) return;
-  const reason=prompt('Cancel shipment '+pid+' and re-plan. Reason?','buyer pulled the tender');
+  const reason=prompt('Cancel shipment '+pid+' and re-plan the schedule.\nEnter a reason (required — it is written to the audit log under your name):','');
   if(reason===null) return;
+  if(!reason.trim()){ alert('A reason is required to cancel a shipment — nothing was cancelled.'); return; }
   try{
     await fetch('/api/charter/cancel',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({parcel_id:pid, reason, actor:role.id})});
@@ -246,8 +280,13 @@ async function cancelShipment(pid){
 
 async function rescheduleShipment(pid){
   if(!(LIVE && RP.edit)) return;
-  const wk=prompt('Reschedule '+pid+' — new "needed by" week (0–'+(S.weeks-1)+'). '+
-                  'Use an earlier week if the cargo is arriving ahead of time:');
+  const p=(S.parcels||[]).find(x=>x.id===pid);
+  const v=(D.plan.voyages||[]).find(vy=>vy.parcels.includes(pid));
+  const ctx=(p?('Currently: needed by wk '+p.required_by_week):'')+
+            (v?(' · scheduled depart wk '+v.depart_week+', arrive wk '+v.arrive_week):'')+'\n';
+  const wk=prompt('Reschedule '+pid+'.\n'+ctx+
+                  'New "needed by" week (0–'+(S.weeks-1)+') — earlier if the cargo is arriving ahead of time. This re-plans the schedule:',
+                  p?String(p.required_by_week):'');
   if(wk===null) return;
   try{
     const d=await (await fetch('/api/charter/reschedule',{method:'POST',headers:{'Content-Type':'application/json'},
