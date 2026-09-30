@@ -113,7 +113,7 @@ def charter_cancel(req: CancelRequest) -> dict:
     rep = _pipeline.run(**_M)
     _audit.record(req.actor, "shipment cancelled",
                   f"{req.parcel_id} cancelled ({req.reason}) — re-planned to "
-                  f"${rep['metrics']['ours_cost']:,.0f}, {rep['metrics']['ours_voyages']} charters")
+                  f"{_data.inr(rep['metrics']['ours_cost'])}, {rep['metrics']['ours_voyages']} charters")
     return {"ok": True, "parcel_id": req.parcel_id,
             "new_cost": rep["metrics"]["ours_cost"], "new_voyages": rep["metrics"]["ours_voyages"]}
 
@@ -146,7 +146,7 @@ def charter_reschedule(req: RescheduleRequest) -> dict:
     rep = _pipeline.run(**_M)
     _audit.record(req.actor, "shipment rescheduled",
                   f"{req.parcel_id} required-by moved to wk{req.required_by_week} "
-                  f"(was wk{p.required_by_week}) — re-planned to ${rep['metrics']['ours_cost']:,.0f}")
+                  f"(was wk{p.required_by_week}) — re-planned to {_data.inr(rep['metrics']['ours_cost'])}")
     return {"ok": True, "parcel_id": req.parcel_id,
             "new_cost": rep["metrics"]["ours_cost"], "new_voyages": rep["metrics"]["ours_voyages"]}
 
@@ -207,7 +207,7 @@ def charter_reroute(req: RerouteRequest) -> dict:
     rep = _pipeline.run(**_M)
     _audit.record(req.actor, "shipment rerouted",
                   f"{req.parcel_id} diverted to {newp.name} — re-planned to "
-                  f"${rep['metrics']['ours_cost']:,.0f}, {rep['metrics']['ours_voyages']} charters")
+                  f"{_data.inr(rep['metrics']['ours_cost'])}, {rep['metrics']['ours_voyages']} charters")
     return {"ok": True, "parcel_id": req.parcel_id, "new_port": newp.name,
             "new_cost": rep["metrics"]["ours_cost"]}
 

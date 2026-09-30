@@ -62,6 +62,11 @@ button:disabled{opacity:.6;cursor:wait;}
 </div>
 <script>
 const ROLE = new URLSearchParams(location.search).get('role') || 'chartering-officer';
+const INR_PER_USD=88;
+function money(x){const r=x*INR_PER_USD;
+  return r>=1e7 ? '₹'+(r/1e7).toLocaleString('en-IN',{maximumFractionDigits:2})+' cr'
+    : r>=1e5 ? '₹'+(r/1e5).toLocaleString('en-IN',{maximumFractionDigits:2})+' L'
+    : '₹'+Math.round(r).toLocaleString('en-IN');}
 const ROLE_LABEL = {
   'chartering-officer':'Chartering Officer','procurement-mgr':'Procurement Manager',
   'logistics-head':'Logistics Head','gm-commercial':'GM (Commercial)','board':'Director / Board'};
@@ -85,7 +90,7 @@ document.getElementById('check').onclick=async()=>{
       res.className='result show ok';
       res.innerHTML=`<h2>✓ Feasible — cheapest option</h2>
         <p>Charter a <span class="big">${d.vessel_name}</span>, depart <span class="big">week ${d.week}</span>, arrive week ${d.arrive_week}.</p>
-        <p>Estimated freight: <span class="big">$${Math.round(d.cost).toLocaleString()}</span>.</p>
+        <p>Estimated freight: <span class="big">${money(d.cost)}</span> <span style="color:var(--faint);font-size:.8rem">(USD-quoted, at ₹88/USD)</span>.</p>
         <button class="commit" id="commit">✓ Add to the plan</button>`;
       document.getElementById('commit').onclick=()=>commit(b,res);
     } else {

@@ -179,6 +179,7 @@ def charter(
         help="Plan from the CSV feeds in data/marine_feeds instead of the generator."),
 ) -> None:
     """SIH26006: optimise bulk-cargo vessel chartering on India's East Coast."""
+    from .marine import data as _md
     from .marine import pipeline as mp
     from .marine.dashboard import build_html
 
@@ -189,9 +190,9 @@ def charter(
     m = report["metrics"]
     console.print(f"\n[bold]{report['problem']}[/]  ([dim]{report['org']}[/])")
     console.print(
-        f"[green]Freight cost:[/] optimised [bold]${m['ours_cost']:,.0f}[/] vs spot "
-        f"[bold red]${m['spot_cost']:,.0f}[/]  → saved [bold green]{m['cost_saved_pct']}%[/] "
-        f"(${m['cost_saved']:,.0f})"
+        f"[green]Freight cost:[/] optimised [bold]{_md.inr(m['ours_cost'])}[/] vs spot "
+        f"[bold red]{_md.inr(m['spot_cost'])}[/]  → saved [bold green]{m['cost_saved_pct']}%[/] "
+        f"({_md.inr(m['cost_saved'])})"
     )
     table = Table(title="Chartering plan vs reactive spot")
     for c in ("", "Optimised", "Reactive spot"):

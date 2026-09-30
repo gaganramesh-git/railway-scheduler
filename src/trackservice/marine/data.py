@@ -50,6 +50,19 @@ VESSELS = [
 
 _COMMODITIES = ["Coking coal", "Thermal coal", "Steam coal"]
 
+INR_PER_USD = 88  # freight is USD-quoted (Baltic); we display in INR at this rate
+
+
+def inr(usd: float) -> str:
+    """Format a USD amount as INR (crore / lakh) for display."""
+    r = usd * INR_PER_USD
+    if r >= 1e7:
+        return f"₹{r/1e7:,.2f} cr"
+    if r >= 1e5:
+        return f"₹{r/1e5:,.2f} L"
+    return f"₹{r:,.0f}"
+
+
 # East-Coast ports ordered north -> south along the coastline, so "next nearest"
 # is the closest neighbour that can still physically take the cargo.
 PORT_ORDER = ["HDA", "DHM", "PPT", "GPL", "VZG", "GGV"]

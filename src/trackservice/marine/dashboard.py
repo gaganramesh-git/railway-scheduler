@@ -52,6 +52,10 @@ tr:last-child td{border-bottom:none;}
 .util > i{display:block;height:100%;background:var(--accent2);border-radius:5px;}
 .utilwrap{display:flex;align-items:center;gap:9px;}
 .utilpct{font-size:.78rem;color:var(--soft);min-width:44px;text-align:right;font-variant-numeric:tabular-nums;}
+th.sortable{cursor:pointer;user-select:none;white-space:nowrap;}
+th.sortable:hover{color:var(--accent);}
+.savepct{color:var(--good);font-weight:600;}
+.okmark{font-family:"IBM Plex Mono",monospace;font-size:.62rem;color:var(--good);background:var(--goodbg);padding:1px 6px;border-radius:999px;}
 .shared{font-family:"IBM Plex Mono",monospace;font-size:.6rem;font-weight:600;color:var(--good);background:var(--goodbg);padding:2px 7px;border-radius:999px;}
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .cmp .box{border:1px solid var(--rule);border-radius:10px;padding:14px 16px;}
@@ -148,10 +152,15 @@ tr:last-child td{border-bottom:none;}
 const D=JSON.parse(document.getElementById('data').textContent);
 const LIVE=__LIVE__;
 const m=D.metrics, S=D.scenario;
-const money=x=>'$'+Math.round(x).toLocaleString();
 const mk=D.market||{};
+// Freight is quoted in USD (Baltic); convert to INR for display at a stated rate.
+const INR_PER_USD=88;
+function money(x){const r=x*INR_PER_USD;
+  return r>=1e7 ? '₹'+(r/1e7).toLocaleString('en-IN',{maximumFractionDigits:2})+' cr'
+    : r>=1e5 ? '₹'+(r/1e5).toLocaleString('en-IN',{maximumFractionDigits:2})+' L'
+    : '₹'+Math.round(r).toLocaleString('en-IN');}
 document.getElementById('sub').innerHTML=D.problem+' — '+S.parcels.length+' cargo parcels, '+S.ports.length+' East-Coast ports, '+S.weeks+'-week horizon.'+
- (mk.date?` <span style="color:var(--faint)">Market calibrated to Baltic Exchange (BDI ${mk.BDI}, ${mk.date}).</span>`:'');
+ (mk.date?` <span style="color:var(--faint)">Market calibrated to Baltic Exchange (BDI ${mk.BDI}, ${mk.date}); freight quoted in USD, shown in ₹ at ₹${INR_PER_USD}/USD.</span>`:'');
 
 // ---------- controlled access: role hierarchy + audit visibility ----------
 const ROLES=[
@@ -256,10 +265,23 @@ document.getElementById('chartleg').innerHTML='<span style="color:var(--soft)">E
 
 // ---- voyage table (cargo chips are cancellable in live mode) ----
 const manualSet=new Set(D.manual_ids||[]);
+// cheapest market week per vessel class, from the freight-rate forecast
+const fc={}; (D.forecast||[]).forEach(f=>fc[f.vessel]={wk:f.best_week,pct:f.saving_pct});
+let voyageSort={key:'depart_week',dir:1};
+function sortVoyages(key){ if(voyageSort.key===key) voyageSort.dir*=-1; else voyageSort={key,dir:1}; renderVoyages(); }
 function renderVoyages(){
- const vt=D.plan.voyages;
+ const arrow=k=>voyageSort.key===k?(voyageSort.dir>0?' ▲':' ▼'):'';
+ const sth=(k,label)=>`<th class="sortable" onclick="sortVoyages('${k}')">${label}${arrow(k)}</th>`;
+ const vt=[...D.plan.voyages].sort((a,b)=>{
+   const k=voyageSort.key; let av,bv;
+   if(k==='best'){av=(fc[a.vessel_id]||{}).wk??99; bv=(fc[b.vessel_id]||{}).wk??99;}
+   else if(k==='port'){av=a.port; bv=b.port;}
+   else {av=a[k]; bv=b[k];}
+   return (av>bv?1:av<bv?-1:0)*voyageSort.dir;
+ });
  document.getElementById('voyages').innerHTML=
- '<thead><tr><th>Voyage</th><th>Vessel</th><th>Lane</th><th>Depart→Arrive</th><th>Load</th><th>Utilisation</th><th>Cargo</th></tr></thead><tbody>'+
+ '<thead><tr><th>Voyage</th><th>Vessel</th>'+sth('port','Lane')+sth('depart_week','Depart→Arrive')+
+ sth('best','Best market week')+'<th>Load</th>'+sth('utilisation_pct','Utilisation')+'<th>Cargo</th></tr></thead><tbody>'+
  vt.map(v=>{
    const chips=v.parcels.map(pid=>{
      const man=manualSet.has(pid);
@@ -267,11 +289,15 @@ function renderVoyages(){
      const cancel=(LIVE && RP.cancel)?`<button class="mini cancel" onclick="cancelShipment('${pid}')">Cancel</button>`:'';
      return `<div class="cargoline"><span class="chip${man?' manual':''}">${pid}${man?' ● raised':''}</span>${resched}${cancel}</div>`;
    }).join('');
+   const b=fc[v.vessel_id]||{wk:'—',pct:0};
+   const booked=v.depart_week===b.wk;
+   const bestCell=`wk ${b.wk}${b.pct>0?` <span class="savepct">−${b.pct}%</span>`:''}${booked?' <span class="okmark">✓ booked</span>':''}`;
    return `<tr>
    <td class="mono">${v.voyage_id}</td>
    <td><span class="vpill ${v.vessel_id}">${v.vessel}</span>${v.manual?' <span class="mbadge">raised</span>':''}</td>
    <td>${v.origin} → ${v.port}</td>
    <td class="mono">wk ${v.depart_week} → ${v.arrive_week}</td>
+   <td class="mono">${bestCell}</td>
    <td class="mono">${v.load_t.toLocaleString()} / ${v.capacity_t.toLocaleString()} t</td>
    <td><div class="utilwrap"><div class="util"><i style="width:${v.utilisation_pct}%"></i></div><span class="mono utilpct">${v.utilisation_pct}%</span></div></td>
    <td>${chips} ${v.shared?'<span class="shared">consolidated</span>':''}</td></tr>`;
