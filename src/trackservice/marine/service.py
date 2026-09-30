@@ -183,7 +183,7 @@ def charter_port_disrupt(req: PortDisruptRequest) -> dict:
         })
     _audit.record(req.actor, "port disruption declared",
                   f"{port.name} unavailable {req.days} days (~{weeks} wk); "
-                  f"{len(affected)} shipment(s) affected — senders notified")
+                  f"{len(affected)} shipment(s) affected — senders flagged for notification")
     return {"ok": True, "port": port.name, "days": req.days, "weeks": weeks,
             "from_week": req.from_week, "affected": proposals}
 

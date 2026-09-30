@@ -11,13 +11,24 @@ _TEMPLATE = r"""<meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 :root{--bg:#eef2f5;--panel:#fff;--panel2:#f2f6f9;--rule:#d5dee5;--ink:#132029;--soft:#4a5a66;--faint:#5c6b78;
---accent:#0b6fa4;--accent2:#0d9488;--accentbg:#dcecf5;--good:#268a52;--goodbg:#e2f2e9;--warn:#a9741a;--bad:#c23b4a;
+--accent:#0b6fa4;--accent2:#0d9488;--accentbg:#dcecf5;--good:#268a52;--goodbg:#e2f2e9;--warn:#8a5e12;--bad:#c23b4a;--teal-ink:#0a5f57;
 --cape:#0b4f7a;--pana:#0b6fa4;--supra:#1f9ac0;--handy:#5cc2c2;}
 *{box-sizing:border-box;}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,sans-serif;line-height:1.5;}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px;}
 .vhidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
 .vhidden:focus-visible{position:static;width:auto;height:auto;clip:auto;margin:0;}
+/* browser surfaces themed from the palette, not left to defaults */
+::selection{background:var(--accent);color:#fff;}
+html{scrollbar-color:var(--rule) transparent;}
+::-webkit-scrollbar{width:11px;height:11px;}
+::-webkit-scrollbar-thumb{background:var(--rule);border-radius:6px;border:3px solid var(--bg);}
+::-webkit-scrollbar-thumb:hover{background:#b8c3cc;}
+button,.mini,.reroute,.entry,.importlink,.chip .x{transition:background .12s ease,color .12s ease,filter .12s ease,border-color .12s ease;}
+.mini:hover{border-color:var(--accent);color:var(--accent);}
+.mini.cancel:hover{border-color:var(--bad);color:var(--bad);background:var(--badbg);}
+.mini.resched:hover{background:var(--accentbg);}
+.chip .x:hover{color:#fff;background:var(--bad);border-radius:50%;}
 .wrap{max-width:1080px;margin:0 auto;padding:32px 22px 72px;}
 .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
 h1{font-family:"Archivo",sans-serif;font-weight:800;font-size:2rem;letter-spacing:-.02em;margin:0 0 6px;}
@@ -37,8 +48,10 @@ tr:last-child td{border-bottom:none;}
 .mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;}
 .vpill{font-family:"IBM Plex Mono",monospace;font-size:.62rem;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff;}
 .CAPE{background:var(--cape);}.PANA{background:var(--pana);}.SUPRA{background:var(--supra);}.HANDY{background:var(--handy);color:#06201d;}
-.util{height:8px;background:var(--panel2);border-radius:5px;overflow:hidden;min-width:70px;}
-.util > i{display:block;height:100%;background:var(--accent2);}
+.util{height:8px;background:var(--panel2);border-radius:5px;overflow:hidden;min-width:64px;flex:1;}
+.util > i{display:block;height:100%;background:var(--accent2);border-radius:5px;}
+.utilwrap{display:flex;align-items:center;gap:9px;}
+.utilpct{font-size:.78rem;color:var(--soft);min-width:44px;text-align:right;font-variant-numeric:tabular-nums;}
 .shared{font-family:"IBM Plex Mono",monospace;font-size:.6rem;font-weight:600;color:var(--good);background:var(--goodbg);padding:2px 7px;border-radius:999px;}
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .cmp .box{border:1px solid var(--rule);border-radius:10px;padding:14px 16px;}
@@ -66,9 +79,9 @@ tr:last-child td{border-bottom:none;}
 .dpanel .okline{color:var(--good);} .dpanel .skipline{color:var(--bad);}
 .dpanel h3.imp{color:var(--accent2);}
 .importfoot{margin-top:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.importlink{font-size:.82rem;font-weight:600;color:var(--accent2);border:1px solid var(--accent2);border-radius:8px;padding:.4rem .75rem;cursor:pointer;}
-.importlink:hover{background:var(--goodbg);}
-.importhint{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--faint);}
+.importlink{font-size:.82rem;font-weight:600;color:var(--teal-ink);border:1px solid var(--accent2);border-radius:8px;padding:.4rem .75rem;cursor:pointer;}
+.importlink:hover{background:#eaf5f2;}
+.importhint{font-family:"IBM Plex Mono",monospace;font-size:.75rem;color:var(--faint);}
 #importMsg{font-size:.82rem;}
 #importMsg .ok{color:var(--good);font-weight:600;} #importMsg .bad{color:var(--bad);}
 .mini{font-family:inherit;font-size:.66rem;font-weight:600;border:1px solid var(--rule);background:var(--panel);color:var(--soft);border-radius:6px;padding:2px 7px;margin:1px 2px 1px 0;cursor:pointer;}
@@ -153,7 +166,7 @@ function permsFor(r){switch(r.tier){
   case 'control':return {act:true,cancel:true,edit:true,note:'Raise, cancel, reschedule & reroute within '+r.dept};
   case 'approve':return {act:true,cancel:true,edit:true,note:'Validate lanes & ports · cancel, reschedule, declare port disruptions'};
   case 'signoff':return {act:true,cancel:true,edit:true,note:'Sign off the plan · cancel, reschedule, reroute with a logged reason'};
-  case 'oversight':return {act:false,cancel:false,edit:false,note:'View & export only — aggregate oversight'};
+  case 'oversight':return {act:false,cancel:false,edit:false,note:'View-only — aggregate oversight'};
 }}
 let role=ROLES.find(r=>r.id==='gm-commercial'); let RP=permsFor(role);
 function setupRoles(){
@@ -179,7 +192,7 @@ function applyRole(){
 document.getElementById('kpis').innerHTML=[
  ['good',m.cost_saved_pct+'%','Freight cost saved'],
  ['good',money(m.cost_saved),'Absolute saving'],
- ['',m.voyages_saved,'Fewer charters ('+m.ours_voyages+' vs '+m.spot_voyages+')'],
+ ['',m.voyages_saved,'Fewer charters vs spot'],
  ['',m.on_time_pct+'%','Cargo on time ('+m.ours_served+'/'+m.total_parcels+')'],
  ['',m.utilisation_pct+'%','Vessel utilisation'],
 ].map(k=>`<div class="kpi ${k[0]}"><div class="n">${k[1]}</div><div class="l">${k[2]}</div></div>`).join('');
@@ -229,7 +242,7 @@ cls.forEach(c=>{
   svg+=`<path d="${d}" fill="none" stroke="${colors[c]}" stroke-width="2.6"/>`;
   const bw=recByV[c], by=Y(S.rate_index[c+'|'+bw]);
   svg+=`<circle cx="${X(bw)}" cy="${by}" r="5" fill="${colors[c]}" stroke="#fff" stroke-width="2"/>`;
-  svg+=`<text x="${X(bw)}" y="${by-10}" font-size="9.5" fill="${colors[c]}" text-anchor="middle" font-weight="600">best</text>`;
+  if(bw < weeks-2) svg+=`<text x="${X(bw)}" y="${by-10}" font-size="9.5" fill="${colors[c]}" text-anchor="middle" font-weight="600">best</text>`;
   ends.push({c, y:Y(S.rate_index[c+'|'+(weeks-1)])});
 });
 // de-overlap the end labels, then draw
@@ -260,7 +273,7 @@ function renderVoyages(){
    <td>${v.origin} → ${v.port}</td>
    <td class="mono">wk ${v.depart_week} → ${v.arrive_week}</td>
    <td class="mono">${v.load_t.toLocaleString()} / ${v.capacity_t.toLocaleString()} t</td>
-   <td><div class="util"><i style="width:${v.utilisation_pct}%"></i></div></td>
+   <td><div class="utilwrap"><div class="util"><i style="width:${v.utilisation_pct}%"></i></div><span class="mono utilpct">${v.utilisation_pct}%</span></div></td>
    <td>${chips} ${v.shared?'<span class="shared">consolidated</span>':''}</td></tr>`;
  }).join('')+'</tbody>';
 }
@@ -339,8 +352,8 @@ async function runDisrupt(){
   const d=await (await fetch('/api/charter/port-disrupt',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({port, days, from_week, actor:role.id})})).json();
   if(!d.ok){ res.innerHTML='<p>'+(d.reason||'error')+'</p>'; return; }
-  if(!d.affected.length){ res.innerHTML=`<p>${d.port} out for ~${d.weeks} week(s): <b>no shipments affected</b> in that window. Senders notified.</p>`; return; }
-  res.innerHTML=`<p>${d.port} unavailable ~${d.weeks} week(s) — <b>${d.affected.length} shipment(s) affected, senders notified.</b> Choose the next-nearest port to reroute:</p>`+
+  if(!d.affected.length){ res.innerHTML=`<p>${d.port} out for ~${d.weeks} week(s): <b>no shipments affected</b> in that window.</p>`; return; }
+  res.innerHTML=`<p>${d.port} unavailable ~${d.weeks} week(s) — <b>${d.affected.length} shipment(s) affected, senders flagged for notification.</b> Choose the next-nearest port to reroute:</p>`+
     d.affected.map(a=>`<div class="row"><span class="chip">${a.parcel_id}</span> ${a.origin} · ${a.volume_t.toLocaleString()} t ·
       ${a.current_port} → <b>${a.suggested_port_name}</b>
       ${a.suggested_port?`<button class="reroute" onclick="applyReroute('${a.parcel_id}','${a.suggested_port}')">Reroute &amp; re-plan</button>`:''}</div>`).join('');
