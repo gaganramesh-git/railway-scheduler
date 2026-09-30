@@ -80,8 +80,9 @@ every plan with an independent constraint checker separate from the solver.
 
 - Product name: **Charter Planner**.
 - Keep the SIH problem-statement framing visible: **SIH26006 · Ministry of Steel**.
-- **No "Claude" or "Anthropic" attribution** — no names, and no co-author trailers —
-  anywhere in the repository, commits, generated artifacts, or documents.
+- **No AI-assistant or vendor attribution** — no tool/assistant names, and no
+  co-author trailers — anywhere in the repository, commits, generated artifacts,
+  or documents.
 
 ## Evidence on Hand
 
@@ -108,4 +109,4 @@ every plan with an independent constraint checker separate from the solver.
 4. **Operator-editable and re-planning.** Add, import, reschedule, cancel, and reroute
    are first-class; each edit re-optimises and is audited.
 5. **Keep the SIH framing, drop the toolmaker.** SIH26006 / Ministry of Steel stays
-   visible; no Claude/Anthropic attribution appears anywhere.
+   visible; no AI-assistant or vendor attribution appears anywhere.
