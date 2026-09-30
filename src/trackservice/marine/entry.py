@@ -38,7 +38,7 @@ button:disabled{opacity:.6;cursor:wait;}
 .foot a{color:var(--accent);}
 </style>
 <div class="wrap">
-  <p class="eyebrow">Chartering Officer · Cargo Desk</p>
+  <p class="eyebrow" id="eyebrow">Chartering Officer · Cargo Desk</p>
   <h1>Raise a cargo requirement</h1>
   <p class="sub">Enter a new shipment. We check it against port limits and the market, show the cheapest option, then add it to the plan.</p>
   <div class="card">
@@ -62,6 +62,10 @@ button:disabled{opacity:.6;cursor:wait;}
 </div>
 <script>
 const ROLE = new URLSearchParams(location.search).get('role') || 'chartering-officer';
+const ROLE_LABEL = {
+  'chartering-officer':'Chartering Officer','procurement-mgr':'Procurement Manager',
+  'logistics-head':'Logistics Head','gm-commercial':'GM (Commercial)','board':'Director / Board'};
+document.getElementById('eyebrow').textContent = (ROLE_LABEL[ROLE]||'Chartering Officer') + ' · Cargo Desk';
 async function boot(){
   const r=await fetch('/api/entry/options'); const d=await r.json();
   document.getElementById('origin').innerHTML=d.origins.map(o=>`<option value="${o.id}">${o.name} (${o.transit_weeks} wk transit)</option>`).join('');
