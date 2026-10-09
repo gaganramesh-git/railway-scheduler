@@ -1,0 +1,9 @@
+# GitHub Linguist: this is a Python project. Exclude generated/vendored/data
+# artifacts so the language bar reflects the source, not bundled output.
+*.html   linguist-generated
+*.json   linguist-generated
+*.csv    linguist-data
+*.pdf    linguist-documentation
+*.pptx   linguist-documentation
+dashboard*.html      linguist-generated
+sih_dashboard.html   linguist-generated
